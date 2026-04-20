@@ -3,200 +3,295 @@
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 body{font-family:var(--font-sans);color:var(--color-text-primary);background:#fff;line-height:1.6}
 a{text-decoration:none;color:inherit}
-:root{--nq-navy:#1B3D6F;--nq-blue:#2563EB;--nq-mid:#1E40AF}
+:root{--nq-dark:#0B1D35;--nq-navy:#1B3D6F;--nq-blue:#3B82F6;--nq-teal:#0891B2}
 .container{max-width:1060px;margin:0 auto;padding:0 2rem}
 
-nav{background:#fff;border-bottom:0.5px solid var(--color-border-tertiary);padding:1rem 0;position:sticky;top:0;z-index:100}
-.nav-inner{display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:20px;font-weight:500;color:var(--nq-navy);letter-spacing:-0.02em}
+nav{background:#fff;border-bottom:0.5px solid var(--color-border-tertiary);padding:0.9rem 0;position:sticky;top:0;z-index:100}
+.nav-i{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:500;color:var(--nq-navy);letter-spacing:-0.02em;display:flex;align-items:center;gap:8px}
+.logo svg{width:26px;height:26px}
 .logo span{color:var(--nq-blue)}
-.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links{display:flex;align-items:center;gap:1.75rem}
 .nav-links a{font-size:14px;color:var(--color-text-secondary)}
-.nav-cta{background:var(--nq-navy);color:#fff!important;padding:0.45rem 1.1rem;border-radius:var(--border-radius-md);font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--nq-navy)}
+.nav-cta{background:var(--nq-navy);color:#fff!important;padding:0.45rem 1.1rem;border-radius:6px;font-size:14px;font-weight:500}
 
-.hero{padding:4.5rem 0 3.5rem;background:#F8FAFC;border-bottom:0.5px solid var(--color-border-tertiary)}
-.tag{display:inline-block;background:#EFF6FF;color:#1E40AF;font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;margin-bottom:1.25rem;border:0.5px solid #BFDBFE}
-.hero h1{font-size:36px;font-weight:500;line-height:1.2;color:var(--nq-navy);max-width:620px;margin-bottom:1.1rem}
-.hero p{font-size:16px;color:var(--color-text-secondary);max-width:520px;margin-bottom:1.75rem;line-height:1.7}
-.hero-btns{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-.btn-primary{background:var(--nq-navy);color:#fff;padding:0.7rem 1.6rem;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;border:none;cursor:pointer;font-family:var(--font-sans)}
-.btn-link{color:var(--nq-blue);font-size:15px;font-weight:500;cursor:pointer;background:none;border:none;font-family:var(--font-sans)}
-.hero-stats{display:flex;gap:3rem;margin-top:2.5rem;padding-top:2rem;border-top:0.5px solid var(--color-border-tertiary)}
+.hero{position:relative;overflow:hidden;background:var(--nq-dark);padding:5rem 0 4.5rem;min-height:500px}
+#net{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.hero-content{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,0.12);border:0.5px solid rgba(59,130,246,0.3);border-radius:20px;padding:5px 14px;margin-bottom:1.5rem}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#60A5FA;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-badge span{font-size:11px;font-weight:500;color:#93C5FD;letter-spacing:0.06em;text-transform:uppercase}
+.hero h1{font-size:40px;font-weight:500;line-height:1.18;color:#fff;max-width:640px;margin-bottom:1.1rem}
+.hero h1 em{font-style:normal;color:#60A5FA}
+.hero>div>p{font-size:16px;color:rgba(255,255,255,0.55);max-width:500px;margin-bottom:2rem;line-height:1.75}
+.hero-btns{display:flex;gap:0.75rem;flex-wrap:wrap}
+.btn-blue{background:var(--nq-blue);color:#fff;padding:0.7rem 1.5rem;border-radius:6px;font-size:14px;font-weight:500;border:none;cursor:pointer;font-family:var(--font-sans)}
+.btn-ghost{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.85);padding:0.7rem 1.5rem;border-radius:6px;font-size:14px;font-weight:500;border:0.5px solid rgba(255,255,255,0.15);cursor:pointer;font-family:var(--font-sans)}
+
+.stats-bar{background:#fff;border-bottom:0.5px solid var(--color-border-tertiary);padding:1.75rem 0}
+.stats-i{display:flex;justify-content:space-around;flex-wrap:wrap}
+.stat{text-align:center;padding:0 1.5rem}
+.stat+.stat{border-left:0.5px solid var(--color-border-tertiary)}
 .stat-n{font-size:26px;font-weight:500;color:var(--nq-navy)}
-.stat-l{font-size:13px;color:var(--color-text-secondary);margin-top:2px}
+.stat-l{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
 
-.services{padding:3.5rem 0}
-.section-label{font-size:12px;font-weight:500;color:var(--nq-blue);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem}
-.section-title{font-size:26px;font-weight:500;color:var(--nq-navy);margin-bottom:0.6rem}
-.section-sub{font-size:15px;color:var(--color-text-secondary);max-width:480px;margin-bottom:2rem}
-.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem}
-.svc-card{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.4rem}
-.svc-icon{width:38px;height:38px;background:#EFF6FF;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem}
-.svc-icon svg{width:18px;height:18px;stroke:#1E40AF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.sec-label{font-size:11px;font-weight:500;color:var(--nq-blue);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;display:flex;align-items:center;gap:8px}
+.sec-label::before{content:'';display:block;width:18px;height:1px;background:var(--nq-blue)}
+.sec-title{font-size:26px;font-weight:500;color:var(--nq-navy);margin-bottom:0.6rem}
+.sec-sub{font-size:15px;color:var(--color-text-secondary);max-width:480px;margin-bottom:2.25rem;line-height:1.7}
+
+.services{padding:4rem 0;background:#fff;position:relative;overflow:hidden}
+.hex-deco{position:absolute;right:-80px;top:0;width:400px;height:400px;opacity:0.03;pointer-events:none}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1rem}
+.svc-card{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:1.4rem;transition:border-color 0.2s,transform 0.2s}
+.svc-card:hover{border-color:rgba(59,130,246,0.35);transform:translateY(-2px)}
+.svc-icon{width:38px;height:38px;background:#EFF6FF;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem}
+.svc-icon svg{width:18px;height:18px;stroke:#2563EB;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .svc-card h3{font-size:14px;font-weight:500;margin-bottom:0.4rem;color:var(--nq-navy)}
-.svc-card p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.svc-card p{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
 
-.ai-section{padding:3.5rem 0;background:#F8FAFC;border-top:0.5px solid var(--color-border-tertiary);border-bottom:0.5px solid var(--color-border-tertiary)}
-.ai-inner{display:grid;grid-template-columns:1fr 1.6fr;gap:3rem;align-items:start}
-.ai-badge{display:inline-flex;align-items:center;gap:6px;background:#EFF6FF;color:#1E40AF;font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;margin-bottom:0.9rem;border:0.5px solid #BFDBFE}
-.ai-intro h2{font-size:26px;font-weight:500;color:var(--nq-navy);margin-bottom:0.6rem}
-.ai-intro p{font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem}
-.ai-feats{list-style:none}
-.ai-feats li{font-size:13px;color:var(--color-text-secondary);padding:5px 0;display:flex;align-items:flex-start;gap:8px}
-.ai-feats li::before{content:'';display:block;width:6px;height:6px;min-width:6px;border-radius:50%;background:#2563EB;margin-top:6px}
+.how{padding:4rem 0;background:#F0F7FF;border-top:0.5px solid var(--color-border-tertiary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:0.5rem}
+.step{padding:1.5rem 2rem 1.5rem 1rem;position:relative}
+.step+.step{border-left:0.5px solid var(--color-border-tertiary)}
+.step-n{font-size:44px;font-weight:500;color:rgba(37,99,235,0.1);line-height:1;margin-bottom:0.4rem}
+.step h3{font-size:14px;font-weight:500;color:var(--nq-navy);margin-bottom:0.35rem}
+.step p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
 
-.chat-box{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
-.chat-hdr{background:var(--nq-navy);padding:0.9rem 1.1rem;display:flex;align-items:center;gap:8px}
-.hdr-dot{width:7px;height:7px;border-radius:50%;background:#4ADE80}
-.hdr-title{font-size:13px;font-weight:500;color:#fff}
-.hdr-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-left:auto}
-.chat-msgs{height:300px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.65rem}
-.msg{max-width:88%}
-.bot{align-self:flex-start}
-.usr{align-self:flex-end}
-.msg-name{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px}
-.usr .msg-name{text-align:right}
-.bubble{padding:0.6rem 0.85rem;border-radius:var(--border-radius-md);font-size:13px;line-height:1.55}
-.bot .bubble{background:#F1F5F9;color:var(--color-text-primary);border-bottom-left-radius:3px}
-.usr .bubble{background:var(--nq-navy);color:#fff;border-bottom-right-radius:3px}
-.chat-inp{border-top:0.5px solid var(--color-border-tertiary);padding:0.65rem 0.85rem;display:flex;gap:0.5rem}
-#uInput{flex:1;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:0.5rem 0.7rem;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);background:var(--color-background-primary);outline:none}
-#uInput:focus{border-color:var(--nq-blue)}
-#sBtn{background:var(--nq-navy);color:#fff;border:none;border-radius:var(--border-radius-md);padding:0.5rem 0.9rem;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-sans)}
-#sBtn:disabled{opacity:0.45;cursor:not-allowed}
-.typing{display:flex;gap:4px;align-items:center;padding:6px 0}
-.td{width:6px;height:6px;border-radius:50%;background:var(--color-text-secondary);animation:bl 1.2s infinite}
-.td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
-@keyframes bl{0%,80%,100%{opacity:0.25}40%{opacity:1}}
+.contact-sec{padding:4rem 0;background:#fff}
+.contact-inner{display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;align-items:start}
+.contact-info>p{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:1.5rem}
+.c-detail{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.5}
+.c-detail svg{width:15px;height:15px;stroke:var(--nq-blue);fill:none;stroke-width:1.5;min-width:15px;margin-top:1px;stroke-linecap:round;stroke-linejoin:round}
+.c-promise{background:#F0F7FF;border:0.5px solid #BFDBFE;border-radius:8px;padding:1rem 1.25rem;margin-top:1.5rem}
+.c-promise p{font-size:12px;color:#1E40AF;line-height:1.6}
+.c-promise strong{font-weight:500}
 
-.about{padding:3.5rem 0}
-.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
-.about-content p{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:0.9rem}
-.about-cards{display:grid;gap:0.9rem}
-.a-card{background:#F8FAFC;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem 1.25rem}
-.a-num{font-size:22px;font-weight:500;color:var(--nq-navy);margin-bottom:3px}
-.a-lbl{font-size:13px;color:var(--color-text-secondary)}
+.form-box{background:#F8FAFC;border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:1.75rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.fg{margin-bottom:0.85rem}
+.fg label{display:block;font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.05em}
+.fg input,.fg select,.fg textarea{width:100%;padding:0.55rem 0.75rem;border:0.5px solid var(--color-border-secondary);border-radius:6px;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);background:#fff;outline:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--nq-blue)}
+.fg textarea{resize:vertical;min-height:85px;line-height:1.5}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:0.35rem;margin-top:0.1rem}
+.chk{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);cursor:pointer}
+.chk input[type=checkbox]{accent-color:var(--nq-blue);width:13px;height:13px}
+.form-btn{width:100%;background:var(--nq-navy);color:#fff;border:none;border-radius:6px;padding:0.75rem;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-sans);margin-top:0.25rem}
+.form-btn:hover{background:#152e54}
+#formSuccess{display:none;text-align:center;padding:2.5rem 1rem}
+.succ-icon{width:50px;height:50px;background:#EFF6FF;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+.succ-icon svg{width:22px;height:22px;stroke:#2563EB;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#formSuccess h3{font-size:16px;font-weight:500;color:var(--nq-navy);margin-bottom:0.5rem}
+#formSuccess p{font-size:13px;color:var(--color-text-secondary)}
 
-.cta-section{padding:3.5rem 0;background:var(--nq-navy)}
-.cta-inner{text-align:center}
-.cta-inner h2{font-size:28px;font-weight:500;color:#fff;margin-bottom:0.6rem}
-.cta-inner>p{font-size:15px;color:rgba(255,255,255,0.65);margin-bottom:1.75rem}
-.cta-form{display:flex;gap:0.65rem;max-width:420px;margin:0 auto}
-.cta-form input{flex:1;padding:0.6rem 0.9rem;border-radius:var(--border-radius-md);border:0.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:#fff;font-size:13px;font-family:var(--font-sans);outline:none}
-.cta-form input::placeholder{color:rgba(255,255,255,0.35)}
-.cta-form button{background:#fff;color:var(--nq-navy);border:none;border-radius:var(--border-radius-md);padding:0.6rem 1.1rem;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:var(--font-sans)}
-#ctaOk{color:rgba(255,255,255,0.7);font-size:13px;margin-top:0.65rem;display:none}
+.about-strip{padding:3.5rem 0;background:var(--nq-dark);position:relative;overflow:hidden}
+#net2{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.4}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1}
+.about-strip .sec-label{color:#93C5FD}
+.about-strip .sec-label::before{background:#93C5FD}
+.about-strip .sec-title{color:#fff}
+.about-strip .sec-sub{color:rgba(255,255,255,0.55);margin-bottom:0}
+.about-strip p{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.8}
+.a-cards{display:grid;gap:0.75rem}
+.a-card{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem}
+.a-num{font-size:16px;font-weight:500;color:#60A5FA;min-width:100px}
+.a-lbl{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.5}
 
-footer{background:#0F2448;padding:1.5rem 0}
-.ft-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.ft-logo{font-size:15px;font-weight:500;color:rgba(255,255,255,0.75)}
+footer{background:#060E1C;padding:1.5rem 0}
+.ft-i{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.ft-logo{font-size:15px;font-weight:500;color:rgba(255,255,255,0.65)}
 .ft-logo span{color:#60A5FA}
 .ft-links{display:flex;gap:1.25rem}
-.ft-links a{font-size:12px;color:rgba(255,255,255,0.45)}
-.ft-copy{font-size:12px;color:rgba(255,255,255,0.3)}
+.ft-links a{font-size:12px;color:rgba(255,255,255,0.3)}
+.ft-copy{font-size:12px;color:rgba(255,255,255,0.2)}
 </style>
 
-<h2 class="sr-only">NetQuanta — Enterprise-Grade Network Consulting for Small and Medium Businesses</h2>
+<h2 class="sr-only">NetQuanta — Enterprise Network Consulting for Small and Medium Businesses</h2>
 
 <nav>
   <div class="container">
-    <div class="nav-inner">
-      <div class="logo">Net<span>Quanta</span></div>
+    <div class="nav-i">
+      <div class="logo">
+        <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="13,2 24,8 24,18 13,24 2,18 2,8" stroke="#1B3D6F" stroke-width="1.2" fill="none"/>
+          <polygon points="13,7 19,10.5 19,17.5 13,21 7,17.5 7,10.5" stroke="#3B82F6" stroke-width="1" fill="rgba(59,130,246,0.08)"/>
+          <circle cx="13" cy="13" r="2.5" fill="#3B82F6"/>
+          <line x1="13" y1="2" x2="13" y2="7" stroke="#1B3D6F" stroke-width="1"/>
+          <line x1="13" y1="19" x2="13" y2="24" stroke="#1B3D6F" stroke-width="1"/>
+          <line x1="2" y1="8" x2="7" y2="10.5" stroke="#1B3D6F" stroke-width="1"/>
+          <line x1="19" y1="17.5" x2="24" y2="20" stroke="#1B3D6F" stroke-width="1"/>
+          <line x1="24" y1="8" x2="19" y2="10.5" stroke="#1B3D6F" stroke-width="1"/>
+          <line x1="7" y1="17.5" x2="2" y2="20" stroke="#1B3D6F" stroke-width="1"/>
+        </svg>
+        Net<span>Quanta</span>
+      </div>
       <div class="nav-links">
         <a href="#svc">Services</a>
-        <a href="#ai">AI Consultant</a>
+        <a href="#how">How it works</a>
         <a href="#about">About</a>
-        <a href="#cta" class="nav-cta">Get Assessment</a>
+        <a href="#contact" class="nav-cta">Get Assessment</a>
       </div>
     </div>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="container">
-    <div class="tag">Service Provider Expertise</div>
-    <h1>Enterprise Networking, Built for Growing Businesses</h1>
-    <p>NetQuanta brings carrier-grade network consulting to small and medium businesses — the expertise your company needs, without the enterprise price tag.</p>
+  <canvas id="net"></canvas>
+  <div class="container hero-content">
+    <div class="hero-badge"><div class="badge-dot"></div><span>Network Consulting · SP Grade</span></div>
+    <h1>Enterprise Networking,<br>Built for <em>Growing</em> Businesses</h1>
+    <p>NetQuanta brings carrier-grade expertise to small and medium businesses — the infrastructure knowledge your company needs, without the enterprise price tag.</p>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get a Free Assessment</button>
-      <button class="btn-link" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">Try our AI Consultant →</button>
-    </div>
-    <div class="hero-stats">
-      <div><div class="stat-n">10+</div><div class="stat-l">Years SP experience</div></div>
-      <div><div class="stat-n">50+</div><div class="stat-l">Networks deployed</div></div>
-      <div><div class="stat-n">24/7</div><div class="stat-l">Support available</div></div>
+      <button class="btn-blue" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a Free Assessment</button>
+      <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works →</button>
     </div>
   </div>
 </section>
 
-<section class="services" id="svc">
+<div class="stats-bar">
   <div class="container">
-    <div class="section-label">What we do</div>
-    <div class="section-title">Expert Network Consulting</div>
-    <div class="section-sub">From initial design to deployment and ongoing management — every layer of your network, covered.</div>
+    <div class="stats-i">
+      <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Years SP experience</div></div>
+      <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Networks deployed</div></div>
+      <div class="stat"><div class="stat-n">Layer 1–7</div><div class="stat-l">Full-stack coverage</div></div>
+      <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Support available</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="services" id="svc">
+  <svg class="hex-deco" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="hex" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse"><polygon points="30,2 58,17 58,47 30,62 2,47 2,17" fill="none" stroke="#1B3D6F" stroke-width="1"/></pattern></defs>
+    <rect width="400" height="400" fill="url(#hex)"/>
+  </svg>
+  <div class="container">
+    <div class="sec-label">What we do</div>
+    <div class="sec-title">Expert Network Consulting</div>
+    <div class="sec-sub">From initial design to deployment and ongoing management — every layer of your network, covered.</div>
     <div class="svc-grid">
       <div class="svc-card">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
         <h3>Network Design</h3>
-        <p>Custom WAN, LAN, and hybrid topology design built for your scale and growth plans.</p>
+        <p>Custom WAN, LAN, and hybrid topologies built for your scale and growth plans.</p>
       </div>
       <div class="svc-card">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.142 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg></div>
         <h3>SP Infrastructure</h3>
-        <p>MPLS, BGP, and carrier-grade solutions adapted for SMB needs — reliability without complexity.</p>
+        <p>MPLS, BGP, and carrier-grade solutions adapted for SMB needs.</p>
       </div>
       <div class="svc-card">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
         <h3>Network Security</h3>
-        <p>Firewall setup, ACLs, and segmentation to protect your traffic and your data.</p>
+        <p>Firewall setup, ACLs, and segmentation to protect your traffic.</p>
       </div>
       <div class="svc-card">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
         <h3>Troubleshooting</h3>
-        <p>Fast root-cause analysis for outages, Layer 2/3 issues, and performance problems.</p>
+        <p>Fast root-cause analysis for outages and performance issues.</p>
       </div>
       <div class="svc-card">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
         <h3>Network Audits</h3>
-        <p>Comprehensive review of existing infrastructure — find gaps, risks, and savings.</p>
+        <p>Comprehensive review of your infrastructure — find gaps and savings.</p>
       </div>
       <div class="svc-card">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
         <h3>Managed Support</h3>
-        <p>Ongoing monitoring and support plans — your virtual network team, on demand.</p>
+        <p>Ongoing monitoring and support — your virtual network team.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="ai-section" id="ai">
+<section class="how" id="how">
   <div class="container">
-    <div class="ai-inner">
-      <div class="ai-intro">
-        <div class="ai-badge">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          AI-Powered
+    <div class="sec-label">Process</div>
+    <div class="sec-title">How it works</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <h3>Tell us your needs</h3>
+        <p>Fill out the assessment form with your business size, locations, and current challenges. No technical jargon required.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <h3>Get a tailored plan</h3>
+        <p>We analyze your situation and prepare specific device recommendations, topology options, and a cost estimate.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <h3>We build it together</h3>
+        <p>From procurement to deployment and testing — we handle the complexity so you can focus on your business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-sec" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info">
+        <div class="sec-label">Free Assessment</div>
+        <div class="sec-title">Let's assess your network</div>
+        <p>Tell us about your business and current setup. We'll review your needs and get back to you with a tailored recommendation — no commitment required.</p>
+        <div class="c-detail">
+          <svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+          Miami, Florida — serving clients nationwide
         </div>
-        <h2>Get Your Network Recommendation</h2>
-        <p>Describe your business needs and our AI consultant — built on real service provider expertise — will recommend the right hardware, topology, and approach instantly.</p>
-        <ul class="ai-feats">
-          <li>Specific hardware and vendor recommendations</li>
-          <li>Topology guidance based on your user count and locations</li>
-          <li>Honest cost vs. complexity trade-offs</li>
-          <li>Escalation to a human NetQuanta engineer for complex needs</li>
-        </ul>
+        <div class="c-detail">
+          <svg viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          contact@netquanta.com
+        </div>
+        <div class="c-detail">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Response within 24 hours
+        </div>
+        <div class="c-promise">
+          <p><strong>Free & no obligation.</strong> Our initial assessment is completely free. We'll give you an honest recommendation — even if that means pointing you to a simpler solution.</p>
+        </div>
       </div>
       <div>
-        <div class="chat-box">
-          <div class="chat-hdr">
-            <div class="hdr-dot"></div>
-            <div class="hdr-title">NetQuanta AI Consultant</div>
-            <div class="hdr-sub">Powered by AI</div>
+        <div class="form-box">
+          <div id="formFields">
+            <div class="form-row">
+              <div class="fg"><label>Full name</label><input type="text" id="f-name" placeholder="John Smith" /></div>
+              <div class="fg"><label>Email</label><input type="email" id="f-email" placeholder="john@company.com" /></div>
+            </div>
+            <div class="form-row">
+              <div class="fg"><label>Company</label><input type="text" id="f-co" placeholder="Acme Corp" /></div>
+              <div class="fg"><label>Number of users</label>
+                <select id="f-users">
+                  <option value="">Select...</option>
+                  <option>1 – 10</option><option>11 – 50</option><option>51 – 200</option><option>200+</option>
+                </select>
+              </div>
+            </div>
+            <div class="fg"><label>Number of locations</label>
+              <select id="f-locs">
+                <option value="">Select...</option>
+                <option>1 (single site)</option><option>2 – 3</option><option>4 – 10</option><option>10+</option>
+              </select>
+            </div>
+            <div class="fg"><label>Services needed</label>
+              <div class="checks">
+                <label class="chk"><input type="checkbox" value="Network Design"> Network Design</label>
+                <label class="chk"><input type="checkbox" value="SP Infrastructure"> SP Infrastructure</label>
+                <label class="chk"><input type="checkbox" value="Security"> Security</label>
+                <label class="chk"><input type="checkbox" value="Troubleshooting"> Troubleshooting</label>
+                <label class="chk"><input type="checkbox" value="Audit"> Network Audit</label>
+                <label class="chk"><input type="checkbox" value="Support"> Managed Support</label>
+              </div>
+            </div>
+            <div class="fg"><label>Describe your challenge</label><textarea id="f-msg" placeholder="Tell us about your current setup, pain points, or what you're trying to achieve..."></textarea></div>
+            <button class="form-btn" onclick="submitForm()">Send Assessment Request →</button>
           </div>
-          <div class="chat-msgs" id="chatMsgs"></div>
-          <div class="chat-inp">
-            <input type="text" id="uInput" placeholder="Describe your networking challenge..." />
-            <button id="sBtn">Send</button>
+          <div id="formSuccess">
+            <div class="succ-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <h3>Request received!</h3>
+            <p>Thanks for reaching out. We'll review your setup and get back to you within 24 hours with a tailored recommendation.</p>
           </div>
         </div>
       </div>
@@ -204,147 +299,83 @@ footer{background:#0F2448;padding:1.5rem 0}
   </div>
 </section>
 
-<section class="about" id="about">
+<section class="about-strip" id="about">
+  <canvas id="net2"></canvas>
   <div class="container">
     <div class="about-inner">
-      <div class="about-content">
-        <div class="section-label">About NetQuanta</div>
-        <div class="section-title">SP Knowledge, SMB Focus</div>
-        <p>Most small and medium businesses can't afford a full-time network engineer — but they still need reliable, secure, scalable infrastructure. That's the gap NetQuanta fills.</p>
-        <p>Our consultants come from service provider and enterprise environments, with hands-on experience in Cisco ASR, IOS-XR, MPLS, and carrier-grade deployments. We bring that level of depth directly to your business.</p>
-        <p>Whether you need a one-time design, an emergency troubleshoot, or an ongoing virtual network team — we adapt to how you work.</p>
+      <div>
+        <div class="sec-label">About NetQuanta</div>
+        <div class="sec-title" style="color:#fff">SP Knowledge,<br>SMB Focus</div>
+        <br>
+        <p>Most small and medium businesses can't afford a full-time network engineer — but they still need reliable, secure infrastructure. That's the gap NetQuanta fills.</p>
+        <br>
+        <p>Our consultants come from service provider and enterprise environments — hands-on with Cisco ASR, IOS-XR, MPLS, and carrier-grade deployments. We bring that depth directly to your business.</p>
       </div>
-      <div class="about-cards">
-        <div class="a-card"><div class="a-num">Cisco Certified</div><div class="a-lbl">ASR, Catalyst, and IOS-XR environments across SP and enterprise</div></div>
-        <div class="a-card"><div class="a-num">Layer 1–7</div><div class="a-lbl">Full-stack visibility from physical links to application delivery</div></div>
-        <div class="a-card"><div class="a-num">SP-Grade</div><div class="a-lbl">MPLS, BGP, QoS, and carrier handoff expertise applied at SMB scale</div></div>
+      <div class="a-cards">
+        <div class="a-card"><div class="a-num">Cisco Certified</div><div class="a-lbl">ASR, Catalyst, IOS-XR environments across SP and enterprise</div></div>
+        <div class="a-card"><div class="a-num">Layer 1 – 7</div><div class="a-lbl">Full-stack visibility from physical links to application delivery</div></div>
+        <div class="a-card"><div class="a-num">SP-Grade</div><div class="a-lbl">MPLS, BGP, QoS, and carrier handoff expertise at SMB scale</div></div>
+        <div class="a-card"><div class="a-num">Real-World</div><div class="a-lbl">Battle-tested in live service provider and enterprise environments</div></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="cta-section" id="cta">
-  <div class="container">
-    <div class="cta-inner">
-      <h2>Ready to assess your network?</h2>
-      <p>Leave your email and we'll reach out to schedule a free, no-obligation network assessment.</p>
-      <div class="cta-form">
-        <input type="email" id="ctaEmail" placeholder="your@email.com" />
-        <button onclick="submitEmail()">Get Assessment</button>
-      </div>
-      <p id="ctaOk">Thanks! We'll be in touch shortly.</p>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="container">
-    <div class="ft-inner">
+    <div class="ft-i">
       <div class="ft-logo">Net<span>Quanta</span></div>
-      <div class="ft-links">
-        <a href="#svc">Services</a>
-        <a href="#ai">AI Consultant</a>
-        <a href="#about">About</a>
-      </div>
+      <div class="ft-links"><a href="#svc">Services</a><a href="#how">Process</a><a href="#about">About</a><a href="#contact">Contact</a></div>
       <div class="ft-copy">© 2025 NetQuanta. All rights reserved.</div>
     </div>
   </div>
 </footer>
 
 <script>
-const SYS = `You are NetQuanta's AI Network Consultant — an expert in service provider and enterprise networking, helping small and medium businesses design and optimize their networks.
-
-Your expertise includes:
-- Cisco hardware: Catalyst switches (2960X, 9300, 9200), ASR routers (1001X, 1002X, 9001), ISR 4000 series
-- Protocols: MPLS, BGP, OSPF, EIGRP, STP, LACP, 802.1Q VLANs, QoS, DHCP relay
-- Architectures: WAN design, SD-WAN, MPLS VPN, Layer 2/3 handoffs, internet edge, firewall placement
-- Security: firewall config, ACLs, zone-based segmentation, DMZ
-- SMB-focused: practical, cost-effective recommendations without overengineering
-
-Your style:
-1. Ask 2-3 targeted questions first (number of users, locations, services needed, current issues, rough budget)
-2. Give specific, actionable recommendations — name exact device models when you can
-3. Explain trade-offs clearly in plain language; avoid jargon unless the user seems technical
-4. For large or complex implementations, suggest booking a full consultation with a NetQuanta engineer
-5. Be concise. Bullet points work well for recommendations.
-
-Start by warmly greeting the user and asking your first qualifying question.`;
-
-const hist = [];
-const box = document.getElementById('chatMsgs');
-const inp = document.getElementById('uInput');
-const btn = document.getElementById('sBtn');
-
-function addMsg(role, text) {
-  const b = role === 'assistant';
-  const d = document.createElement('div');
-  d.className = `msg ${b ? 'bot' : 'usr'}`;
-  const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\n- /g,'\n• ').replace(/\n/g,'<br>');
-  d.innerHTML = `<div class="msg-name">${b ? 'NetQuanta AI' : 'You'}</div><div class="bubble">${safe}</div>`;
-  box.appendChild(d);
-  box.scrollTop = box.scrollHeight;
-}
-
-function addTyping() {
-  const d = document.createElement('div');
-  d.className = 'msg bot'; d.id = 'typ';
-  d.innerHTML = `<div class="msg-name">NetQuanta AI</div><div class="bubble"><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;
-  box.appendChild(d); box.scrollTop = box.scrollHeight;
-}
-function rmTyping() { const t = document.getElementById('typ'); if(t) t.remove(); }
-
-async function callAPI(msgs) {
-  const r = await fetch('/api/chat', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({system:SYS, messages:msgs})
-  });
-  const d = await r.json();
-  return d.content?.[0]?.text || '';
-}
-
-async function init() {
-  addTyping();
-  const seed = [{role:'user',content:'Hi, I need help with my network.'}];
-  try {
-    const reply = await callAPI(seed);
-    hist.push(...seed, {role:'assistant',content:reply});
-    rmTyping(); addMsg('assistant', reply);
-  } catch(e) {
-    rmTyping();
-    const fb = "Hi! Welcome to NetQuanta. I'm here to help you find the right networking solution for your business.\n\nTo get started — how many users and locations does your business have, and what are your main connectivity needs (internet access, inter-office links, VoIP, etc.)?";
-    hist.push({role:'user',content:'Hi'},{role:'assistant',content:fb});
-    addMsg('assistant', fb);
+function mkCanvas(id, alpha) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  let W, H, pts;
+  function resize() { W = c.width = c.offsetWidth; H = c.height = c.offsetHeight; }
+  function init() {
+    const n = Math.floor((W * H) / 14000);
+    pts = Array.from({length: Math.min(n, 55)}, () => ({
+      x: Math.random()*W, y: Math.random()*H,
+      vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4,
+      r: Math.random()*1.5+1
+    }));
   }
-}
-
-async function send() {
-  const txt = inp.value.trim(); if(!txt) return;
-  inp.value = ''; btn.disabled = true;
-  addMsg('user', txt);
-  hist.push({role:'user',content:txt});
-  addTyping();
-  try {
-    const reply = await callAPI(hist);
-    hist.push({role:'assistant',content:reply});
-    rmTyping(); addMsg('assistant', reply);
-  } catch(e) {
-    rmTyping(); addMsg('assistant', 'Sorry, I had a connection issue. Please try again, or contact us directly for help.');
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0||p.x>W) p.vx*=-1;
+      if(p.y<0||p.y>H) p.vy*=-1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(96,165,250,${alpha||0.55})`; ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<130){
+        ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle=`rgba(96,165,250,${(alpha||0.55)*(1-d/130)*0.6})`; ctx.lineWidth=0.6; ctx.stroke();
+      }
+    }
+    requestAnimationFrame(draw);
   }
-  btn.disabled = false; inp.focus();
+  resize(); init(); draw();
+  window.addEventListener('resize', ()=>{ resize(); init(); });
 }
 
-inp.addEventListener('keydown', e => { if(e.key === 'Enter') send(); });
-btn.addEventListener('click', send);
+mkCanvas('net', 0.5);
+mkCanvas('net2', 0.35);
 
-function submitEmail() {
-  const v = document.getElementById('ctaEmail').value.trim();
-  if(!v) return;
-  document.getElementById('ctaOk').style.display = 'block';
-  document.getElementById('ctaEmail').value = '';
+function submitForm() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  document.getElementById('formFields').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
 }
-
-init();
 </script>
