@@ -1,0 +1,350 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+body{font-family:var(--font-sans);color:var(--color-text-primary);background:#fff;line-height:1.6}
+a{text-decoration:none;color:inherit}
+:root{--nq-navy:#1B3D6F;--nq-blue:#2563EB;--nq-mid:#1E40AF}
+.container{max-width:1060px;margin:0 auto;padding:0 2rem}
+
+nav{background:#fff;border-bottom:0.5px solid var(--color-border-tertiary);padding:1rem 0;position:sticky;top:0;z-index:100}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:500;color:var(--nq-navy);letter-spacing:-0.02em}
+.logo span{color:var(--nq-blue)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:14px;color:var(--color-text-secondary)}
+.nav-cta{background:var(--nq-navy);color:#fff!important;padding:0.45rem 1.1rem;border-radius:var(--border-radius-md);font-size:14px;font-weight:500}
+
+.hero{padding:4.5rem 0 3.5rem;background:#F8FAFC;border-bottom:0.5px solid var(--color-border-tertiary)}
+.tag{display:inline-block;background:#EFF6FF;color:#1E40AF;font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;margin-bottom:1.25rem;border:0.5px solid #BFDBFE}
+.hero h1{font-size:36px;font-weight:500;line-height:1.2;color:var(--nq-navy);max-width:620px;margin-bottom:1.1rem}
+.hero p{font-size:16px;color:var(--color-text-secondary);max-width:520px;margin-bottom:1.75rem;line-height:1.7}
+.hero-btns{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.btn-primary{background:var(--nq-navy);color:#fff;padding:0.7rem 1.6rem;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;border:none;cursor:pointer;font-family:var(--font-sans)}
+.btn-link{color:var(--nq-blue);font-size:15px;font-weight:500;cursor:pointer;background:none;border:none;font-family:var(--font-sans)}
+.hero-stats{display:flex;gap:3rem;margin-top:2.5rem;padding-top:2rem;border-top:0.5px solid var(--color-border-tertiary)}
+.stat-n{font-size:26px;font-weight:500;color:var(--nq-navy)}
+.stat-l{font-size:13px;color:var(--color-text-secondary);margin-top:2px}
+
+.services{padding:3.5rem 0}
+.section-label{font-size:12px;font-weight:500;color:var(--nq-blue);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem}
+.section-title{font-size:26px;font-weight:500;color:var(--nq-navy);margin-bottom:0.6rem}
+.section-sub{font-size:15px;color:var(--color-text-secondary);max-width:480px;margin-bottom:2rem}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem}
+.svc-card{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.4rem}
+.svc-icon{width:38px;height:38px;background:#EFF6FF;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem}
+.svc-icon svg{width:18px;height:18px;stroke:#1E40AF;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.svc-card h3{font-size:14px;font-weight:500;margin-bottom:0.4rem;color:var(--nq-navy)}
+.svc-card p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+
+.ai-section{padding:3.5rem 0;background:#F8FAFC;border-top:0.5px solid var(--color-border-tertiary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.ai-inner{display:grid;grid-template-columns:1fr 1.6fr;gap:3rem;align-items:start}
+.ai-badge{display:inline-flex;align-items:center;gap:6px;background:#EFF6FF;color:#1E40AF;font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;margin-bottom:0.9rem;border:0.5px solid #BFDBFE}
+.ai-intro h2{font-size:26px;font-weight:500;color:var(--nq-navy);margin-bottom:0.6rem}
+.ai-intro p{font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem}
+.ai-feats{list-style:none}
+.ai-feats li{font-size:13px;color:var(--color-text-secondary);padding:5px 0;display:flex;align-items:flex-start;gap:8px}
+.ai-feats li::before{content:'';display:block;width:6px;height:6px;min-width:6px;border-radius:50%;background:#2563EB;margin-top:6px}
+
+.chat-box{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.chat-hdr{background:var(--nq-navy);padding:0.9rem 1.1rem;display:flex;align-items:center;gap:8px}
+.hdr-dot{width:7px;height:7px;border-radius:50%;background:#4ADE80}
+.hdr-title{font-size:13px;font-weight:500;color:#fff}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-left:auto}
+.chat-msgs{height:300px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.65rem}
+.msg{max-width:88%}
+.bot{align-self:flex-start}
+.usr{align-self:flex-end}
+.msg-name{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px}
+.usr .msg-name{text-align:right}
+.bubble{padding:0.6rem 0.85rem;border-radius:var(--border-radius-md);font-size:13px;line-height:1.55}
+.bot .bubble{background:#F1F5F9;color:var(--color-text-primary);border-bottom-left-radius:3px}
+.usr .bubble{background:var(--nq-navy);color:#fff;border-bottom-right-radius:3px}
+.chat-inp{border-top:0.5px solid var(--color-border-tertiary);padding:0.65rem 0.85rem;display:flex;gap:0.5rem}
+#uInput{flex:1;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:0.5rem 0.7rem;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);background:var(--color-background-primary);outline:none}
+#uInput:focus{border-color:var(--nq-blue)}
+#sBtn{background:var(--nq-navy);color:#fff;border:none;border-radius:var(--border-radius-md);padding:0.5rem 0.9rem;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-sans)}
+#sBtn:disabled{opacity:0.45;cursor:not-allowed}
+.typing{display:flex;gap:4px;align-items:center;padding:6px 0}
+.td{width:6px;height:6px;border-radius:50%;background:var(--color-text-secondary);animation:bl 1.2s infinite}
+.td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
+@keyframes bl{0%,80%,100%{opacity:0.25}40%{opacity:1}}
+
+.about{padding:3.5rem 0}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.about-content p{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:0.9rem}
+.about-cards{display:grid;gap:0.9rem}
+.a-card{background:#F8FAFC;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem 1.25rem}
+.a-num{font-size:22px;font-weight:500;color:var(--nq-navy);margin-bottom:3px}
+.a-lbl{font-size:13px;color:var(--color-text-secondary)}
+
+.cta-section{padding:3.5rem 0;background:var(--nq-navy)}
+.cta-inner{text-align:center}
+.cta-inner h2{font-size:28px;font-weight:500;color:#fff;margin-bottom:0.6rem}
+.cta-inner>p{font-size:15px;color:rgba(255,255,255,0.65);margin-bottom:1.75rem}
+.cta-form{display:flex;gap:0.65rem;max-width:420px;margin:0 auto}
+.cta-form input{flex:1;padding:0.6rem 0.9rem;border-radius:var(--border-radius-md);border:0.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:#fff;font-size:13px;font-family:var(--font-sans);outline:none}
+.cta-form input::placeholder{color:rgba(255,255,255,0.35)}
+.cta-form button{background:#fff;color:var(--nq-navy);border:none;border-radius:var(--border-radius-md);padding:0.6rem 1.1rem;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:var(--font-sans)}
+#ctaOk{color:rgba(255,255,255,0.7);font-size:13px;margin-top:0.65rem;display:none}
+
+footer{background:#0F2448;padding:1.5rem 0}
+.ft-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.ft-logo{font-size:15px;font-weight:500;color:rgba(255,255,255,0.75)}
+.ft-logo span{color:#60A5FA}
+.ft-links{display:flex;gap:1.25rem}
+.ft-links a{font-size:12px;color:rgba(255,255,255,0.45)}
+.ft-copy{font-size:12px;color:rgba(255,255,255,0.3)}
+</style>
+
+<h2 class="sr-only">NetQuanta — Enterprise-Grade Network Consulting for Small and Medium Businesses</h2>
+
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <div class="logo">Net<span>Quanta</span></div>
+      <div class="nav-links">
+        <a href="#svc">Services</a>
+        <a href="#ai">AI Consultant</a>
+        <a href="#about">About</a>
+        <a href="#cta" class="nav-cta">Get Assessment</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="tag">Service Provider Expertise</div>
+    <h1>Enterprise Networking, Built for Growing Businesses</h1>
+    <p>NetQuanta brings carrier-grade network consulting to small and medium businesses — the expertise your company needs, without the enterprise price tag.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get a Free Assessment</button>
+      <button class="btn-link" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">Try our AI Consultant →</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-n">10+</div><div class="stat-l">Years SP experience</div></div>
+      <div><div class="stat-n">50+</div><div class="stat-l">Networks deployed</div></div>
+      <div><div class="stat-n">24/7</div><div class="stat-l">Support available</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="svc">
+  <div class="container">
+    <div class="section-label">What we do</div>
+    <div class="section-title">Expert Network Consulting</div>
+    <div class="section-sub">From initial design to deployment and ongoing management — every layer of your network, covered.</div>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
+        <h3>Network Design</h3>
+        <p>Custom WAN, LAN, and hybrid topology design built for your scale and growth plans.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.142 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg></div>
+        <h3>SP Infrastructure</h3>
+        <p>MPLS, BGP, and carrier-grade solutions adapted for SMB needs — reliability without complexity.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+        <h3>Network Security</h3>
+        <p>Firewall setup, ACLs, and segmentation to protect your traffic and your data.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
+        <h3>Troubleshooting</h3>
+        <p>Fast root-cause analysis for outages, Layer 2/3 issues, and performance problems.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <h3>Network Audits</h3>
+        <p>Comprehensive review of existing infrastructure — find gaps, risks, and savings.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
+        <h3>Managed Support</h3>
+        <p>Ongoing monitoring and support plans — your virtual network team, on demand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ai-section" id="ai">
+  <div class="container">
+    <div class="ai-inner">
+      <div class="ai-intro">
+        <div class="ai-badge">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          AI-Powered
+        </div>
+        <h2>Get Your Network Recommendation</h2>
+        <p>Describe your business needs and our AI consultant — built on real service provider expertise — will recommend the right hardware, topology, and approach instantly.</p>
+        <ul class="ai-feats">
+          <li>Specific hardware and vendor recommendations</li>
+          <li>Topology guidance based on your user count and locations</li>
+          <li>Honest cost vs. complexity trade-offs</li>
+          <li>Escalation to a human NetQuanta engineer for complex needs</li>
+        </ul>
+      </div>
+      <div>
+        <div class="chat-box">
+          <div class="chat-hdr">
+            <div class="hdr-dot"></div>
+            <div class="hdr-title">NetQuanta AI Consultant</div>
+            <div class="hdr-sub">Powered by AI</div>
+          </div>
+          <div class="chat-msgs" id="chatMsgs"></div>
+          <div class="chat-inp">
+            <input type="text" id="uInput" placeholder="Describe your networking challenge..." />
+            <button id="sBtn">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-content">
+        <div class="section-label">About NetQuanta</div>
+        <div class="section-title">SP Knowledge, SMB Focus</div>
+        <p>Most small and medium businesses can't afford a full-time network engineer — but they still need reliable, secure, scalable infrastructure. That's the gap NetQuanta fills.</p>
+        <p>Our consultants come from service provider and enterprise environments, with hands-on experience in Cisco ASR, IOS-XR, MPLS, and carrier-grade deployments. We bring that level of depth directly to your business.</p>
+        <p>Whether you need a one-time design, an emergency troubleshoot, or an ongoing virtual network team — we adapt to how you work.</p>
+      </div>
+      <div class="about-cards">
+        <div class="a-card"><div class="a-num">Cisco Certified</div><div class="a-lbl">ASR, Catalyst, and IOS-XR environments across SP and enterprise</div></div>
+        <div class="a-card"><div class="a-num">Layer 1–7</div><div class="a-lbl">Full-stack visibility from physical links to application delivery</div></div>
+        <div class="a-card"><div class="a-num">SP-Grade</div><div class="a-lbl">MPLS, BGP, QoS, and carrier handoff expertise applied at SMB scale</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>Ready to assess your network?</h2>
+      <p>Leave your email and we'll reach out to schedule a free, no-obligation network assessment.</p>
+      <div class="cta-form">
+        <input type="email" id="ctaEmail" placeholder="your@email.com" />
+        <button onclick="submitEmail()">Get Assessment</button>
+      </div>
+      <p id="ctaOk">Thanks! We'll be in touch shortly.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="ft-inner">
+      <div class="ft-logo">Net<span>Quanta</span></div>
+      <div class="ft-links">
+        <a href="#svc">Services</a>
+        <a href="#ai">AI Consultant</a>
+        <a href="#about">About</a>
+      </div>
+      <div class="ft-copy">© 2025 NetQuanta. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const SYS = `You are NetQuanta's AI Network Consultant — an expert in service provider and enterprise networking, helping small and medium businesses design and optimize their networks.
+
+Your expertise includes:
+- Cisco hardware: Catalyst switches (2960X, 9300, 9200), ASR routers (1001X, 1002X, 9001), ISR 4000 series
+- Protocols: MPLS, BGP, OSPF, EIGRP, STP, LACP, 802.1Q VLANs, QoS, DHCP relay
+- Architectures: WAN design, SD-WAN, MPLS VPN, Layer 2/3 handoffs, internet edge, firewall placement
+- Security: firewall config, ACLs, zone-based segmentation, DMZ
+- SMB-focused: practical, cost-effective recommendations without overengineering
+
+Your style:
+1. Ask 2-3 targeted questions first (number of users, locations, services needed, current issues, rough budget)
+2. Give specific, actionable recommendations — name exact device models when you can
+3. Explain trade-offs clearly in plain language; avoid jargon unless the user seems technical
+4. For large or complex implementations, suggest booking a full consultation with a NetQuanta engineer
+5. Be concise. Bullet points work well for recommendations.
+
+Start by warmly greeting the user and asking your first qualifying question.`;
+
+const hist = [];
+const box = document.getElementById('chatMsgs');
+const inp = document.getElementById('uInput');
+const btn = document.getElementById('sBtn');
+
+function addMsg(role, text) {
+  const b = role === 'assistant';
+  const d = document.createElement('div');
+  d.className = `msg ${b ? 'bot' : 'usr'}`;
+  const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n- /g,'\n• ').replace(/\n/g,'<br>');
+  d.innerHTML = `<div class="msg-name">${b ? 'NetQuanta AI' : 'You'}</div><div class="bubble">${safe}</div>`;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+
+function addTyping() {
+  const d = document.createElement('div');
+  d.className = 'msg bot'; d.id = 'typ';
+  d.innerHTML = `<div class="msg-name">NetQuanta AI</div><div class="bubble"><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;
+  box.appendChild(d); box.scrollTop = box.scrollHeight;
+}
+function rmTyping() { const t = document.getElementById('typ'); if(t) t.remove(); }
+
+async function callAPI(msgs) {
+  const r = await fetch('/api/chat', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({system:SYS, messages:msgs})
+  });
+  const d = await r.json();
+  return d.content?.[0]?.text || '';
+}
+
+async function init() {
+  addTyping();
+  const seed = [{role:'user',content:'Hi, I need help with my network.'}];
+  try {
+    const reply = await callAPI(seed);
+    hist.push(...seed, {role:'assistant',content:reply});
+    rmTyping(); addMsg('assistant', reply);
+  } catch(e) {
+    rmTyping();
+    const fb = "Hi! Welcome to NetQuanta. I'm here to help you find the right networking solution for your business.\n\nTo get started — how many users and locations does your business have, and what are your main connectivity needs (internet access, inter-office links, VoIP, etc.)?";
+    hist.push({role:'user',content:'Hi'},{role:'assistant',content:fb});
+    addMsg('assistant', fb);
+  }
+}
+
+async function send() {
+  const txt = inp.value.trim(); if(!txt) return;
+  inp.value = ''; btn.disabled = true;
+  addMsg('user', txt);
+  hist.push({role:'user',content:txt});
+  addTyping();
+  try {
+    const reply = await callAPI(hist);
+    hist.push({role:'assistant',content:reply});
+    rmTyping(); addMsg('assistant', reply);
+  } catch(e) {
+    rmTyping(); addMsg('assistant', 'Sorry, I had a connection issue. Please try again, or contact us directly for help.');
+  }
+  btn.disabled = false; inp.focus();
+}
+
+inp.addEventListener('keydown', e => { if(e.key === 'Enter') send(); });
+btn.addEventListener('click', send);
+
+function submitEmail() {
+  const v = document.getElementById('ctaEmail').value.trim();
+  if(!v) return;
+  document.getElementById('ctaOk').style.display = 'block';
+  document.getElementById('ctaEmail').value = '';
+}
+
+init();
+</script>
