@@ -200,12 +200,14 @@ const raw=document.getElementById('macInput').value.trim();
 if(!raw){el.innerHTML='<span class="err">Enter a MAC address first.</span>';return}
 el.innerHTML='<span class="muted">Looking up…</span>';
 try{
-const resp=await fetch('https://api.macvendors.com/'+encodeURIComponent(raw));
-if(resp.status===404){el.innerHTML=row('Address',raw)+row('Vendor','Not found in registry','err');return}
+const resp=await fetch('https://api.maclookup.app/v2/macs/'+encodeURIComponent(raw)+'/company/name');
+if(resp.status===400){el.innerHTML=row('Address',raw)+row('Vendor','Invalid MAC address','err');return}
 if(!resp.ok)throw new Error('Lookup failed ('+resp.status+')');
-const vendor=await resp.text();
+const vendor=(await resp.text()).trim();
+if(vendor==='*NO COMPANY*'){el.innerHTML=row('Address',raw)+row('Vendor','Not found in registry','err');return}
+if(vendor==='*PRIVATE*'){el.innerHTML=row('Address',raw)+row('Vendor','Registered privately (not disclosed)','err');return}
 el.innerHTML=row('Address',raw)+row('Vendor',vendor);
-}catch(err){el.innerHTML='<span class="err">'+err.message+'. Public API may be rate-limited — try again shortly.</span>'}
+}catch(err){el.innerHTML='<span class="err">'+err.message+'. Try again shortly.</span>'}
 }
 
 function ipToInt(ip){const parts=ip.split('.').map(Number);if(parts.length!==4||parts.some(p=>isNaN(p)||p<0||p>255))return null;return((parts[0]<<24)|(parts[1]<<16)|(parts[2]<<8)|parts[3])>>>0}
@@ -233,12 +235,14 @@ const el=document.getElementById('ipOutput');
 const target=document.getElementById('ipInput').value.trim();
 el.innerHTML='<span class="muted">Looking up…</span>';
 try{
-const url=target?'https://ip-api.com/json/'+encodeURIComponent(target):'https://ip-api.com/json/';
+const url=target?'https://ipwho.is/'+encodeURIComponent(target):'https://ipwho.is/';
 const resp=await fetch(url);
 if(!resp.ok)throw new Error('Lookup failed ('+resp.status+')');
 const data=await resp.json();
-if(data.status==='fail'){el.innerHTML='<span class="err">'+(data.message||'Lookup failed')+'</span>';return}
-el.innerHTML=row('IP',data.query)+row('ISP',data.isp||'—')+row('Organization',data.org||'—')+row('ASN',data.as||'—')+row('City',data.city||'—')+row('Region',data.regionName||'—')+row('Country',data.country||'—')+row('Timezone',data.timezone||'—');
+if(!data.success){el.innerHTML='<span class="err">'+(data.message||'Lookup failed')+'</span>';return}
+const conn=data.connection||{};
+const tz=data.timezone||{};
+el.innerHTML=row('IP',data.ip)+row('ISP',conn.isp||'—')+row('Organization',conn.org||'—')+row('ASN',conn.asn?('AS'+conn.asn):'—')+row('City',data.city||'—')+row('Region',data.region||'—')+row('Country',data.country||'—')+row('Timezone',tz.id||'—');
 }catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
 }
 
