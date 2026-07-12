@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools · NetQuanta</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#1e293b;background:#fff;line-height:1.6}
+a{text-decoration:none;color:inherit}
+:root{--nq-dark:#0B1D35;--nq-navy:#1B3D6F;--nq-blue:#3B82F6;--nq-teal:#0891B2;--border:#e5e9ef;--muted:#64748b}
+.container{max-width:1060px;margin:0 auto;padding:0 2rem}
+
+nav{background:#fff;border-bottom:0.5px solid var(--border);padding:0.9rem 0;position:sticky;top:0;z-index:100}
+.nav-i{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:500;color:var(--nq-navy);letter-spacing:-0.02em;display:flex;align-items:center;gap:8px}
+.logo svg{width:26px;height:26px}
+.logo span{color:var(--nq-blue)}
+.nav-links{display:flex;align-items:center;gap:1.75rem}
+.nav-links a{font-size:14px;color:var(--muted)}
+.nav-links a:hover{color:var(--nq-navy)}
+.nav-cta{background:var(--nq-navy);color:#fff!important;padding:0.45rem 1.1rem;border-radius:6px;font-size:14px;font-weight:500}
+
+/* dropdown */
+.dropdown{position:relative}
+.dropdown>button{background:none;border:none;cursor:pointer;font-size:14px;color:var(--muted);font-family:inherit;display:flex;align-items:center;gap:5px;padding:0}
+.dropdown>button:hover{color:var(--nq-navy)}
+.dropdown .chev{width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-top:-2px;transition:transform .15s}
+.dropdown.open .chev{transform:rotate(225deg);margin-top:2px}
+.dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:210px;background:#fff;border:0.5px solid var(--border);border-radius:10px;padding:6px;box-shadow:0 12px 28px rgba(11,29,53,0.12);opacity:0;visibility:hidden;transition:opacity .15s,transform .15s,visibility .15s}
+.dropdown.open .dropdown-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.dropdown-menu button{display:flex;align-items:center;width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;font-size:13px;color:var(--nq-navy);padding:9px 11px;border-radius:7px}
+.dropdown-menu button:hover{background:#F0F7FF}
+.dropdown-menu .tag{margin-left:auto;font-size:10px;color:var(--nq-blue);background:#EFF6FF;border-radius:4px;padding:2px 5px}
+
+.hero{padding:3.5rem 0 2.5rem;background:#fff;position:relative;overflow:hidden}
+.hex-deco{position:absolute;right:-80px;top:-40px;width:380px;height:380px;opacity:0.035;pointer-events:none}
+.sec-label{font-size:11px;font-weight:500;color:var(--nq-blue);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;display:flex;align-items:center;gap:8px}
+.sec-label::before{content:'';display:block;width:18px;height:1px;background:var(--nq-blue)}
+h1{font-size:32px;font-weight:500;color:var(--nq-navy);margin-bottom:0.7rem;letter-spacing:-0.01em}
+.hero p{font-size:15px;color:var(--muted);max-width:520px;line-height:1.7}
+
+.tool-shell{max-width:1060px;margin:0 auto 4rem;padding:0 2rem}
+.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--border);margin-bottom:2rem;flex-wrap:wrap}
+.tab{background:none;border:none;cursor:pointer;color:var(--muted);font-family:inherit;font-size:14px;font-weight:500;padding:12px 4px;margin-right:28px;position:relative}
+.tab::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--nq-blue);transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.tab.active{color:var(--nq-navy)}
+.tab.active::after{transform:scaleX(1)}
+
+.panel{display:none;background:#F8FAFC;border:0.5px solid var(--border);border-radius:10px;padding:1.75rem}
+.panel.active{display:block;animation:fadein .2s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.panel h2{font-size:17px;font-weight:500;color:var(--nq-navy);margin-bottom:0.3rem}
+.panel .sub{font-size:13px;color:var(--muted);margin-bottom:1.4rem;line-height:1.6}
+
+.field-row{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1.1rem}
+input[type=text]{flex:1;min-width:220px;padding:0.6rem 0.8rem;border:0.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;color:#1e293b;background:#fff;outline:none}
+input[type=text]:focus{border-color:var(--nq-blue)}
+input[type=text]::placeholder{color:#94a3b8}
+select{padding:0.6rem 0.8rem;border:0.5px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;color:#1e293b;background:#fff;outline:none}
+button.run{background:var(--nq-navy);color:#fff;border:none;border-radius:6px;padding:0.6rem 1.3rem;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap}
+button.run:hover{background:#152e54}
+button.run:focus-visible,input:focus-visible,.tab:focus-visible,.nav-links a:focus-visible,.dropdown-menu button:focus-visible{outline:2px solid var(--nq-blue);outline-offset:2px}
+
+.output{background:#fff;border:0.5px solid var(--border);border-radius:8px;padding:1rem 1.2rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:#1e293b;min-height:48px;white-space:pre-wrap;word-break:break-word}
+.output .muted{color:#94a3b8}
+.output .k{color:var(--muted);display:inline-block;min-width:150px}
+.output .v{color:var(--nq-navy)}
+.output-row{padding:3px 0}
+.output .err{color:#dc2626}
+
+@media (max-width:640px){.hero,.tool-shell{padding-left:1.25rem;padding-right:1.25rem}.container{padding:0 1.25rem}}
+
+footer{background:var(--nq-dark);padding:1.5rem 0;margin-top:2rem}
+.ft-i{display:flex;align-items:center;justify-content:center}
+.ft-copy{font-size:12px;color:rgba(255,255,255,0.3)}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="container">
+<div class="nav-i">
+<a href="index.html" class="logo">
+<svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<polygon points="13,2 24,8 24,18 13,24 2,18 2,8" stroke="#1B3D6F" stroke-width="1.2" fill="none"/>
+<polygon points="13,7 19,10.5 19,17.5 13,21 7,17.5 7,10.5" stroke="#3B82F6" stroke-width="1" fill="rgba(59,130,246,0.08)"/>
+<circle cx="13" cy="13" r="2.5" fill="#3B82F6"/>
+<line x1="13" y1="2" x2="13" y2="7" stroke="#1B3D6F" stroke-width="1"/>
+<line x1="13" y1="19" x2="13" y2="24" stroke="#1B3D6F" stroke-width="1"/>
+<line x1="2" y1="8" x2="7" y2="10.5" stroke="#1B3D6F" stroke-width="1"/>
+<line x1="19" y1="17.5" x2="24" y2="20" stroke="#1B3D6F" stroke-width="1"/>
+<line x1="24" y1="8" x2="19" y2="10.5" stroke="#1B3D6F" stroke-width="1"/>
+<line x1="7" y1="17.5" x2="2" y2="20" stroke="#1B3D6F" stroke-width="1"/>
+</svg>
+Net<span>Quanta</span>
+</a>
+<div class="nav-links">
+<a href="index.html#svc">Services</a>
+<a href="index.html#how">How it works</a>
+<div class="dropdown" id="toolsDropdown">
+<button type="button" onclick="toggleDropdown()">Tools <span class="chev"></span></button>
+<div class="dropdown-menu">
+<button onclick="goToTool('mac')">MAC Vendor Lookup <span class="tag">OUI</span></button>
+<button onclick="goToTool('subnet')">Subnet Calculator <span class="tag">CIDR</span></button>
+<button onclick="goToTool('ip')">IP Info Lookup <span class="tag">GEO</span></button>
+<button onclick="goToTool('dns')">DNS Lookup <span class="tag">DoH</span></button>
+</div>
+</div>
+<a href="index.html#about">About</a>
+<a href="index.html#contact" class="nav-cta">Get Assessment</a>
+</div>
+</div>
+</div>
+</nav>
+
+<section class="hero">
+<svg class="hex-deco" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+<defs><pattern id="hex" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse"><polygon points="30,2 58,17 58,47 30,62 2,47 2,17" fill="none" stroke="#1B3D6F" stroke-width="1"/></pattern></defs>
+<rect width="400" height="400" fill="url(#hex)"/>
+</svg>
+<div class="container">
+<div class="sec-label">Utilities</div>
+<h1>Network tools, on hand.</h1>
+<p>Quick lookups for the checks we run every day — no separate tabs, no accounts, no rate-limited SaaS wrapper. Pick one below.</p>
+</div>
+</section>
+
+<div class="tool-shell">
+<div class="tabs">
+<button class="tab active" data-tool="mac" onclick="selectTool('mac')">MAC Lookup</button>
+<button class="tab" data-tool="subnet" onclick="selectTool('subnet')">Subnet Calc</button>
+<button class="tab" data-tool="ip" onclick="selectTool('ip')">IP Info</button>
+<button class="tab" data-tool="dns" onclick="selectTool('dns')">DNS Lookup</button>
+</div>
+
+<div class="panel active" id="panel-mac">
+<h2>MAC Vendor Lookup</h2>
+<p class="sub">Resolve the OUI of a MAC address to its registered manufacturer.</p>
+<div class="field-row">
+<input type="text" id="macInput" placeholder="e.g. 3C:5A:B4:12:34:56" autocomplete="off">
+<button class="run" onclick="lookupMac()">Look up</button>
+</div>
+<div class="output" id="macOutput"><span class="muted">Vendor result will appear here.</span></div>
+</div>
+
+<div class="panel" id="panel-subnet">
+<h2>Subnet / CIDR Calculator</h2>
+<p class="sub">Enter an address in CIDR notation to get the full breakdown.</p>
+<div class="field-row">
+<input type="text" id="subnetInput" placeholder="e.g. 10.20.30.0/27" autocomplete="off">
+<button class="run" onclick="calcSubnet()">Calculate</button>
+</div>
+<div class="output" id="subnetOutput"><span class="muted">Subnet breakdown will appear here.</span></div>
+</div>
+
+<div class="panel" id="panel-ip">
+<h2>IP Info Lookup</h2>
+<p class="sub">Look up ownership, ASN, and approximate geolocation for a public IP. Leave blank to check your own.</p>
+<div class="field-row">
+<input type="text" id="ipInput" placeholder="e.g. 8.8.8.8 (optional)" autocomplete="off">
+<button class="run" onclick="lookupIp()">Look up</button>
+</div>
+<div class="output" id="ipOutput"><span class="muted">IP details will appear here.</span></div>
+</div>
+
+<div class="panel" id="panel-dns">
+<h2>DNS Lookup</h2>
+<p class="sub">Query public DNS over HTTPS (Cloudflare) for a hostname's records.</p>
+<div class="field-row">
+<input type="text" id="dnsInput" placeholder="e.g. hotwire.com" autocomplete="off">
+<select id="dnsType">
+<option value="A">A</option>
+<option value="AAAA">AAAA</option>
+<option value="MX">MX</option>
+<option value="TXT">TXT</option>
+<option value="NS">NS</option>
+<option value="CNAME">CNAME</option>
+</select>
+<button class="run" onclick="lookupDns()">Query</button>
+</div>
+<div class="output" id="dnsOutput"><span class="muted">DNS records will appear here.</span></div>
+</div>
+</div>
+
+<footer>
+<div class="container"><div class="ft-i"><div class="ft-copy">© 2026 NetQuanta. All rights reserved.</div></div></div>
+</footer>
+
+<script>
+function toggleDropdown(){document.getElementById('toolsDropdown').classList.toggle('open')}
+document.addEventListener('click',(e)=>{const dd=document.getElementById('toolsDropdown');if(!dd.contains(e.target))dd.classList.remove('open')});
+function goToTool(name){document.getElementById('toolsDropdown').classList.remove('open');selectTool(name);document.querySelector('.tool-shell').scrollIntoView({behavior:'smooth'})}
+function selectTool(name){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tool===name));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+name))}
+function row(k,v,cls){return `<div class="output-row"><span class="k">${k}</span><span class="${cls||'v'}">${v}</span></div>`}
+
+async function lookupMac(){
+const el=document.getElementById('macOutput');
+const raw=document.getElementById('macInput').value.trim();
+if(!raw){el.innerHTML='<span class="err">Enter a MAC address first.</span>';return}
+el.innerHTML='<span class="muted">Looking up…</span>';
+try{
+const resp=await fetch('https://api.macvendors.com/'+encodeURIComponent(raw));
+if(resp.status===404){el.innerHTML=row('Address',raw)+row('Vendor','Not found in registry','err');return}
+if(!resp.ok)throw new Error('Lookup failed ('+resp.status+')');
+const vendor=await resp.text();
+el.innerHTML=row('Address',raw)+row('Vendor',vendor);
+}catch(err){el.innerHTML='<span class="err">'+err.message+'. Public API may be rate-limited — try again shortly.</span>'}
+}
+
+function ipToInt(ip){const parts=ip.split('.').map(Number);if(parts.length!==4||parts.some(p=>isNaN(p)||p<0||p>255))return null;return((parts[0]<<24)|(parts[1]<<16)|(parts[2]<<8)|parts[3])>>>0}
+function intToIp(int){return[(int>>>24)&255,(int>>>16)&255,(int>>>8)&255,int&255].join('.')}
+function calcSubnet(){
+const el=document.getElementById('subnetOutput');
+const val=document.getElementById('subnetInput').value.trim();
+const match=val.match(/^(\d{1,3}(?:\.\d{1,3}){3})\/(\d{1,2})$/);
+if(!match){el.innerHTML='<span class="err">Enter in CIDR notation, e.g. 192.168.1.0/24</span>';return}
+const ip=match[1];const prefix=parseInt(match[2],10);
+const ipInt=ipToInt(ip);
+if(ipInt===null||prefix<0||prefix>32){el.innerHTML='<span class="err">Invalid address or prefix length.</span>';return}
+const maskInt=prefix===0?0:(0xFFFFFFFF<<(32-prefix))>>>0;
+const networkInt=(ipInt&maskInt)>>>0;
+const broadcastInt=(networkInt|(~maskInt>>>0))>>>0;
+const totalHosts=Math.pow(2,32-prefix);
+const usableHosts=prefix>=31?totalHosts:Math.max(totalHosts-2,0);
+const firstHost=prefix>=31?networkInt:networkInt+1;
+const lastHost=prefix>=31?broadcastInt:broadcastInt-1;
+el.innerHTML=row('Network Address',intToIp(networkInt))+row('Broadcast Address',intToIp(broadcastInt))+row('Subnet Mask',intToIp(maskInt))+row('Wildcard Mask',intToIp(~maskInt>>>0))+row('CIDR Prefix','/'+prefix)+row('Total Addresses',totalHosts.toLocaleString())+row('Usable Hosts',usableHosts.toLocaleString())+row('First Usable',intToIp(firstHost))+row('Last Usable',intToIp(lastHost));
+}
+
+async function lookupIp(){
+const el=document.getElementById('ipOutput');
+const target=document.getElementById('ipInput').value.trim();
+el.innerHTML='<span class="muted">Looking up…</span>';
+try{
+const url=target?'https://ip-api.com/json/'+encodeURIComponent(target):'https://ip-api.com/json/';
+const resp=await fetch(url);
+if(!resp.ok)throw new Error('Lookup failed ('+resp.status+')');
+const data=await resp.json();
+if(data.status==='fail'){el.innerHTML='<span class="err">'+(data.message||'Lookup failed')+'</span>';return}
+el.innerHTML=row('IP',data.query)+row('ISP',data.isp||'—')+row('Organization',data.org||'—')+row('ASN',data.as||'—')+row('City',data.city||'—')+row('Region',data.regionName||'—')+row('Country',data.country||'—')+row('Timezone',data.timezone||'—');
+}catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
+}
+
+async function lookupDns(){
+const el=document.getElementById('dnsOutput');
+const host=document.getElementById('dnsInput').value.trim();
+const type=document.getElementById('dnsType').value;
+if(!host){el.innerHTML='<span class="err">Enter a hostname first.</span>';return}
+el.innerHTML='<span class="muted">Querying…</span>';
+try{
+const resp=await fetch('https://cloudflare-dns.com/dns-query?name='+encodeURIComponent(host)+'&type='+type,{headers:{'accept':'application/dns-json'}});
+if(!resp.ok)throw new Error('Query failed ('+resp.status+')');
+const data=await resp.json();
+if(!data.Answer||data.Answer.length===0){el.innerHTML=row('Query',host+' ('+type+')')+row('Result','No records found','err');return}
+let html=row('Query',host+' ('+type+')');
+data.Answer.forEach(ans=>{html+=row(ans.name+' →',ans.data+'  <span class="muted">TTL '+ans.TTL+'s</span>')});
+el.innerHTML=html;
+}catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
+}
+
+document.getElementById('macInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupMac()});
+document.getElementById('subnetInput').addEventListener('keydown',e=>{if(e.key==='Enter')calcSubnet()});
+document.getElementById('ipInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupIp()});
+document.getElementById('dnsInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupDns()});
+</script>
+
+</body>
+</html>
