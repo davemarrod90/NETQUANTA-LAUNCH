@@ -3,7 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tools · NetQuanta</title>
+<title>MAC Vendor Lookup, Subnet Calculator & IP/DNS Tools | NetQuanta</title>
+<meta name="description" content="Free MAC address vendor lookup tool — instantly find the manufacturer of any device from its MAC address. Also includes a subnet/CIDR calculator, IP info lookup, and DNS lookup tool. No signup required.">
+<link rel="canonical" href="https://www.netquanta.net/tools.html">
+<meta property="og:title" content="MAC Vendor Lookup & Network Tools | NetQuanta">
+<meta property="og:description" content="Free MAC address vendor lookup tool — instantly find the manufacturer of any device from its MAC address, plus subnet, IP, and DNS lookup utilities.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.netquanta.net/tools.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MAC Vendor Lookup & Network Tools | NetQuanta">
+<meta name="twitter:description" content="Free MAC address vendor lookup tool — find any device manufacturer instantly, plus subnet, IP, and DNS lookup tools.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "MAC Vendor Lookup",
+  "url": "https://www.netquanta.net/tools.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Free tool to look up the manufacturer/vendor of any device from its MAC address (OUI lookup)."
+}
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#1e293b;background:#fff;line-height:1.6}
@@ -154,7 +175,7 @@ Net<span>Quanta</span>
 <div class="container">
 <div class="sec-label">Utilities</div>
 <h1>Network tools, on hand.</h1>
-<p>Quick lookups for the checks we run every day — no separate tabs, no accounts, no rate-limited SaaS wrapper. Pick one below.</p>
+<p>A free <strong>MAC address vendor lookup</strong> tool — instantly find the manufacturer of any device from its MAC address (OUI lookup). Also includes a subnet/CIDR calculator, IP info lookup, and DNS lookup tool. No signup, no accounts, no rate-limited SaaS wrapper.</p>
 </div>
 </section>
 
@@ -437,6 +458,7 @@ document.getElementById('ipInput').addEventListener('keydown',e=>{if(e.key==='En
 document.getElementById('dnsInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupDns()});
 renderMacRecent();
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 
 </body>
 </html>
