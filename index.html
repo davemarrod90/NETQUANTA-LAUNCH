@@ -107,6 +107,16 @@ footer{background:#060E1C;padding:1.5rem 0}
 .ft-links{display:flex;gap:1.25rem}
 .ft-links a{font-size:12px;color:rgba(255,255,255,0.3)}
 .ft-copy{font-size:12px;color:rgba(255,255,255,0.2)}
+.dropdown{position:relative}
+.dropdown>button{background:none;border:none;cursor:pointer;font-size:14px;color:var(--color-text-secondary);font-family:inherit;display:flex;align-items:center;gap:5px;padding:0}
+.dropdown>button:hover{color:var(--nq-navy)}
+.dropdown .chev{width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-top:-2px;transition:transform .15s}
+.dropdown.open .chev{transform:rotate(225deg);margin-top:2px}
+.dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:210px;background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:6px;box-shadow:0 12px 28px rgba(11,29,53,0.12);opacity:0;visibility:hidden;transition:opacity .15s,transform .15s,visibility .15s}
+.dropdown.open .dropdown-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.dropdown-menu button{display:flex;align-items:center;width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;font-size:13px;color:var(--nq-navy);padding:9px 11px;border-radius:7px}
+.dropdown-menu button:hover{background:#F0F7FF}
+.dropdown-menu .tag{margin-left:auto;font-size:10px;color:var(--nq-blue);background:#EFF6FF;border-radius:4px;padding:2px 5px}
 </style>
 
 <h2 class="sr-only">NetQuanta — Enterprise Network Consulting for Small and Medium Businesses</h2>
@@ -131,8 +141,18 @@ footer{background:#060E1C;padding:1.5rem 0}
       <div class="nav-links">
         <a href="#svc">Services</a>
         <a href="#how">How it works</a>
-        <a href="#about">About</a>
-        <a href="#contact" class="nav-cta">Get Assessment</a>
+        <div class="dropdown" id="toolsDropdown">
+        <button type="button" onclick="toggleDropdown()">Tools <span class="chev"></span></button>
+        <div class="dropdown-menu">
+        <button onclick="window.location.href='tools.html#mac'">MAC Vendor Lookup <span class="tag">OUI</span></button>
+        <button onclick="window.location.href='tools.html#subnet'">Subnet Calculator <span class="tag">CIDR</span></button>
+        <button onclick="window.location.href='tools.html#ip'">IP Info Lookup <span class="tag">GEO</span></button>
+        <button onclick="window.location.href='tools.html#dns'">DNS Lookup <span class="tag">DoH</span></button>
+      </div>
+    </div>
+<a href="#about">About</a>
+<a href="#contact" class="nav-cta">Get Assessment</a>
+</div>
       </div>
     </div>
   </div>
@@ -378,4 +398,6 @@ function submitForm() {
   document.getElementById('formFields').style.display = 'none';
   document.getElementById('formSuccess').style.display = 'block';
 }
+function toggleDropdown(){document.getElementById('toolsDropdown').classList.toggle('open')}
+document.addEventListener('click',(e)=>{const dd=document.getElementById('toolsDropdown');if(dd&&!dd.contains(e.target))dd.classList.remove('open')});
 </script>
