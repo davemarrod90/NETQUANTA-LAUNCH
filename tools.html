@@ -69,6 +69,38 @@ button.run:focus-visible,input:focus-visible,.tab:focus-visible,.nav-links a:foc
 .output-row{padding:3px 0}
 .output .err{color:#dc2626}
 
+.mode-tabs{display:flex;gap:6px;margin-bottom:1rem}
+.mode-tab{background:#fff;border:0.5px solid #cbd5e1;cursor:pointer;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:500;padding:6px 14px;border-radius:6px}
+.mode-tab.active{background:var(--nq-navy);color:#fff;border-color:var(--nq-navy)}
+
+.badge{display:inline-block;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:5px;margin-right:5px;letter-spacing:0.02em}
+.badge-blue{background:#EFF6FF;color:#2563EB}
+.badge-amber{background:#FFFBEB;color:#B45309}
+.badge-green{background:#F0FDF4;color:#15803D}
+.badge-slate{background:#F1F5F9;color:#475569}
+
+.copy-btn{background:none;border:0.5px solid #cbd5e1;cursor:pointer;color:var(--muted);font-family:inherit;font-size:11px;padding:3px 9px;border-radius:5px;margin-left:8px}
+.copy-btn:hover{border-color:var(--nq-blue);color:var(--nq-blue)}
+
+.bulk-hint{font-size:12.5px;color:var(--muted);margin-bottom:0.6rem}
+textarea{width:100%;padding:0.7rem 0.8rem;border:0.5px solid #cbd5e1;border-radius:6px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#1e293b;background:#fff;outline:none;resize:vertical}
+textarea:focus{border-color:var(--nq-blue)}
+button.run.secondary{background:#fff;color:var(--nq-navy);border:0.5px solid #cbd5e1}
+button.run.secondary:hover{background:#F0F7FF;border-color:var(--nq-blue)}
+button.run:disabled{opacity:0.5;cursor:not-allowed}
+
+.bulk-table-wrap{background:#fff;border:0.5px solid var(--border);border-radius:8px;padding:0.4rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;overflow-x:auto}
+table.bulk-table{width:100%;border-collapse:collapse}
+table.bulk-table th{text-align:left;font-family:-apple-system,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);padding:8px 10px;border-bottom:0.5px solid var(--border)}
+table.bulk-table td{padding:7px 10px;border-bottom:0.5px solid #f1f5f9;color:#1e293b;white-space:nowrap}
+table.bulk-table tr:last-child td{border-bottom:none}
+
+.recent-wrap{margin-top:1rem}
+.recent-label{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:6px}
+.recent-chips{display:flex;gap:6px;flex-wrap:wrap}
+.recent-chip{background:#fff;border:0.5px solid #cbd5e1;cursor:pointer;color:var(--nq-navy);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;padding:4px 10px;border-radius:14px}
+.recent-chip:hover{border-color:var(--nq-blue);background:#F0F7FF}
+
 @media (max-width:640px){.hero,.tool-shell{padding-left:1.25rem;padding-right:1.25rem}.container{padding:0 1.25rem}}
 
 footer{background:var(--nq-dark);padding:1.5rem 0;margin-top:2rem}
@@ -136,12 +168,35 @@ Net<span>Quanta</span>
 
 <div class="panel active" id="panel-mac">
 <h2>MAC Vendor Lookup</h2>
-<p class="sub">Resolve the OUI of a MAC address to its registered manufacturer.</p>
+<p class="sub">Resolve the OUI of a MAC address to its registered manufacturer — plus address-type decode. Any separator format works (colons, dashes, dots, or none).</p>
+
+<div class="mode-tabs">
+<button class="mode-tab active" data-mode="single" onclick="setMacMode('single')">Single</button>
+<button class="mode-tab" data-mode="bulk" onclick="setMacMode('bulk')">Bulk</button>
+</div>
+
+<div id="macSingleMode">
 <div class="field-row">
-<input type="text" id="macInput" placeholder="e.g. 3C:5A:B4:12:34:56" autocomplete="off">
+<input type="text" id="macInput" placeholder="e.g. 3C:5A:B4:12:34:56 or 3c5ab4123456" autocomplete="off">
 <button class="run" onclick="lookupMac()">Look up</button>
 </div>
 <div class="output" id="macOutput"><span class="muted">Vendor result will appear here.</span></div>
+<div class="recent-wrap" id="macRecentWrap" style="display:none">
+<div class="recent-label">Recent lookups</div>
+<div class="recent-chips" id="macRecentChips"></div>
+</div>
+</div>
+
+<div id="macBulkMode" style="display:none">
+<p class="bulk-hint">Paste one MAC per line — straight from a MAC address table or ARP dump works fine.</p>
+<textarea id="macBulkInput" rows="6" placeholder="3c:5a:b4:12:34:56&#10;00-50-56-c0-00-08&#10;a4b1c1223344"></textarea>
+<div class="field-row" style="margin-top:0.8rem">
+<button class="run" onclick="lookupMacBulk()">Look up all</button>
+<button class="run secondary" onclick="copyBulkCsv()">Copy as CSV</button>
+<button class="run secondary" onclick="downloadBulkCsv()">Download CSV</button>
+</div>
+<div class="bulk-table-wrap" id="macBulkOutput"><span class="muted" style="padding:0.6rem 0.4rem;display:block">Bulk results will appear here.</span></div>
+</div>
 </div>
 
 <div class="panel" id="panel-subnet">
@@ -194,18 +249,136 @@ function goToTool(name){document.getElementById('toolsDropdown').classList.remov
 function selectTool(name){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tool===name));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+name))}
 function row(k,v,cls){return `<div class="output-row"><span class="k">${k}</span><span class="${cls||'v'}">${v}</span></div>`}
 
+// ---------- MAC helpers ----------
+function normalizeMac(raw){
+  const hex=raw.replace(/[^0-9a-fA-F]/g,'').toUpperCase();
+  if(hex.length!==12) return null;
+  return hex.match(/.{2}/g).join(':');
+}
+function macAddressType(normalized){
+  const firstByte=parseInt(normalized.slice(0,2),16);
+  const multicast=(firstByte & 0x01)===1;
+  const local=(firstByte & 0x02)===2;
+  let wellKnown=null;
+  if(normalized==='FF:FF:FF:FF:FF:FF') wellKnown='Broadcast';
+  else if(normalized.startsWith('01:00:5E')) wellKnown='IPv4 multicast';
+  else if(normalized.startsWith('33:33')) wellKnown='IPv6 multicast';
+  else if(normalized.startsWith('01:80:C2')) wellKnown='Spanning Tree (STP/BPDU)';
+  return {multicast,local,wellKnown};
+}
+function macBadges(info){
+  let html='';
+  html+=info.multicast?'<span class="badge badge-amber">Multicast</span>':'<span class="badge badge-blue">Unicast</span>';
+  html+=info.local?'<span class="badge badge-slate">Locally administered</span>':'<span class="badge badge-green">Universally administered</span>';
+  if(info.wellKnown) html+='<span class="badge badge-amber">'+info.wellKnown+'</span>';
+  return html;
+}
+
+// ---------- Recent lookups (localStorage) ----------
+function getMacRecent(){try{return JSON.parse(localStorage.getItem('nq_mac_recent')||'[]')}catch(e){return[]}}
+function saveMacRecent(mac){
+  let list=getMacRecent().filter(m=>m!==mac);
+  list.unshift(mac);
+  list=list.slice(0,8);
+  try{localStorage.setItem('nq_mac_recent',JSON.stringify(list))}catch(e){}
+  renderMacRecent();
+}
+function renderMacRecent(){
+  const list=getMacRecent();
+  const wrap=document.getElementById('macRecentWrap');
+  const chips=document.getElementById('macRecentChips');
+  if(list.length===0){wrap.style.display='none';return}
+  wrap.style.display='block';
+  chips.innerHTML=list.map(m=>'<button class="recent-chip" onclick="rerunMac(\''+m+'\')">'+m+'</button>').join('');
+}
+function rerunMac(mac){document.getElementById('macInput').value=mac;lookupMac()}
+
+// ---------- Copy to clipboard ----------
+function copyText(text,btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    const original=btn.textContent;
+    btn.textContent='Copied!';
+    setTimeout(()=>{btn.textContent=original},1500);
+  });
+}
+
+// ---------- Mode switch ----------
+function setMacMode(mode){
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active',t.dataset.mode===mode));
+  document.getElementById('macSingleMode').style.display=mode==='single'?'block':'none';
+  document.getElementById('macBulkMode').style.display=mode==='bulk'?'block':'none';
+}
+
+// ---------- Single lookup ----------
 async function lookupMac(){
 const el=document.getElementById('macOutput');
 const raw=document.getElementById('macInput').value.trim();
 if(!raw){el.innerHTML='<span class="err">Enter a MAC address first.</span>';return}
+const normalized=normalizeMac(raw);
+if(!normalized){el.innerHTML='<span class="err">That doesn\'t look like a valid MAC address (need 12 hex digits).</span>';return}
 el.innerHTML='<span class="muted">Looking up…</span>';
 try{
-const resp=await fetch('/api/mac-lookup?mac='+encodeURIComponent(raw));
+const resp=await fetch('/api/mac-lookup?mac='+encodeURIComponent(normalized));
 const data=await resp.json();
-if(data.error){el.innerHTML=row('Address',raw)+row('Vendor',data.error,'err');return}
-if(!data.vendor){el.innerHTML=row('Address',raw)+row('Vendor','Not found in registry','err');return}
-el.innerHTML=row('Address',raw)+row('Vendor',data.vendor);
+const info=macAddressType(normalized);
+const badges='<div style="margin:6px 0 10px">'+macBadges(info)+'</div>';
+if(data.error){el.innerHTML=row('Address',normalized)+badges+row('Vendor',data.error,'err');return}
+if(!data.vendor){el.innerHTML=row('Address',normalized)+badges+row('Vendor','Not found in registry','err');return}
+el.innerHTML=row('Address',normalized)+badges+row('Vendor',data.vendor)+'<button class="copy-btn" onclick="copyText(\''+normalized+' — '+data.vendor.replace(/'/g,"\\'")+'\',this)">Copy result</button>';
+saveMacRecent(normalized);
 }catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
+}
+
+// ---------- Bulk lookup ----------
+let lastBulkResults=[];
+async function lookupMacBulk(){
+const el=document.getElementById('macBulkOutput');
+const raw=document.getElementById('macBulkInput').value;
+const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
+if(lines.length===0){el.innerHTML='<span class="muted" style="padding:0.6rem 0.4rem;display:block">Paste at least one MAC address first.</span>';return}
+const capped=lines.slice(0,40);
+el.innerHTML='<span class="muted" style="padding:0.6rem 0.4rem;display:block">Looking up '+capped.length+' address(es)…</span>';
+const results=[];
+for(const line of capped){
+  const normalized=normalizeMac(line);
+  if(!normalized){results.push({input:line,address:'—',vendor:'Invalid format',type:'—'});continue}
+  const info=macAddressType(normalized);
+  const typeLabel=(info.multicast?'Multicast':'Unicast')+' / '+(info.local?'Local':'Universal')+(info.wellKnown?' / '+info.wellKnown:'');
+  try{
+    const resp=await fetch('/api/mac-lookup?mac='+encodeURIComponent(normalized));
+    const data=await resp.json();
+    results.push({input:line,address:normalized,vendor:data.error||data.vendor||'Not found',type:typeLabel});
+  }catch(err){
+    results.push({input:line,address:normalized,vendor:'Lookup failed',type:typeLabel});
+  }
+  await new Promise(r=>setTimeout(r,150));
+}
+lastBulkResults=results;
+let html='<table class="bulk-table"><tr><th>Address</th><th>Type</th><th>Vendor</th></tr>';
+results.forEach(r=>{html+='<tr><td>'+r.address+'</td><td>'+r.type+'</td><td>'+r.vendor+'</td></tr>'});
+html+='</table>';
+if(lines.length>40) html+='<div style="padding:8px 10px;color:#94a3b8;font-family:-apple-system,sans-serif;font-size:12px">Showing first 40 of '+lines.length+' entries.</div>';
+el.innerHTML=html;
+}
+function bulkToCsv(){
+if(lastBulkResults.length===0) return null;
+const header='Address,Type,Vendor\n';
+const rows=lastBulkResults.map(r=>'"'+r.address+'","'+r.type+'","'+(r.vendor||'').replace(/"/g,'""')+'"').join('\n');
+return header+rows;
+}
+function copyBulkCsv(){
+const csv=bulkToCsv();
+if(!csv){alert('Run a bulk lookup first.');return}
+navigator.clipboard.writeText(csv);
+}
+function downloadBulkCsv(){
+const csv=bulkToCsv();
+if(!csv){alert('Run a bulk lookup first.');return}
+const blob=new Blob([csv],{type:'text/csv'});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+a.href=url;a.download='mac-lookup-results.csv';a.click();
+URL.revokeObjectURL(url);
 }
 
 function ipToInt(ip){const parts=ip.split('.').map(Number);if(parts.length!==4||parts.some(p=>isNaN(p)||p<0||p>255))return null;return((parts[0]<<24)|(parts[1]<<16)|(parts[2]<<8)|parts[3])>>>0}
@@ -262,6 +435,7 @@ document.getElementById('macInput').addEventListener('keydown',e=>{if(e.key==='E
 document.getElementById('subnetInput').addEventListener('keydown',e=>{if(e.key==='Enter')calcSubnet()});
 document.getElementById('ipInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupIp()});
 document.getElementById('dnsInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupDns()});
+renderMacRecent();
 </script>
 
 </body>
