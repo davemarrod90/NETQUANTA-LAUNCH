@@ -1,0 +1,17 @@
+{
+  "name": "netquanta-launch",
+  "version": "1.0.0",
+  "description": "NetQuanta - Network Consulting Services",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static HTML site - no build step required'",
+    "lint": "echo 'No linter configured for static HTML'"
+  },
+  "keywords": ["networking", "consulting"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1"
+  }
+}
