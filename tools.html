@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/logo-icon-180.png">
 <title>MAC Vendor Lookup, Subnet Calculator & IP/DNS Tools | NetQuanta</title>
 <meta name="description" content="Free MAC address vendor lookup tool — instantly find the manufacturer of any device from its MAC address. Also includes a subnet/CIDR calculator, IP info lookup, and DNS lookup tool. No signup required.">
 <link rel="canonical" href="https://www.netquanta.net/tools.html">
@@ -89,6 +93,11 @@ button.run:focus-visible,input:focus-visible,.tab:focus-visible,.nav-links a:foc
 .output .v{color:var(--nq-navy)}
 .output-row{padding:3px 0}
 .output .err{color:#dc2626}
+.panel .sub code{background:#F1F5F9;color:var(--nq-navy);padding:1px 5px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+.path-row{padding:8px 0;border-bottom:0.5px solid #f1f5f9}
+.path-row:last-child{border-bottom:none}
+.path-row .path-meta{color:var(--muted);font-size:11px;margin-bottom:2px}
+.path-row .path-str{color:#1e293b;word-break:break-all}
 
 .mode-tabs{display:flex;gap:6px;margin-bottom:1rem}
 .mode-tab{background:#fff;border:0.5px solid #cbd5e1;cursor:pointer;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:500;padding:6px 14px;border-radius:6px}
@@ -185,6 +194,7 @@ Net<span>Quanta</span>
 <button class="tab" data-tool="subnet" onclick="selectTool('subnet')">Subnet Calc</button>
 <button class="tab" data-tool="ip" onclick="selectTool('ip')">IP Info</button>
 <button class="tab" data-tool="dns" onclick="selectTool('dns')">DNS Lookup</button>
+<button class="tab" data-tool="bgp" onclick="selectTool('bgp')">BGP Looking Glass</button>
 </div>
 
 <div class="panel active" id="panel-mac">
@@ -256,6 +266,16 @@ Net<span>Quanta</span>
 <button class="run" onclick="lookupDns()">Query</button>
 </div>
 <div class="output" id="dnsOutput"><span class="muted">DNS records will appear here.</span></div>
+</div>
+
+<div class="panel" id="panel-bgp">
+<h2>BGP Looking Glass</h2>
+<p class="sub">Real routing data from RIPE NCC's global BGP collectors. Enter an IP, a CIDR prefix, or an ASN (e.g. <code>AS15169</code>).</p>
+<div class="field-row">
+<input type="text" id="bgpInput" placeholder="e.g. 8.8.8.0/24 or AS15169" autocomplete="off">
+<button class="run" onclick="lookupBgp()">Look up</button>
+</div>
+<div class="output" id="bgpOutput"><span class="muted">Routing data will appear here.</span></div>
 </div>
 </div>
 
@@ -452,10 +472,49 @@ el.innerHTML=html;
 }catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
 }
 
+async function lookupBgp(){
+const el=document.getElementById('bgpOutput');
+const raw=document.getElementById('bgpInput').value.trim();
+if(!raw){el.innerHTML='<span class="err">Enter an IP, prefix, or ASN first.</span>';return}
+el.innerHTML='<span class="muted">Querying RIPE NCC routing data…</span>';
+try{
+const resp=await fetch('/api/bgp-lookup?resource='+encodeURIComponent(raw));
+const data=await resp.json();
+if(data.error){el.innerHTML='<span class="err">'+data.error+'</span>';return}
+
+if(data.type==='asn'){
+let html=row('ASN',data.asn)+row('Holder',data.holder||'—')+row('Currently announced',data.announced?'Yes':'No')+row('Prefixes announced',data.prefixCount);
+if(data.samplePrefixes&&data.samplePrefixes.length>0){
+html+='<div style="margin-top:10px;padding-top:10px;border-top:0.5px solid #f1f5f9"><div class="path-meta" style="margin-bottom:6px">Sample announced prefixes</div>';
+data.samplePrefixes.forEach(p=>{html+='<div class="path-str">'+p+'</div>'});
+html+='</div>';
+}
+el.innerHTML=html;
+return;
+}
+
+if(data.type==='prefix'){
+const holders=(data.holders||[]).map(h=>h.asn+' — '+(h.holder||'unknown')).join('<br>')||'—';
+let html=row('Resource',data.resource)+row('Origin AS(es)',holders)+row('Currently announced',data.announced?'Yes':'No')+row('Visibility (RIS peers)',data.visibility!=null?data.visibility:'—')+row('First seen',data.firstSeen||'—')+row('Last seen',data.lastSeen||'—');
+if(data.paths&&data.paths.length>0){
+html+='<div style="margin-top:10px;padding-top:10px;border-top:0.5px solid #f1f5f9"><div class="path-meta" style="margin-bottom:6px">Sample AS paths seen by RIS route collectors</div>';
+data.paths.forEach(p=>{
+html+='<div class="path-row"><div class="path-meta">'+p.location+' · origin AS'+p.origin+'</div><div class="path-str">'+p.asPath+'</div></div>';
+});
+html+='</div>';
+} else {
+html+='<div style="margin-top:10px;padding-top:10px;border-top:0.5px solid #f1f5f9;color:#94a3b8;font-size:12.5px">No live AS paths currently seen by RIS collectors for this resource.</div>';
+}
+el.innerHTML=html;
+return;
+}
+}catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
+}
 document.getElementById('macInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupMac()});
 document.getElementById('subnetInput').addEventListener('keydown',e=>{if(e.key==='Enter')calcSubnet()});
 document.getElementById('ipInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupIp()});
 document.getElementById('dnsInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupDns()});
+document.getElementById('bgpInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupBgp()});
 renderMacRecent();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
