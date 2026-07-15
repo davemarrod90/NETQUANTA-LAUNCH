@@ -275,6 +275,21 @@ Net<span>Quanta</span>
 <input type="text" id="bgpInput" placeholder="e.g. 8.8.8.0/24, AS15169, or Cogent" autocomplete="off">
 <button class="run" onclick="lookupBgp()">Look up</button>
 </div>
+<div class="recent-wrap" style="display:block;margin-top:0;margin-bottom:1.1rem">
+<div class="recent-label">Quick lookups — major networks</div>
+<div class="recent-chips">
+<button class="recent-chip" onclick="bgpSelectAsn('AS174')">Cogent · AS174</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS3356')">Lumen · AS3356</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS6939')">Hurricane Electric · AS6939</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS1299')">Arelion · AS1299</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS7018')">AT&amp;T · AS7018</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS3257')">GTT · AS3257</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS7922')">Comcast · AS7922</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS15169')">Google · AS15169</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS13335')">Cloudflare · AS13335</button>
+<button class="recent-chip" onclick="bgpSelectAsn('AS23089')">Hotwire · AS23089</button>
+</div>
+</div>
 <div class="output" id="bgpOutput"><span class="muted">Routing data will appear here.</span></div>
 </div>
 </div>
