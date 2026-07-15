@@ -270,9 +270,9 @@ Net<span>Quanta</span>
 
 <div class="panel" id="panel-bgp">
 <h2>BGP Looking Glass</h2>
-<p class="sub">Real routing data from RIPE NCC's global BGP collectors. Enter an IP, a CIDR prefix, or an ASN (e.g. <code>AS15169</code>).</p>
+<p class="sub">Real routing data from RIPE NCC's global BGP collectors. Enter an IP, a CIDR prefix, an ASN (e.g. <code>AS15169</code>), or an organization name (e.g. <code>Cogent</code>).</p>
 <div class="field-row">
-<input type="text" id="bgpInput" placeholder="e.g. 8.8.8.0/24 or AS15169" autocomplete="off">
+<input type="text" id="bgpInput" placeholder="e.g. 8.8.8.0/24, AS15169, or Cogent" autocomplete="off">
 <button class="run" onclick="lookupBgp()">Look up</button>
 </div>
 <div class="output" id="bgpOutput"><span class="muted">Routing data will appear here.</span></div>
@@ -472,10 +472,31 @@ el.innerHTML=html;
 }catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
 }
 
+function bgpIsAsnLike(v){return /^(AS)?\d+$/i.test(v)}
+function bgpIsIpLike(v){return /^\d{1,3}(\.\d{1,3}){3}(\/\d{1,2})?$/.test(v)||(/^[0-9a-fA-F:]+(\/\d{1,3})?$/.test(v)&&v.includes(':'))}
+
 async function lookupBgp(){
 const el=document.getElementById('bgpOutput');
 const raw=document.getElementById('bgpInput').value.trim();
-if(!raw){el.innerHTML='<span class="err">Enter an IP, prefix, or ASN first.</span>';return}
+if(!raw){el.innerHTML='<span class="err">Enter an IP, prefix, ASN, or organization name first.</span>';return}
+
+// Name search branch: not an IP, not an ASN → search organizations
+if(!bgpIsAsnLike(raw)&&!bgpIsIpLike(raw)){
+el.innerHTML='<span class="muted">Searching organizations…</span>';
+try{
+const resp=await fetch('/api/asn-search?q='+encodeURIComponent(raw));
+const data=await resp.json();
+if(data.error){el.innerHTML='<span class="err">'+data.error+'</span>';return}
+if(!data.matches||data.matches.length===0){el.innerHTML='<span class="err">No organizations found matching "'+raw+'".</span>';return}
+let html='<div class="path-meta" style="margin-bottom:8px">'+data.count+' match(es) — click one to view its routing data</div>';
+data.matches.forEach(m=>{
+html+='<div class="path-row" style="cursor:pointer" onclick="bgpSelectAsn(\''+m.asn+'\')"><div class="path-str"><strong>'+m.asn+'</strong> — '+m.name+(m.type&&m.type!=='Unknown'?' <span class="path-meta" style="display:inline">('+m.type+')</span>':'')+'</div></div>';
+});
+el.innerHTML=html;
+}catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
+return;
+}
+
 el.innerHTML='<span class="muted">Querying RIPE NCC routing data…</span>';
 try{
 const resp=await fetch('/api/bgp-lookup?resource='+encodeURIComponent(raw));
@@ -510,6 +531,11 @@ return;
 }
 }catch(err){el.innerHTML='<span class="err">'+err.message+'</span>'}
 }
+function bgpSelectAsn(asn){
+document.getElementById('bgpInput').value=asn;
+lookupBgp();
+}
+
 document.getElementById('macInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupMac()});
 document.getElementById('subnetInput').addEventListener('keydown',e=>{if(e.key==='Enter')calcSubnet()});
 document.getElementById('ipInput').addEventListener('keydown',e=>{if(e.key==='Enter')lookupIp()});
