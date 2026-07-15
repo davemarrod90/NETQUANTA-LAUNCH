@@ -1,5 +1,5 @@
 function isAsn(input) {
-  return /^AS\d+$/i.test(input.trim());
+  return /^(AS)?\d+$/i.test(input.trim());
 }
 function isIpOrPrefix(input) {
   const v = input.trim();
