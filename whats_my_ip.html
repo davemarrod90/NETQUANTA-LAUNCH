@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/logo-icon-180.png">
+<title>What Is My IP Address? — Free IP Lookup | NetQuanta</title>
+<meta name="description" content="See your public IP address instantly, along with your ISP, ASN, approximate location, and connection details. Free, no signup, works for IPv4 and IPv6.">
+<link rel="canonical" href="https://www.netquanta.net/whats-my-ip.html">
+<meta property="og:title" content="What Is My IP Address? — Free IP Lookup | NetQuanta">
+<meta property="og:description" content="See your public IP address instantly, with ISP, ASN, and location details.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.netquanta.net/whats-my-ip.html">
+<meta name="theme-color" content="#070C16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"What is my IP address?","acceptedAnswer":{"@type":"Answer","text":"Your public IP address is the address your internet provider assigns to your connection. Every site you visit sees it. This page shows it to you along with your ISP, network operator, and approximate location."}},
+    {"@type":"Question","name":"What is the difference between a public and private IP address?","acceptedAnswer":{"@type":"Answer","text":"A public IP address identifies your connection on the internet and is assigned by your provider. A private IP address, such as 192.168.1.10, is used only inside your own network and is not visible to websites."}},
+    {"@type":"Question","name":"Does my IP address change?","acceptedAnswer":{"@type":"Answer","text":"Most residential and small business connections use dynamic addressing, so the address can change when equipment restarts or a lease expires. Static addresses stay fixed and are usually a paid option from the provider."}}
+  ]
+}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rack:#070C16;
+  --panel:#0D1523;
+  --panel-2:#131E30;
+  --rule:rgba(124,170,214,0.14);
+  --rule-soft:rgba(124,170,214,0.08);
+  --beam:#46C8F0;
+  --beam-dim:rgba(70,200,240,0.16);
+  --led:#34D399;
+  --text:#DAE6F2;
+  --mute:#8298B0;
+  --mute-2:#5E738C;
+  --sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--rack);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;position:relative}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--rule-soft) 1px,transparent 1px),linear-gradient(90deg,var(--rule-soft) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 0%,transparent 75%);
+}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+
+.nav{position:sticky;top:0;z-index:200;background:rgba(7,12,22,0.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;color:var(--text);letter-spacing:-0.015em}
+.brand svg{width:24px;height:24px}
+.nav-right{display:flex;align-items:center;gap:1.6rem}
+.nav-right a{font-size:14px;color:var(--mute)}
+.nav-right a:hover{color:var(--text)}
+.nav-cta{border:1px solid var(--beam-dim);background:rgba(70,200,240,0.07);color:var(--beam)!important;padding:7px 15px;border-radius:4px;font-size:13.5px;font-weight:500}
+.nav-cta:hover{background:rgba(70,200,240,0.14);border-color:rgba(70,200,240,0.4)}
+
+/* readout */
+.readout{padding:4.5rem 0 3.5rem;border-bottom:1px solid var(--rule)}
+h1{font-size:clamp(1.5rem,2.6vw,1.9rem);font-weight:600;letter-spacing:-0.024em;margin-bottom:0.5rem}
+.lede{font-size:15px;color:var(--mute);max-width:56ch;margin-bottom:2.5rem}
+
+.ipcard{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:2.25rem 2rem;position:relative;overflow:hidden}
+.ipcard::before{content:'';position:absolute;top:-1px;left:-1px;width:46px;height:2px;background:var(--beam)}
+.ip-label{font-family:var(--mono);font-size:11.5px;color:var(--mute-2);margin-bottom:0.9rem;display:flex;align-items:center;gap:9px}
+.ip-label .dot{width:6px;height:6px;border-radius:50%;background:var(--led);display:inline-block}
+.ip-value{font-family:var(--mono);font-size:clamp(1.7rem,5.2vw,2.9rem);font-weight:500;color:var(--beam);letter-spacing:-0.01em;line-height:1.15;word-break:break-all}
+.ip-value.pending{color:var(--mute-2)}
+.ip-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:1.15rem}
+.ver{font-family:var(--mono);font-size:11px;color:var(--beam);border:1px solid var(--beam-dim);border-radius:3px;padding:3px 8px}
+.copy{background:transparent;border:1px solid var(--rule);color:var(--mute);border-radius:3px;padding:5px 12px;font-family:var(--sans);font-size:12.5px;cursor:pointer}
+.copy:hover{border-color:rgba(70,200,240,0.4);color:var(--text)}
+
+.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:2rem}
+.dcell{padding:1.1rem 1.3rem 1.1rem 0;border-top:1px solid var(--rule)}
+.dcell+.dcell{padding-left:1.3rem;border-left:1px solid var(--rule-soft)}
+.dcell dt{font-family:var(--mono);font-size:11px;color:var(--mute-2);margin-bottom:0.35rem}
+.dcell dd{font-size:14.5px;color:var(--text);line-height:1.5;word-break:break-word}
+
+.sec{padding:4rem 0;border-bottom:1px solid var(--rule)}
+.sec h2{font-size:clamp(1.4rem,2.4vw,1.7rem);font-weight:600;letter-spacing:-0.022em;margin-bottom:0.6rem}
+.sec>.wrap>p.sub{font-size:15px;color:var(--mute);max-width:58ch;margin-bottom:2.2rem}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.kv{list-style:none}
+.kv li{display:grid;grid-template-columns:150px 1fr;gap:1rem;padding:0.8rem 0;border-top:1px solid var(--rule)}
+.kv li:last-child{border-bottom:1px solid var(--rule)}
+.kv .k{font-family:var(--mono);font-size:12.5px;color:var(--mute-2)}
+.kv .v{font-size:13.5px;color:var(--text);word-break:break-word}
+
+.faq{max-width:62ch}
+.faq h3{font-size:15.5px;font-weight:600;margin:1.8rem 0 0.45rem}
+.faq h3:first-child{margin-top:0}
+.faq p{font-size:14.5px;color:var(--mute);line-height:1.75}
+.faq code{font-family:var(--mono);font-size:13px;color:var(--beam)}
+
+.tool-list{list-style:none;max-width:760px}
+.tool-list li{border-top:1px solid var(--rule)}
+.tool-list li:last-child{border-bottom:1px solid var(--rule)}
+.tool-list a{display:flex;align-items:baseline;gap:0.9rem;padding:14px 4px;transition:padding-left .15s}
+.tool-list a:hover{padding-left:9px}
+.tool-list .tname{font-size:15px;font-weight:500;min-width:184px}
+.tool-list .tdesc{font-size:13.5px;color:var(--mute);line-height:1.5}
+.tool-list a:hover .tname{color:var(--beam)}
+
+.foot{padding:2rem 0}
+.foot-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.foot-brand{font-size:15px;font-weight:600;color:var(--text)}
+.foot-links{display:flex;gap:1.35rem}
+.foot-links a{font-size:13px;color:var(--mute-2)}
+.foot-links a:hover{color:var(--text)}
+.foot-copy{font-size:12.5px;color:var(--mute-2)}
+
+:focus-visible{outline:2px solid var(--beam);outline-offset:3px}
+
+@media (max-width:940px){
+  .detail-grid{grid-template-columns:1fr 1fr}
+  .dcell:nth-child(odd){padding-left:0;border-left:none}
+  .dcell:nth-child(even){padding-left:1.3rem;border-left:1px solid var(--rule-soft)}
+  .two{grid-template-columns:1fr;gap:2rem}
+  .sec{padding:3rem 0}
+  .readout{padding:3rem 0 2.5rem}
+}
+@media (max-width:620px){
+  .wrap{padding:0 1.25rem}
+  .nav-right{gap:1rem}
+  .nav-right .hide-sm{display:none}
+  .detail-grid{grid-template-columns:1fr}
+  .dcell{padding-left:0!important;border-left:none!important}
+  .ipcard{padding:1.6rem 1.3rem}
+  .kv li{grid-template-columns:1fr;gap:0.15rem}
+  .tool-list a{flex-direction:column;gap:2px}
+  .tool-list .tname{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand">
+      <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="13,2 24,8 24,18 13,24 2,18 2,8" stroke="rgba(124,170,214,0.5)" stroke-width="1.1" fill="none"/>
+        <polygon points="13,7 19,10.5 19,17.5 13,21 7,17.5 7,10.5" stroke="#46C8F0" stroke-width="1" fill="rgba(70,200,240,0.1)"/>
+        <circle cx="13" cy="13" r="2.4" fill="#46C8F0"/>
+        <line x1="13" y1="2" x2="13" y2="7" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="13" y1="19" x2="13" y2="24" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="2" y1="8" x2="7" y2="10.5" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="19" y1="17.5" x2="24" y2="20" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="24" y1="8" x2="19" y2="10.5" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="7" y1="17.5" x2="2" y2="20" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+      </svg>
+      NetQuanta
+    </a>
+    <div class="nav-right">
+      <a href="tools.html" class="hide-sm">Tools</a>
+      <a href="/#resources" class="hide-sm">Resources</a>
+      <a href="/#about" class="hide-sm">About</a>
+      <a href="/#contact" class="nav-cta">Request assessment</a>
+    </div>
+  </div>
+</nav>
+
+<section class="readout">
+  <div class="wrap">
+    <h1>What is my IP address?</h1>
+    <p class="lede">This is the public address your internet provider has assigned to your connection. Every website you visit can see it.</p>
+
+    <div class="ipcard">
+      <div class="ip-label"><span class="dot"></span> your public IP address</div>
+      <div class="ip-value pending" id="ipValue">checking…</div>
+      <div class="ip-row" id="ipRow" hidden>
+        <span class="ver" id="ipVer"></span>
+        <button class="copy" id="copyBtn" onclick="copyIp()">Copy</button>
+      </div>
+    </div>
+
+    <dl class="detail-grid" id="detailGrid">
+      <div class="dcell"><dt>provider</dt><dd id="d-isp">—</dd></div>
+      <div class="dcell"><dt>network (ASN)</dt><dd id="d-asn">—</dd></div>
+      <div class="dcell"><dt>location</dt><dd id="d-loc">—</dd></div>
+      <div class="dcell"><dt>timezone</dt><dd id="d-tz">—</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <h2>Connection details</h2>
+    <p class="sub">Network details come from a public address registry. Device details are read from your browser and never leave it.</p>
+    <div class="two">
+      <ul class="kv">
+        <li><span class="k">ip address</span><span class="v" id="k-ip">—</span></li>
+        <li><span class="k">ip version</span><span class="v" id="k-ver">—</span></li>
+        <li><span class="k">provider</span><span class="v" id="k-isp">—</span></li>
+        <li><span class="k">organization</span><span class="v" id="k-org">—</span></li>
+        <li><span class="k">asn</span><span class="v" id="k-asn">—</span></li>
+        <li><span class="k">country</span><span class="v" id="k-country">—</span></li>
+      </ul>
+      <ul class="kv">
+        <li><span class="k">browser timezone</span><span class="v" id="b-tz">—</span></li>
+        <li><span class="k">language</span><span class="v" id="b-lang">—</span></li>
+        <li><span class="k">platform</span><span class="v" id="b-plat">—</span></li>
+        <li><span class="k">screen</span><span class="v" id="b-screen">—</span></li>
+        <li><span class="k">viewport</span><span class="v" id="b-view">—</span></li>
+        <li><span class="k">connection</span><span class="v" id="b-proto">—</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <h2>Common questions</h2>
+    <div class="faq">
+      <h3>What is a public IP address?</h3>
+      <p>It is the address your internet provider assigns to your connection, and it is how the rest of the internet reaches you. Servers you connect to see this address rather than the individual devices behind it.</p>
+
+      <h3>How is that different from my private IP?</h3>
+      <p>Addresses like <code>192.168.1.10</code> or <code>10.0.0.5</code> are private. They exist only inside your own network and are not routable on the internet. Your router translates between the private addresses on your devices and the single public address shown above.</p>
+
+      <h3>Does my IP address change?</h3>
+      <p>Usually, yes. Most residential and small business connections use dynamic addressing, so the address can change when your modem restarts or the lease renews. A static address stays fixed and is normally a paid add-on from the provider. If you host anything on site, a static address is often worth having.</p>
+
+      <h3>Why does the location look wrong?</h3>
+      <p>Geolocation maps an address block to wherever the provider registered it, which is frequently a regional facility rather than your building. Being off by a city, or landing on your provider's headquarters entirely, is normal and not a sign of anything being misconfigured.</p>
+
+      <h3>Is this address private information?</h3>
+      <p>Every site you visit already receives it, so it is not secret. It does not reveal your name or street address on its own, though your provider can tie it to an account. A VPN replaces it with the address of the VPN server.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <h2>Other tools</h2>
+    <p class="sub">Free, no signup, no rate-limited trial.</p>
+    <ul class="tool-list">
+      <li><a href="tools.html#ip"><span class="tname">IP info lookup</span><span class="tdesc">Look up any address, not just your own</span></a></li>
+      <li><a href="tools.html#bgp"><span class="tname">BGP looking glass</span><span class="tdesc">Live routing data and AS paths from RIPE NCC collectors</span></a></li>
+      <li><a href="tools.html#mac"><span class="tname">MAC vendor lookup</span><span class="tdesc">Resolve any OUI to its manufacturer, single or in bulk</span></a></li>
+      <li><a href="tools.html#subnet"><span class="tname">Subnet calculator</span><span class="tdesc">Full CIDR breakdown, masks, and usable ranges</span></a></li>
+      <li><a href="tools.html#dns"><span class="tname">DNS lookup</span><span class="tdesc">Query records over DNS-over-HTTPS</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-brand">NetQuanta</div>
+    <div class="foot-links">
+      <a href="/#services">Services</a>
+      <a href="tools.html">Tools</a>
+      <a href="/#resources">Resources</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <div class="foot-copy">© 2026 NetQuanta. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+var currentIp = '';
+
+function setText(id, val){
+  var el = document.getElementById(id);
+  if (el) el.textContent = (val === null || val === undefined || val === '') ? '—' : val;
+}
+
+function copyIp(){
+  if (!currentIp) return;
+  navigator.clipboard.writeText(currentIp).then(function(){
+    var b = document.getElementById('copyBtn');
+    b.textContent = 'Copied';
+    setTimeout(function(){ b.textContent = 'Copy'; }, 1500);
+  });
+}
+
+function fillBrowser(){
+  try { setText('b-tz', Intl.DateTimeFormat().resolvedOptions().timeZone); } catch(e) { setText('b-tz', null); }
+  setText('b-lang', navigator.language || null);
+  setText('b-plat', navigator.platform || null);
+  setText('b-screen', screen.width + ' × ' + screen.height);
+  setText('b-view', window.innerWidth + ' × ' + window.innerHeight);
+  setText('b-proto', location.protocol.replace(':','').toUpperCase());
+}
+
+async function loadIp(){
+  var ipEl = document.getElementById('ipValue');
+  try {
+    var resp = await fetch('/api/ip-lookup');
+    var data = await resp.json();
+
+    if (data.error || !data.ip) {
+      ipEl.textContent = 'Unavailable';
+      ipEl.classList.remove('pending');
+      return;
+    }
+
+    currentIp = data.ip;
+    ipEl.textContent = data.ip;
+    ipEl.classList.remove('pending');
+
+    var isV6 = data.ip.indexOf(':') !== -1;
+    document.getElementById('ipVer').textContent = isV6 ? 'IPv6' : 'IPv4';
+    document.getElementById('ipRow').hidden = false;
+
+    var loc = [data.city, data.region].filter(Boolean).join(', ');
+    setText('d-isp', data.isp);
+    setText('d-asn', data.asn);
+    setText('d-loc', loc || data.country);
+    setText('d-tz', data.timezone);
+
+    setText('k-ip', data.ip);
+    setText('k-ver', isV6 ? 'IPv6' : 'IPv4');
+    setText('k-isp', data.isp);
+    setText('k-org', data.org);
+    setText('k-asn', data.asn);
+    setText('k-country', data.country);
+  } catch (err) {
+    ipEl.textContent = 'Unavailable';
+    ipEl.classList.remove('pending');
+  }
+}
+
+fillBrowser();
+loadIp();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+</body>
+</html>
