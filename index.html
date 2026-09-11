@@ -1,402 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/logo-icon-180.png">
+<title>NetQuanta — Network engineering for small and mid-size business</title>
+<meta name="description" content="Network design, audits, and troubleshooting for small and mid-size businesses, built to service-provider standards. Free assessment, plus a set of free network tools.">
+<link rel="canonical" href="https://www.netquanta.net/">
+<meta property="og:title" content="NetQuanta — Network engineering for small and mid-size business">
+<meta property="og:description" content="Network design, audits, and troubleshooting built to service-provider standards.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.netquanta.net/">
+<meta name="theme-color" content="#070C16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-...
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --rack:#070C16;
+  --panel:#0D1523;
+  --panel-2:#131E30;
+  --rule:rgba(124,170,214,0.14);
+  --rule-soft:rgba(124,170,214,0.08);
+  --beam:#46C8F0;
+  --beam-dim:rgba(70,200,240,0.16);
+  --led:#34D399;
+  --text:#DAE6F2;
+  --mute:#8298B0;
+  --mute-2:#5E738C;
+  --sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--rack);
+  color:var(--text);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+/* raised-floor grid, very faint */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--rule-soft) 1px,transparent 1px),linear-gradient(90deg,var(--rule-soft) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 0%,transparent 75%);
+}
+a{color:inherit;text-decoration:none}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-body{font-family:var(--font-sans);color:var(--color-text-primary);background:#fff;line-height:1.6}
-a{text-decoration:none;color:inherit}
-:root{--nq-dark:#0B1D35;--nq-navy:#1B3D6F;--nq-blue:#3B82F6;--nq-teal:#0891B2}
-.container{max-width:1060px;margin:0 auto;padding:0 2rem}
+.wrap{max-width:1140px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
 
-nav{background:#fff;border-bottom:0.5px solid var(--color-border-tertiary);padding:0.9rem 0;position:sticky;top:0;z-index:100}
-.nav-i{display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:20px;font-weight:500;color:var(--nq-navy);letter-spacing:-0.02em;display:flex;align-items:center;gap:8px}
-.logo svg{width:26px;height:26px}
-.logo span{color:var(--nq-blue)}
-.nav-links{display:flex;align-items:center;gap:1.75rem}
-.nav-links a{font-size:14px;color:var(--color-text-secondary)}
-.nav-links a:hover{color:var(--nq-navy)}
-.nav-cta{background:var(--nq-navy);color:#fff!important;padding:0.45rem 1.1rem;border-radius:6px;font-size:14px;font-weight:500}
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:200;background:rgba(7,12,22,0.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;color:var(--text);letter-spacing:-0.015em}
+.brand svg{width:24px;height:24px}
+.nav-right{display:flex;align-items:center;gap:1.6rem}
+.nav-right a,.nav-right button.navlink{font-size:14px;color:var(--mute);font-family:var(--sans);background:none;border:none;cursor:pointer;padding:0;line-height:1.4}
+.nav-right a:hover,.nav-right button.navlink:hover{color:var(--text)}
+.nav-cta{border:1px solid var(--beam-dim);background:rgba(70,200,240,0.07);color:var(--beam)!important;padding:7px 15px;border-radius:4px;font-size:13.5px;font-weight:500}
+.nav-cta:hover{background:rgba(70,200,240,0.14);border-color:rgba(70,200,240,0.4)}
 
-.hero{position:relative;overflow:hidden;background:var(--nq-dark);padding:5rem 0 4.5rem;min-height:500px}
-#net{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
-.hero-content{position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,0.12);border:0.5px solid rgba(59,130,246,0.3);border-radius:20px;padding:5px 14px;margin-bottom:1.5rem}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:#60A5FA;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.hero-badge span{font-size:11px;font-weight:500;color:#93C5FD;letter-spacing:0.06em;text-transform:uppercase}
-.hero h1{font-size:40px;font-weight:500;line-height:1.18;color:#fff;max-width:640px;margin-bottom:1.1rem}
-.hero h1 em{font-style:normal;color:#60A5FA}
-.hero>div>p{font-size:16px;color:rgba(255,255,255,0.55);max-width:500px;margin-bottom:2rem;line-height:1.75}
-.hero-btns{display:flex;gap:0.75rem;flex-wrap:wrap}
-.btn-blue{background:var(--nq-blue);color:#fff;padding:0.7rem 1.5rem;border-radius:6px;font-size:14px;font-weight:500;border:none;cursor:pointer;font-family:var(--font-sans)}
-.btn-ghost{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.85);padding:0.7rem 1.5rem;border-radius:6px;font-size:14px;font-weight:500;border:0.5px solid rgba(255,255,255,0.15);cursor:pointer;font-family:var(--font-sans)}
+.dd{position:relative}
+.dd>button{display:flex;align-items:center;gap:6px}
+.chev{width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-1px);transition:transform .15s}
+.dd.open .chev{transform:rotate(225deg) translateY(-1px)}
+.dd-menu{position:absolute;top:calc(100% + 15px);left:50%;transform:translateX(-50%) translateY(-4px);min-width:240px;background:var(--panel);border:1px solid var(--rule);border-radius:5px;padding:4px;box-shadow:0 18px 44px rgba(0,0,0,0.6);opacity:0;visibility:hidden;transition:opacity .14s,transform .14s,visibility .14s}
+.dd.open .dd-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.dd-menu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:13.5px;color:var(--text);padding:9px 11px;border-radius:3px}
+.dd-menu button:hover{background:var(--panel-2);color:var(--beam)}
+.dd-menu .tag{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--mute-2)}
 
-.stats-bar{background:#fff;border-bottom:0.5px solid var(--color-border-tertiary);padding:1.75rem 0}
-.stats-i{display:flex;justify-content:space-around;flex-wrap:wrap}
-.stat{text-align:center;padding:0 1.5rem}
-.stat+.stat{border-left:0.5px solid var(--color-border-tertiary)}
-.stat-n{font-size:26px;font-weight:500;color:var(--nq-navy)}
-.stat-l{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+/* ---------- hero ---------- */
+.hero{padding:5rem 0 4.5rem;border-bottom:1px solid var(--rule)}
+.hero-grid{display:grid;grid-template-columns:1.08fr 0.92fr;gap:4rem;align-items:center}
+.hero h1{font-size:clamp(2.2rem,4.1vw,3.25rem);font-weight:600;line-height:1.09;letter-spacing:-0.03em;margin-bottom:1.3rem;max-width:16ch}
+.hero p{font-size:16px;line-height:1.75;color:var(--mute);max-width:48ch;margin-bottom:2rem}
+.hero-actions{display:flex;gap:0.65rem;flex-wrap:wrap}
+.btn-primary{background:var(--beam);color:#04202B;border:none;border-radius:4px;padding:12px 22px;font-family:var(--sans);font-size:14.5px;font-weight:600;cursor:pointer}
+.btn-primary:hover{background:#6FD6F5}
+.btn-quiet{background:transparent;color:var(--text);border:1px solid var(--rule);border-radius:4px;padding:12px 22px;font-family:var(--sans);font-size:14.5px;font-weight:500;cursor:pointer}
+.btn-quiet:hover{border-color:rgba(124,170,214,0.35)}
 
-.sec-label{font-size:11px;font-weight:500;color:var(--nq-blue);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;display:flex;align-items:center;gap:8px}
-.sec-label::before{content:'';display:block;width:18px;height:1px;background:var(--nq-blue)}
-.sec-title{font-size:26px;font-weight:500;color:var(--nq-navy);margin-bottom:0.6rem}
-.sec-sub{font-size:15px;color:var(--color-text-secondary);max-width:480px;margin-bottom:2.25rem;line-height:1.7}
+/* ---------- rack ---------- */
+.rack{width:100%;max-width:390px;height:auto;margin:0 auto;display:block}
+.rack .frame{fill:none;stroke:rgba(124,170,214,0.26);stroke-width:1}
+.rack .rail{fill:#0B1320;stroke:rgba(124,170,214,0.18);stroke-width:1}
+.rack .hole{fill:rgba(124,170,214,0.18)}
+.rack .unit{fill:var(--panel);stroke:var(--rule);stroke-width:1}
+.rack .unit-key{fill:#0F1D2E;stroke:rgba(70,200,240,0.34);stroke-width:1}
+.rack .blank{fill:#090F1A;stroke:var(--rule-soft);stroke-width:1}
+.rack .port{fill:rgba(124,170,214,0.2)}
+.rack .port-lit{fill:rgba(70,200,240,0.5)}
+.rack text{font-family:var(--mono);font-size:7.4px;fill:var(--mute);letter-spacing:0.02em}
+.rack text.lbl-key{fill:#8FDCF5}
+.rack text.cap{font-size:7px;fill:var(--mute-2)}
+.rack .led{opacity:0}
+.rack .led-a{fill:var(--led)}
+.rack .led-b{fill:var(--beam)}
 
-.services{padding:4rem 0;background:#fff;position:relative;overflow:hidden}
-.hex-deco{position:absolute;right:-80px;top:0;width:400px;height:400px;opacity:0.03;pointer-events:none}
-.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1rem}
-.svc-card{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:1.4rem;transition:border-color 0.2s,transform 0.2s}
-.svc-card:hover{border-color:rgba(59,130,246,0.35);transform:translateY(-2px)}
-.svc-icon{width:38px;height:38px;background:#EFF6FF;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem}
-.svc-icon svg{width:18px;height:18px;stroke:#2563EB;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.svc-card h3{font-size:14px;font-weight:500;margin-bottom:0.4rem;color:var(--nq-navy)}
-.svc-card p{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+@media (prefers-reduced-motion: no-preference){
+  .rack .led{animation:boot .3s ease forwards}
+  .rack .u1{animation-delay:.35s}.rack .u2{animation-delay:.5s}.rack .u3{animation-delay:.65s}
+  .rack .u4{animation-delay:.8s}.rack .u5{animation-delay:.95s}.rack .u6{animation-delay:1.1s}
+  .rack .u7{animation-delay:1.25s}.rack .u8{animation-delay:1.4s}
+  .rack .traffic{animation:boot .3s ease .95s forwards,blink 2.6s steps(1) 1.6s infinite}
+  @keyframes boot{to{opacity:1}}
+  @keyframes blink{0%,55%{opacity:1}56%,72%{opacity:.25}73%{opacity:1}}
+}
+@media (prefers-reduced-motion: reduce){ .rack .led{opacity:1} }
 
-.how{padding:4rem 0;background:#F0F7FF;border-top:0.5px solid var(--color-border-tertiary);border-bottom:0.5px solid var(--color-border-tertiary)}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:0.5rem}
-.step{padding:1.5rem 2rem 1.5rem 1rem;position:relative}
-.step+.step{border-left:0.5px solid var(--color-border-tertiary)}
-.step-n{font-size:44px;font-weight:500;color:rgba(37,99,235,0.1);line-height:1;margin-bottom:0.4rem}
-.step h3{font-size:14px;font-weight:500;color:var(--nq-navy);margin-bottom:0.35rem}
-.step p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+/* ---------- capability strip ---------- */
+.strip{border-bottom:1px solid var(--rule);padding:1.15rem 0}
+.strip-in{display:flex;flex-wrap:wrap;align-items:baseline;gap:0.45rem 2rem}
+.strip-lead{font-size:13px;color:var(--mute-2)}
+.strip .item{font-family:var(--mono);font-size:12.5px;color:var(--mute)}
 
-.contact-sec{padding:4rem 0;background:#fff}
-.contact-inner{display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;align-items:start}
-.contact-info>p{font-size:14px;color:var(--color-text-secondary);line-height:1.8;margin-bottom:1.5rem}
-.c-detail{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.5}
-.c-detail svg{width:15px;height:15px;stroke:var(--nq-blue);fill:none;stroke-width:1.5;min-width:15px;margin-top:1px;stroke-linecap:round;stroke-linejoin:round}
-.c-promise{background:#F0F7FF;border:0.5px solid #BFDBFE;border-radius:8px;padding:1rem 1.25rem;margin-top:1.5rem}
-.c-promise p{font-size:12px;color:#1E40AF;line-height:1.6}
-.c-promise strong{font-weight:500}
+/* ---------- sections ---------- */
+.sec{padding:5rem 0;border-bottom:1px solid var(--rule)}
+.sec-panel{background:rgba(13,21,35,0.55)}
+.sec-head{max-width:56ch;margin-bottom:2.8rem}
+.sec-head h2{font-size:clamp(1.55rem,2.7vw,2rem);font-weight:600;letter-spacing:-0.024em;line-height:1.22;margin-bottom:0.65rem}
+.sec-head p{font-size:15px;color:var(--mute);line-height:1.74}
 
-.form-box{background:#F8FAFC;border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:1.75rem}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-.fg{margin-bottom:0.85rem}
-.fg label{display:block;font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.05em}
-.fg input,.fg select,.fg textarea{width:100%;padding:0.55rem 0.75rem;border:0.5px solid var(--color-border-secondary);border-radius:6px;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);background:#fff;outline:none}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--nq-blue)}
-.fg textarea{resize:vertical;min-height:85px;line-height:1.5}
-.checks{display:grid;grid-template-columns:1fr 1fr;gap:0.35rem;margin-top:0.1rem}
-.chk{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary);cursor:pointer}
-.chk input[type=checkbox]{accent-color:var(--nq-blue);width:13px;height:13px}
-.form-btn{width:100%;background:var(--nq-navy);color:#fff;border:none;border-radius:6px;padding:0.75rem;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-sans);margin-top:0.25rem}
-.form-btn:hover{background:#152e54}
-#formSuccess{display:none;text-align:center;padding:2.5rem 1rem}
-.succ-icon{width:50px;height:50px;background:#EFF6FF;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
-.succ-icon svg{width:22px;height:22px;stroke:#2563EB;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-#formSuccess h3{font-size:16px;font-weight:500;color:var(--nq-navy);margin-bottom:0.5rem}
-#formSuccess p{font-size:13px;color:var(--color-text-secondary)}
+/* services */
+.svc-feature{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.svc-big{background:var(--panel);border:1px solid var(--rule);border-radius:5px;padding:1.85rem;position:relative}
+.svc-big::before{content:'';position:absolute;top:-1px;left:-1px;width:38px;height:2px;background:var(--beam)}
+.svc-big .ic{width:30px;height:30px;margin-bottom:1rem;stroke:var(--beam);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.svc-big h3{font-size:17px;font-weight:600;margin-bottom:0.5rem;letter-spacing:-0.015em}
+.svc-big>p{font-size:14.5px;color:var(--mute);line-height:1.7;margin-bottom:1.05rem}
+.svc-big ul{list-style:none}
+.svc-big li{font-size:13.5px;color:var(--text);padding:7px 0 7px 17px;position:relative;border-top:1px solid var(--rule-soft)}
+.svc-big li::before{content:'';position:absolute;left:0;top:15px;width:5px;height:5px;background:var(--beam);border-radius:1px}
 
-.about-strip{padding:3.5rem 0;background:var(--nq-dark);position:relative;overflow:hidden}
-#net2{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.4}
-.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1}
-.about-strip .sec-label{color:#93C5FD}
-.about-strip .sec-label::before{background:#93C5FD}
-.about-strip .sec-title{color:#fff}
-.about-strip .sec-sub{color:rgba(255,255,255,0.55);margin-bottom:0}
-.about-strip p{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.8}
-.a-cards{display:grid;gap:0.75rem}
-.a-card{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem}
-.a-num{font-size:16px;font-weight:500;color:#60A5FA;min-width:100px}
-.a-lbl{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.5}
+.svc-rest{display:grid;grid-template-columns:repeat(4,1fr)}
+.svc-sm{padding:1.35rem 1.4rem 1.35rem 0;border-top:1px solid var(--rule)}
+.svc-sm+.svc-sm{padding-left:1.4rem;border-left:1px solid var(--rule-soft)}
+.svc-sm h4{font-size:14.5px;font-weight:600;margin-bottom:0.32rem}
+.svc-sm p{font-size:13px;color:var(--mute);line-height:1.62}
 
-footer{background:#060E1C;padding:1.5rem 0}
-.ft-i{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.ft-logo{font-size:15px;font-weight:500;color:rgba(255,255,255,0.65)}
-.ft-logo span{color:#60A5FA}
-.ft-links{display:flex;gap:1.25rem}
-.ft-links a{font-size:12px;color:rgba(255,255,255,0.3)}
-.ft-copy{font-size:12px;color:rgba(255,255,255,0.2)}
-.dropdown{position:relative}
-.dropdown>button{background:none;border:none;cursor:pointer;font-size:14px;color:var(--color-text-secondary);font-family:inherit;display:flex;align-items:center;gap:5px;padding:0}
-.dropdown>button:hover{color:var(--nq-navy)}
-.dropdown .chev{width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-top:-2px;transition:transform .15s}
-.dropdown.open .chev{transform:rotate(225deg);margin-top:2px}
-.dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:210px;background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:6px;box-shadow:0 12px 28px rgba(11,29,53,0.12);opacity:0;visibility:hidden;transition:opacity .15s,transform .15s,visibility .15s}
-.dropdown.open .dropdown-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
-.dropdown-menu button{display:flex;align-items:center;width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;font-size:13px;color:var(--nq-navy);padding:9px 11px;border-radius:7px}
-.dropdown-menu button:hover{background:#F0F7FF}
-.dropdown-menu .tag{margin-left:auto;font-size:10px;color:var(--nq-blue);background:#EFF6FF;border-radius:4px;padding:2px 5px}
+/* tools */
+.tools-grid{display:grid;grid-template-columns:1.02fr 1fr;gap:3.25rem;align-items:center}
+.tool-list{list-style:none}
+.tool-list li{border-top:1px solid var(--rule)}
+.tool-list li:last-child{border-bottom:1px solid var(--rule)}
+.tool-list a{display:flex;align-items:baseline;gap:0.9rem;padding:14px 4px;transition:padding-left .15s}
+.tool-list a:hover{padding-left:9px}
+.tool-list .tname{font-size:15px;font-weight:500;min-width:184px}
+.tool-list .tdesc{font-size:13.5px;color:var(--mute);line-height:1.5}
+.tool-list a:hover .tname{color:var(--beam)}
+
+.terminal{background:#050A12;border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+.term-bar{display:flex;align-items:center;gap:7px;padding:10px 13px;border-bottom:1px solid var(--rule)}
+.term-bar i{width:7px;height:7px;border-radius:50%;background:rgba(124,170,214,0.2);display:block}
+.term-bar span{font-family:var(--mono);font-size:11px;color:var(--mute-2);margin-left:6px}
+.term-body{padding:15px 17px;font-family:var(--mono);font-size:12.5px;line-height:1.95}
+.term-body .q{color:var(--beam)}
+.term-body .k{color:var(--mute-2)}
+.term-body .v{color:var(--text)}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2.25rem}
+.step{padding-top:1.3rem;border-top:1px solid var(--rule);position:relative}
+.step::before{content:'';position:absolute;top:-1px;left:0;width:26px;height:2px;background:var(--beam)}
+.step h3{font-size:15.5px;font-weight:600;margin-bottom:0.42rem}
+.step p{font-size:14px;color:var(--mute);line-height:1.68}
+
+/* resources */
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.res{display:block;background:var(--panel);border:1px solid var(--rule);border-radius:5px;padding:1.5rem;transition:border-color .15s,background .15s}
+.res:hover{border-color:rgba(70,200,240,0.4);background:var(--panel-2)}
+.res .kind{font-family:var(--mono);font-size:11px;color:var(--beam);margin-bottom:0.65rem;display:block}
+.res h3{font-size:15.5px;font-weight:600;line-height:1.36;margin-bottom:0.42rem;letter-spacing:-0.012em}
+.res p{font-size:13.5px;color:var(--mute);line-height:1.65}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:3.5rem;align-items:start}
+.cdet{display:flex;gap:11px;font-size:14px;color:var(--mute);margin-bottom:0.8rem;line-height:1.5}
+.cdet svg{width:15px;height:15px;stroke:var(--beam);fill:none;stroke-width:1.5;min-width:15px;margin-top:4px;stroke-linecap:round;stroke-linejoin:round}
+.promise{border:1px solid var(--rule);border-left:2px solid var(--beam);border-radius:0 4px 4px 0;padding:1rem 1.2rem;margin-top:1.5rem;background:rgba(13,21,35,0.6)}
+.promise p{font-size:13.5px;color:var(--text);line-height:1.68}
+
+.formbox{background:var(--panel);border:1px solid var(--rule);border-radius:5px;padding:1.85rem}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem}
+.fg{margin-bottom:0.95rem}
+.fg label{display:block;font-size:12.5px;font-weight:500;color:var(--mute);margin-bottom:0.38rem}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:4px;font-size:14px;font-family:var(--sans);color:var(--text);background:#080E1A;outline:none}
+.fg input::placeholder,.fg textarea::placeholder{color:#4A5D74}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--beam);background:#0A1220}
+.fg select option{background:#0D1523;color:var(--text)}
+.fg textarea{resize:vertical;min-height:90px;line-height:1.6}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:0.42rem}
+.chk{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--mute);cursor:pointer}
+.chk input{accent-color:var(--beam);width:14px;height:14px}
+.form-btn{width:100%;background:var(--beam);color:#04202B;border:none;border-radius:4px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--sans);margin-top:0.35rem}
+.form-btn:hover{background:#6FD6F5}
+#formSuccess{display:none;text-align:center;padding:2.8rem 1rem}
+.succ{width:50px;height:50px;background:rgba(70,200,240,0.1);border:1px solid rgba(70,200,240,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+.succ svg{width:22px;height:22px;stroke:var(--beam);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#formSuccess h3{font-size:17px;font-weight:600;margin-bottom:0.45rem}
+#formSuccess p{font-size:14px;color:var(--mute);max-width:38ch;margin:0 auto}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+.about-grid p{font-size:15px;color:var(--mute);line-height:1.78;margin-bottom:1rem;max-width:52ch}
+.facts{display:grid}
+.fact{display:grid;grid-template-columns:124px 1fr;gap:1.2rem;padding:1rem 0;border-top:1px solid var(--rule)}
+.fact:last-child{border-bottom:1px solid var(--rule)}
+.fact dt{font-family:var(--mono);font-size:12.5px;color:var(--beam)}
+.fact dd{font-size:13.5px;color:var(--mute);line-height:1.6}
+
+/* footer */
+.foot{padding:2rem 0}
+.foot-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.foot-brand{font-size:15px;font-weight:600;color:var(--text)}
+.foot-links{display:flex;gap:1.35rem}
+.foot-links a{font-size:13px;color:var(--mute-2)}
+.foot-links a:hover{color:var(--text)}
+.foot-copy{font-size:12.5px;color:var(--mute-2)}
+
+:focus-visible{outline:2px solid var(--beam);outline-offset:3px}
+
+@media (max-width:940px){
+  .hero-grid,.tools-grid,.contact-grid,.about-grid{grid-template-columns:1fr;gap:2.75rem}
+  .hero{padding:3.5rem 0 3rem}
+  .svc-feature{grid-template-columns:1fr}
+  .svc-rest{grid-template-columns:1fr 1fr}
+  .svc-sm{padding-right:1.2rem}
+  .svc-sm:nth-child(odd){padding-left:0;border-left:none}
+  .svc-sm:nth-child(even){padding-left:1.2rem;border-left:1px solid var(--rule-soft)}
+  .steps,.res-grid{grid-template-columns:1fr;gap:1.6rem}
+  .sec{padding:3.75rem 0}
+}
+@media (max-width:620px){
+  .wrap{padding:0 1.25rem}
+  .nav-right{gap:1rem}
+  .nav-right .hide-sm{display:none}
+  .frow,.checks,.svc-rest{grid-template-columns:1fr}
+  .svc-sm{padding-left:0!important;border-left:none!important}
+  .tool-list .tname{min-width:0}
+  .tool-list a{flex-direction:column;gap:2px}
+  .fact{grid-template-columns:1fr;gap:0.18rem}
+}
 </style>
+</head>
+<body>
 
-<h2 class="sr-only">NetQuanta — Enterprise Network Consulting for Small and Medium Businesses</h2>
+<h2 class="sr-only">NetQuanta — network engineering for small and mid-size businesses</h2>
 
-<nav>
-  <div class="container">
-    <div class="nav-i">
-      <div class="logo">
-        <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="13,2 24,8 24,18 13,24 2,18 2,8" stroke="#1B3D6F" stroke-width="1.2" fill="none"/>
-          <polygon points="13,7 19,10.5 19,17.5 13,21 7,17.5 7,10.5" stroke="#3B82F6" stroke-width="1" fill="rgba(59,130,246,0.08)"/>
-          <circle cx="13" cy="13" r="2.5" fill="#3B82F6"/>
-          <line x1="13" y1="2" x2="13" y2="7" stroke="#1B3D6F" stroke-width="1"/>
-          <line x1="13" y1="19" x2="13" y2="24" stroke="#1B3D6F" stroke-width="1"/>
-          <line x1="2" y1="8" x2="7" y2="10.5" stroke="#1B3D6F" stroke-width="1"/>
-          <line x1="19" y1="17.5" x2="24" y2="20" stroke="#1B3D6F" stroke-width="1"/>
-          <line x1="24" y1="8" x2="19" y2="10.5" stroke="#1B3D6F" stroke-width="1"/>
-          <line x1="7" y1="17.5" x2="2" y2="20" stroke="#1B3D6F" stroke-width="1"/>
-        </svg>
-        Net<span>Quanta</span>
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a href="/" class="brand">
+      <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="13,2 24,8 24,18 13,24 2,18 2,8" stroke="rgba(124,170,214,0.5)" stroke-width="1.1" fill="none"/>
+        <polygon points="13,7 19,10.5 19,17.5 13,21 7,17.5 7,10.5" stroke="#46C8F0" stroke-width="1" fill="rgba(70,200,240,0.1)"/>
+        <circle cx="13" cy="13" r="2.4" fill="#46C8F0"/>
+        <line x1="13" y1="2" x2="13" y2="7" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="13" y1="19" x2="13" y2="24" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="2" y1="8" x2="7" y2="10.5" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="19" y1="17.5" x2="24" y2="20" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="24" y1="8" x2="19" y2="10.5" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+        <line x1="7" y1="17.5" x2="2" y2="20" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+      </svg>
+      NetQuanta
+    </a>
+    <div class="nav-right">
+      <a href="#services" class="hide-sm">Services</a>
+      <div class="dd" id="toolsDropdown">
+        <button type="button" class="navlink" onclick="toggleDropdown()">Tools <span class="chev"></span></button>
+        <div class="dd-menu">
+          <button onclick="window.location.href='tools.html#mac'">MAC vendor lookup <span class="tag">OUI</span></button>
+          <button onclick="window.location.href='tools.html#subnet'">Subnet calculator <span class="tag">CIDR</span></button>
+          <button onclick="window.location.href='tools.html#ip'">IP info lookup <span class="tag">GEO</span></button>
+          <button onclick="window.location.href='tools.html#dns'">DNS lookup <span class="tag">DoH</span></button>
+          <button onclick="window.location.href='tools.html#bgp'">BGP looking glass <span class="tag">ASN</span></button>
+        </div>
       </div>
-      <div class="nav-links">
-        <a href="#svc">Services</a>
-        <a href="#how">How it works</a>
-        <div class="dropdown" id="toolsDropdown">
-        <button type="button" ="toggleDropdown()">Tools <span class="chev"></span></button>
-        <div class="dropdown-menu">
-        <button ="window.location.href='tools.html#mac'">MAC Vendor Lookup <span class="tag">OUI</span></button>
-        <button ="window.location.href='tools.html#subnet'">Subnet Calculator <span class="tag">CIDR</span></button>
-        <button ="window.location.href='tools.html#ip'">IP Info Lookup <span class="tag">GEO</span></button>
-        <button ="window.location.href='tools.html#dns'">DNS Lookup <span class="tag">DoH</span></button>
-      </div>
-    </div>
-<a href="#about">About</a>
-<a href="#contact" class="nav-cta">Get Assessment</a>
-</div>
-      </div>
+      <a href="#resources" class="hide-sm">Resources</a>
+      <a href="#about" class="hide-sm">About</a>
+      <a href="#contact" class="nav-cta">Request assessment</a>
     </div>
   </div>
 </nav>
 
-<section class="hero">
-  <canvas id="net"></canvas>
-  <div class="container hero-content">
-    <div class="hero-badge"><div class="badge-dot"></div><span>Network Consulting · SP Grade</span></div>
-    <h1>Enterprise Networking,<br>Built for <em>Growing</em> Businesses</h1>
-    <p>NetQuanta brings carrier-grade expertise to small and medium businesses — the infrastructure knowledge your company needs, without the enterprise price tag.</p>
-    <div class="hero-btns">
-      <button class="btn-blue" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a Free Assessment</button>
-      <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works →</button>
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Your network, built to service-provider standards.</h1>
+      <p>Most small businesses get sold consumer gear by generalist IT shops. NetQuanta designs, audits, and fixes business networks using the practices that keep regional ISP backbones online.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Request a free assessment</button>
+        <button class="btn-quiet" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Try the free tools</button>
+      </div>
+    </div>
+
+    <div>
+      <svg class="rack" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rack elevation showing redundant core routers, access switches, fiber patch panel, firewall, out-of-band management, and UPS.">
+        <rect class="frame" x="18" y="14" width="264" height="356" rx="3"/>
+        <rect class="rail" x="18" y="14" width="13" height="356"/>
+        <rect class="rail" x="269" y="14" width="13" height="356"/>
+        <g class="hole">
+          <rect x="23" y="30" width="3" height="3"/><rect x="23" y="62" width="3" height="3"/>
+          <rect x="23" y="94" width="3" height="3"/><rect x="23" y="126" width="3" height="3"/>
+          <rect x="23" y="158" width="3" height="3"/><rect x="23" y="190" width="3" height="3"/>
+          <rect x="23" y="222" width="3" height="3"/><rect x="23" y="254" width="3" height="3"/>
+          <rect x="23" y="286" width="3" height="3"/><rect x="23" y="318" width="3" height="3"/>
+          <rect x="274" y="30" width="3" height="3"/><rect x="274" y="62" width="3" height="3"/>
+          <rect x="274" y="94" width="3" height="3"/><rect x="274" y="126" width="3" height="3"/>
+          <rect x="274" y="158" width="3" height="3"/><rect x="274" y="190" width="3" height="3"/>
+          <rect x="274" y="222" width="3" height="3"/><rect x="274" y="254" width="3" height="3"/>
+          <rect x="274" y="286" width="3" height="3"/><rect x="274" y="318" width="3" height="3"/>
+        </g>
+
+        <!-- core A -->
+        <rect class="unit-key" x="35" y="24" width="230" height="30" rx="2"/>
+        <text class="lbl-key" x="43" y="36">ASR 9006</text>
+        <text x="43" y="47">core-a</text>
+        <g class="port">
+          <rect x="150" y="30" width="7" height="5"/><rect x="160" y="30" width="7" height="5"/>
+          <rect x="170" y="30" width="7" height="5"/><rect x="180" y="30" width="7" height="5"/>
+          <rect x="150" y="40" width="7" height="5"/><rect x="160" y="40" width="7" height="5"/>
+          <rect x="170" y="40" width="7" height="5"/><rect x="180" y="40" width="7" height="5"/>
+        </g>
+        <rect class="port-lit" x="190" y="30" width="7" height="5"/>
+        <rect class="port-lit" x="190" y="40" width="7" height="5"/>
+        <circle class="led led-a u1" cx="252" cy="33" r="2.6"/>
+        <circle class="led led-b traffic" cx="252" cy="45" r="2.6"/>
+
+        <!-- core B -->
+        <rect class="unit-key" x="35" y="58" width="230" height="30" rx="2"/>
+        <text class="lbl-key" x="43" y="70">ASR 9006</text>
+        <text x="43" y="81">core-b</text>
+        <g class="port">
+          <rect x="150" y="64" width="7" height="5"/><rect x="160" y="64" width="7" height="5"/>
+          <rect x="170" y="64" width="7" height="5"/><rect x="180" y="64" width="7" height="5"/>
+          <rect x="150" y="74" width="7" height="5"/><rect x="160" y="74" width="7" height="5"/>
+          <rect x="170" y="74" width="7" height="5"/><rect x="180" y="74" width="7" height="5"/>
+        </g>
+        <rect class="port-lit" x="190" y="64" width="7" height="5"/>
+        <circle class="led led-a u2" cx="252" cy="67" r="2.6"/>
+        <circle class="led led-b u2" cx="252" cy="79" r="2.6"/>
+
+        <rect class="blank" x="35" y="92" width="230" height="12" rx="2"/>
+
+        <!-- patch panel -->
+        <rect class="unit" x="35" y="108" width="230" height="24" rx="2"/>
+        <text x="43" y="123">patch · LC/UPC</text>
+        <g class="port">
+          <rect x="140" y="115" width="5" height="9"/><rect x="148" y="115" width="5" height="9"/>
+          <rect x="156" y="115" width="5" height="9"/><rect x="164" y="115" width="5" height="9"/>
+          <rect x="172" y="115" width="5" height="9"/><rect x="180" y="115" width="5" height="9"/>
+          <rect x="188" y="115" width="5" height="9"/><rect x="196" y="115" width="5" height="9"/>
+          <rect x="204" y="115" width="5" height="9"/><rect x="212" y="115" width="5" height="9"/>
+          <rect x="220" y="115" width="5" height="9"/><rect x="228" y="115" width="5" height="9"/>
+        </g>
+        <rect class="port-lit" x="236" y="115" width="5" height="9"/>
+        <rect class="port-lit" x="244" y="115" width="5" height="9"/>
+
+        <!-- access switches -->
+        <rect class="unit" x="35" y="136" width="230" height="26" rx="2"/>
+        <text x="43" y="152">C9300 · access-01</text>
+        <g class="port">
+          <rect x="152" y="143" width="6" height="5"/><rect x="161" y="143" width="6" height="5"/>
+          <rect x="170" y="143" width="6" height="5"/><rect x="179" y="143" width="6" height="5"/>
+          <rect x="188" y="143" width="6" height="5"/><rect x="197" y="143" width="6" height="5"/>
+          <rect x="152" y="151" width="6" height="5"/><rect x="161" y="151" width="6" height="5"/>
+          <rect x="170" y="151" width="6" height="5"/><rect x="179" y="151" width="6" height="5"/>
+          <rect x="188" y="151" width="6" height="5"/><rect x="197" y="151" width="6" height="5"/>
+        </g>
+        <circle class="led led-a u3" cx="252" cy="149" r="2.6"/>
+
+        <rect class="unit" x="35" y="166" width="230" height="26" rx="2"/>
+        <text x="43" y="182">C9300 · access-02</text>
+        <g class="port">
+          <rect x="152" y="173" width="6" height="5"/><rect x="161" y="173" width="6" height="5"/>
+          <rect x="170" y="173" width="6" height="5"/><rect x="179" y="173" width="6" height="5"/>
+          <rect x="188" y="173" width="6" height="5"/><rect x="197" y="173" width="6" height="5"/>
+          <rect x="152" y="181" width="6" height="5"/><rect x="161" y="181" width="6" height="5"/>
+          <rect x="170" y="181" width="6" height="5"/><rect x="179" y="181" width="6" height="5"/>
+          <rect x="188" y="181" width="6" height="5"/><rect x="197" y="181" width="6" height="5"/>
+        </g>
+        <circle class="led led-a u4" cx="252" cy="179" r="2.6"/>
+
+        <rect class="blank" x="35" y="196" width="230" height="12" rx="2"/>
+
+        <!-- firewall -->
+        <rect class="unit" x="35" y="212" width="230" height="26" rx="2"/>
+        <text x="43" y="228">firewall · edge</text>
+        <g class="port">
+          <rect x="165" y="222" width="7" height="6"/><rect x="176" y="222" width="7" height="6"/>
+          <rect x="187" y="222" width="7" height="6"/><rect x="198" y="222" width="7" height="6"/>
+        </g>
+        <circle class="led led-a u5" cx="252" cy="225" r="2.6"/>
+
+        <!-- oob -->
+        <rect class="unit" x="35" y="242" width="230" height="22" rx="2"/>
+        <text x="43" y="256">oob mgmt</text>
+        <circle class="led led-b u6" cx="252" cy="253" r="2.6"/>
+
+        <rect class="blank" x="35" y="268" width="230" height="12" rx="2"/>
+
+        <!-- ups -->
+        <rect class="unit" x="35" y="284" width="230" height="34" rx="2"/>
+        <text x="43" y="298">UPS · 3000VA</text>
+        <text class="cap" x="43" y="310">runtime 42 min</text>
+        <g class="port">
+          <rect x="180" y="296" width="20" height="4"/><rect x="180" y="304" width="20" height="4"/>
+        </g>
+        <circle class="led led-a u7" cx="252" cy="301" r="2.6"/>
+
+        <rect class="blank" x="35" y="322" width="230" height="40" rx="2"/>
+        <circle class="led led-b u8" cx="252" cy="342" r="2"/>
+
+        <text class="cap" x="18" y="386">rack 01 · cold aisle · redundant power</text>
+      </svg>
     </div>
   </div>
-</section>
+</header>
 
-<div class="stats-bar">
-  <div class="container">
-    <div class="stats-i">
-      <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Years SP experience</div></div>
-      <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Networks deployed</div></div>
-      <div class="stat"><div class="stat-n">Layer 1–7</div><div class="stat-l">Full-stack coverage</div></div>
-      <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Support available</div></div>
-    </div>
+<div class="strip">
+  <div class="wrap strip-in">
+    <span class="strip-lead">Hands-on with</span>
+    <span class="item">Cisco ASR 9000</span>
+    <span class="item">IOS-XR</span>
+    <span class="item">MPLS L2VPN / L3VPN</span>
+    <span class="item">BGP</span>
+    <span class="item">IS-IS</span>
+    <span class="item">Catalyst</span>
+    <span class="item">fiber &amp; optical</span>
   </div>
 </div>
 
-<section class="services" id="svc">
-  <svg class="hex-deco" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-    <defs><pattern id="hex" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse"><polygon points="30,2 58,17 58,47 30,62 2,47 2,17" fill="none" stroke="#1B3D6F" stroke-width="1"/></pattern></defs>
-    <rect width="400" height="400" fill="url(#hex)"/>
-  </svg>
-  <div class="container">
-    <div class="sec-label">What we do</div>
-    <div class="sec-title">Expert Network Consulting</div>
-    <div class="sec-sub">From initial design to deployment and ongoing management — every layer of your network, covered.</div>
-    <div class="svc-grid">
-      <div class="svc-card">
-        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
-        <h3>Network Design</h3>
-        <p>Custom WAN, LAN, and hybrid topologies built for your scale and growth plans.</p>
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What NetQuanta does</h2>
+      <p>Two things make up most engagements. The rest are available on their own or as part of a larger project.</p>
+    </div>
+
+    <div class="svc-feature">
+      <div class="svc-big">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <h3>Network audit</h3>
+        <p>A full read of what you actually have running, where the risk sits, and what it would take to fix. Most engagements start here.</p>
+        <ul>
+          <li>Topology and traffic-path review</li>
+          <li>Single points of failure, mapped</li>
+          <li>Firmware, licensing, and end-of-life exposure</li>
+          <li>Written findings with priorities and cost</li>
+        </ul>
       </div>
-      <div class="svc-card">
-        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.142 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg></div>
-        <h3>SP Infrastructure</h3>
-        <p>MPLS, BGP, and carrier-grade solutions adapted for SMB needs.</p>
+      <div class="svc-big">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+        <h3>Design and deployment</h3>
+        <p>New sites, office moves, or replacing a network that grew by accident. Built with the redundancy and segmentation an ISP would expect.</p>
+        <ul>
+          <li>Multi-site WAN and VLAN design</li>
+          <li>Hardware selection without vendor bias</li>
+          <li>Configuration, staging, and cutover</li>
+          <li>Documentation you keep</li>
+        </ul>
       </div>
-      <div class="svc-card">
-        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
-        <h3>Network Security</h3>
-        <p>Firewall setup, ACLs, and segmentation to protect your traffic.</p>
+    </div>
+
+    <div class="svc-rest">
+      <div class="svc-sm">
+        <h4>Carrier infrastructure</h4>
+        <p>MPLS, BGP peering, and carrier handoffs, scaled down to what a business actually needs.</p>
       </div>
-      <div class="svc-card">
-        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
-        <h3>Troubleshooting</h3>
-        <p>Fast root-cause analysis for outages and performance issues.</p>
+      <div class="svc-sm">
+        <h4>Security and segmentation</h4>
+        <p>Firewall policy, ACLs, and separating guest, staff, and payment traffic properly.</p>
       </div>
-      <div class="svc-card">
-        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
-        <h3>Network Audits</h3>
-        <p>Comprehensive review of your infrastructure — find gaps and savings.</p>
+      <div class="svc-sm">
+        <h4>Troubleshooting</h4>
+        <p>Intermittent drops, slow links, routing that misbehaves after a change. Root cause, not guesswork.</p>
       </div>
-      <div class="svc-card">
-        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
-        <h3>Managed Support</h3>
-        <p>Ongoing monitoring and support — your virtual network team.</p>
+      <div class="svc-sm">
+        <h4>Ongoing support</h4>
+        <p>Monitoring, config changes, and a number to call when something breaks.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="how" id="how">
-  <div class="container">
-    <div class="sec-label">Process</div>
-    <div class="sec-title">How it works</div>
+<section class="sec sec-panel" id="tools">
+  <div class="wrap tools-grid">
+    <div>
+      <div class="sec-head" style="margin-bottom:1.9rem">
+        <h2>Free network tools</h2>
+        <p>The lookups we run daily, built as a public toolkit. No signup, no rate-limited trial, no ads.</p>
+      </div>
+      <ul class="tool-list">
+        <li><a href="tools.html#mac"><span class="tname">MAC vendor lookup</span><span class="tdesc">Resolve any OUI to its manufacturer, single or in bulk</span></a></li>
+        <li><a href="tools.html#bgp"><span class="tname">BGP looking glass</span><span class="tdesc">Live routing data and AS paths from RIPE NCC collectors</span></a></li>
+        <li><a href="tools.html#subnet"><span class="tname">Subnet calculator</span><span class="tdesc">Full CIDR breakdown, masks, and usable ranges</span></a></li>
+        <li><a href="tools.html#ip"><span class="tname">IP info lookup</span><span class="tdesc">Ownership, ASN, and geolocation for any public address</span></a></li>
+        <li><a href="tools.html#dns"><span class="tname">DNS lookup</span><span class="tdesc">Query records over DNS-over-HTTPS</span></a></li>
+      </ul>
+    </div>
+    <div class="terminal">
+      <div class="term-bar"><i></i><i></i><i></i><span>bgp looking glass</span></div>
+      <div class="term-body">
+        <div><span class="q">&gt; AS23089</span></div>
+        <div><span class="k">holder&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">Hotwire Communications</span></div>
+        <div><span class="k">announced</span><span class="v">&nbsp;yes</span></div>
+        <div><span class="k">prefixes&nbsp;</span><span class="v">&nbsp;142</span></div>
+        <div style="margin-top:8px"><span class="q">&gt; 8.8.8.0/24</span></div>
+        <div><span class="k">origin&nbsp;&nbsp;&nbsp;</span><span class="v">&nbsp;AS15169 Google LLC</span></div>
+        <div><span class="k">as-path&nbsp;&nbsp;</span><span class="v">&nbsp;3333 1103 15169</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>How an engagement works</h2>
+      <p>Three steps from first message to a network you can stop worrying about.</p>
+    </div>
     <div class="steps">
       <div class="step">
-        <div class="step-n">01</div>
-        <h3>Tell us your needs</h3>
-        <p>Fill out the assessment form with your business size, locations, and current challenges. No technical jargon required.</p>
+        <h3>Tell us what's going on</h3>
+        <p>Fill in the form with your size, sites, and what's frustrating you. No technical vocabulary needed.</p>
       </div>
       <div class="step">
-        <div class="step-n">02</div>
-        <h3>Get a tailored plan</h3>
-        <p>We analyze your situation and prepare specific device recommendations, topology options, and a cost estimate.</p>
+        <h3>Get findings and a plan</h3>
+        <p>We review your setup and come back with specific recommendations, options, and what each would cost.</p>
       </div>
       <div class="step">
-        <div class="step-n">03</div>
-        <h3>We build it together</h3>
-        <p>From procurement to deployment and testing — we handle the complexity so you can focus on your business.</p>
+        <h3>Build it together</h3>
+        <p>Procurement through cutover and testing, with documentation handed over at the end.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="contact-sec" id="contact">
-  <div class="container">
-    <div class="contact-inner">
-      <div class="contact-info">
-        <div class="sec-label">Free Assessment</div>
-        <div class="sec-title">Let's assess your network</div>
-        <p>Tell us about your business and current setup. We'll review your needs and get back to you with a tailored recommendation — no commitment required.</p>
-        <div class="c-detail">
-          <svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-          Miami, Florida — serving clients nationwide
-        </div>
-        <div class="c-detail">
-          <svg viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          netconsulting@netquanta.net
-        </div>
-        <div class="c-detail">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Response within 24 hours
-        </div>
-        <div class="c-promise">
-          <p><strong>Free & no obligation.</strong> Our initial assessment is completely free. We'll give you an honest recommendation — even if that means pointing you to a simpler solution.</p>
-        </div>
+<section class="sec sec-panel" id="resources">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Resources</h2>
+      <p>Writing and reference material on the infrastructure side of the business, kept practical.</p>
+    </div>
+    <div class="res-grid">
+      <a class="res" href="quantum-networking.html">
+        <span class="kind">Article</span>
+        <h3>Quantum networking is no longer theoretical</h3>
+        <p>What Cisco's quantum switch and the NIST post-quantum standards actually mean for a growing business.</p>
+      </a>
+      <a class="res" href="tools.html">
+        <span class="kind">Toolkit</span>
+        <h3>Network lookup tools</h3>
+        <p>Five free utilities for MAC, BGP, subnet, IP, and DNS lookups, with no account required.</p>
+      </a>
+      <a class="res" href="#contact">
+        <span class="kind">Reference</span>
+        <h3>Config library</h3>
+        <p>Sanitized IOS-XR and Catalyst templates for common setups. In progress — ask if there's something you need.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="sec-head" style="margin-bottom:1.5rem">
+        <h2>Let's look at your network</h2>
+        <p>Tell us about your setup. You'll get an honest read on what's worth doing, with no obligation to do it with us.</p>
       </div>
-      <div>
-        <div class="form-box">
-          <div id="formFields">
-            <div class="form-row">
-              <div class="fg"><label>Full name</label><input type="text" id="f-name" placeholder="John Smith" /></div>
-              <div class="fg"><label>Email</label><input type="email" id="f-email" placeholder="john@company.com" /></div>
-            </div>
-            <div class="form-row">
-              <div class="fg"><label>Company</label><input type="text" id="f-co" placeholder="Acme Corp" /></div>
-              <div class="fg"><label>Number of users</label>
-                <select id="f-users">
-                  <option value="">Select...</option>
-                  <option>1 – 10</option><option>11 – 50</option><option>51 – 200</option><option>200+</option>
-                </select>
-              </div>
-            </div>
-            <div class="fg"><label>Number of locations</label>
-              <select id="f-locs">
-                <option value="">Select...</option>
-                <option>1 (single site)</option><option>2 – 3</option><option>4 – 10</option><option>10+</option>
-              </select>
-            </div>
-            <div class="fg"><label>Services needed</label>
-              <div class="checks">
-                <label class="chk"><input type="checkbox" value="Network Design"> Network Design</label>
-                <label class="chk"><input type="checkbox" value="SP Infrastructure"> SP Infrastructure</label>
-                <label class="chk"><input type="checkbox" value="Security"> Security</label>
-                <label class="chk"><input type="checkbox" value="Troubleshooting"> Troubleshooting</label>
-                <label class="chk"><input type="checkbox" value="Audit"> Network Audit</label>
-                <label class="chk"><input type="checkbox" value="Support"> Managed Support</label>
-              </div>
-            </div>
-            <div class="fg"><label>Describe your challenge</label><textarea id="f-msg" placeholder="Tell us about your current setup, pain points, or what you're trying to achieve..."></textarea></div>
-            <button class="form-btn" onclick="submitForm()">Send Assessment Request →</button>
+      <div class="cdet">
+        <svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        Miami, Florida. Remote engagements nationwide.
+      </div>
+      <div class="cdet">
+        <svg viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        netconsulting@netquanta.net
+      </div>
+      <div class="cdet">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Replies within one business day.
+      </div>
+      <div class="promise">
+        <p>The first assessment is free. If the honest answer is that you need something simpler than what we sell, that's what you'll hear.</p>
+      </div>
+    </div>
+
+    <div class="formbox">
+      <div id="formFields">
+        <div class="frow">
+          <div class="fg"><label for="f-name">Full name</label><input type="text" id="f-name" placeholder="John Smith"></div>
+          <div class="fg"><label for="f-email">Email</label><input type="email" id="f-email" placeholder="john@company.com"></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label for="f-co">Company</label><input type="text" id="f-co" placeholder="Acme Corp"></div>
+          <div class="fg"><label for="f-users">Number of users</label>
+            <select id="f-users">
+              <option value="">Select…</option>
+              <option>1 – 10</option><option>11 – 50</option><option>51 – 200</option><option>200+</option>
+            </select>
           </div>
-          <div id="formSuccess">
-            <div class="succ-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <h3>Request received!</h3>
-            <p>Thanks for reaching out. We'll review your setup and get back to you within 24 hours with a tailored recommendation.</p>
+        </div>
+        <div class="fg"><label for="f-locs">Number of locations</label>
+          <select id="f-locs">
+            <option value="">Select…</option>
+            <option>1 (single site)</option><option>2 – 3</option><option>4 – 10</option><option>10+</option>
+          </select>
+        </div>
+        <div class="fg"><label>What do you need help with?</label>
+          <div class="checks">
+            <label class="chk"><input type="checkbox" value="Network Design"> Network design</label>
+            <label class="chk"><input type="checkbox" value="SP Infrastructure"> Carrier infrastructure</label>
+            <label class="chk"><input type="checkbox" value="Security"> Security</label>
+            <label class="chk"><input type="checkbox" value="Troubleshooting"> Troubleshooting</label>
+            <label class="chk"><input type="checkbox" value="Audit"> Network audit</label>
+            <label class="chk"><input type="checkbox" value="Support"> Ongoing support</label>
           </div>
         </div>
+        <div class="fg"><label for="f-msg">Describe the problem</label><textarea id="f-msg" placeholder="Current setup, what keeps going wrong, or what you're trying to build."></textarea></div>
+        <button class="form-btn" onclick="submitForm()">Send assessment request</button>
+      </div>
+      <div id="formSuccess">
+        <div class="succ"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h3>Request received</h3>
+        <p>Thanks for reaching out. We'll review your setup and reply within one business day.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="about-strip" id="about">
-  <canvas id="net2"></canvas>
-  <div class="container">
-    <div class="about-inner">
-      <div>
-        <div class="sec-label">About NetQuanta</div>
-        <div class="sec-title" style="color:#fff">SP Knowledge,<br>SMB Focus</div>
-        <br>
-        <p>Most small and medium businesses can't afford a full-time network engineer — but they still need reliable, secure infrastructure. That's the gap NetQuanta fills.</p>
-        <br>
-        <p>Our consultants come from service provider and enterprise environments — hands-on with Cisco ASR, IOS-XR, MPLS, and carrier-grade deployments. We bring that depth directly to your business.</p>
+<section class="sec" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="sec-head" style="margin-bottom:1.4rem">
+        <h2>Service-provider depth,<br>small-business scale</h2>
       </div>
-      <div class="a-cards">
-        <div class="a-card"><div class="a-num">Cisco Certified</div><div class="a-lbl">ASR, Catalyst, IOS-XR environments across SP and enterprise</div></div>
-        <div class="a-card"><div class="a-num">Layer 1 – 7</div><div class="a-lbl">Full-stack visibility from physical links to application delivery</div></div>
-        <div class="a-card"><div class="a-num">SP-Grade</div><div class="a-lbl">MPLS, BGP, QoS, and carrier handoff expertise at SMB scale</div></div>
-        <div class="a-card"><div class="a-num">Real-World</div><div class="a-lbl">Battle-tested in live service provider and enterprise environments</div></div>
-      </div>
+      <p>Most small and mid-size businesses can't justify a full-time network engineer, so the network ends up assembled by whoever was available. It works until it doesn't.</p>
+      <p>NetQuanta comes out of regional service-provider engineering — ASR 9000 core routers, IOS-XR, MPLS, and the fiber underneath it. That's a different starting point from the typical break-fix IT shop, and it shows up in how the work is designed and documented.</p>
     </div>
+    <dl class="facts">
+      <div class="fact"><dt>Background</dt><dd>Nearly a decade in service-provider network engineering, from NOC to core infrastructure</dd></div>
+      <div class="fact"><dt>Platforms</dt><dd>Cisco ASR 9000 series, IOS-XR, Catalyst, and mixed-vendor edge equipment</dd></div>
+      <div class="fact"><dt>Protocols</dt><dd>BGP, IS-IS, MPLS L2VPN and L3VPN, QoS, carrier handoff</dd></div>
+      <div class="fact"><dt>Approach</dt><dd>Vendor-neutral recommendations and written documentation at handover</dd></div>
+    </dl>
   </div>
 </section>
 
-<footer>
-  <div class="container">
-    <div class="ft-i">
-      <div class="ft-logo">Net<span>Quanta</span></div>
-      <div class="ft-links"><a href="#svc">Services</a><a href="#how">Process</a><a href="#about">About</a><a href="#contact">Contact</a></div>
-      <div class="ft-copy">© 2025 NetQuanta. All rights reserved.</div>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-brand">NetQuanta</div>
+    <div class="foot-links">
+      <a href="#services">Services</a>
+      <a href="tools.html">Tools</a>
+      <a href="#resources">Resources</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
     </div>
+    <div class="foot-copy">© 2026 NetQuanta. All rights reserved.</div>
   </div>
 </footer>
 
 <script>
-function mkCanvas(id, alpha) {
-  const c = document.getElementById(id);
-  if (!c) return;
-  const ctx = c.getContext('2d');
-  let W, H, pts;
-  function resize() { W = c.width = c.offsetWidth; H = c.height = c.offsetHeight; }
-  function init() {
-    const n = Math.floor((W * H) / 14000);
-    pts = Array.from({length: Math.min(n, 55)}, () => ({
-      x: Math.random()*W, y: Math.random()*H,
-      vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4,
-      r: Math.random()*1.5+1
-    }));
-  }
-  function draw() {
-    ctx.clearRect(0,0,W,H);
-    pts.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if(p.x<0||p.x>W) p.vx*=-1;
-      if(p.y<0||p.y>H) p.vy*=-1;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(96,165,250,${alpha||0.55})`; ctx.fill();
-    });
-    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
-      const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
-      if(d<130){
-        ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y);
-        ctx.strokeStyle=`rgba(96,165,250,${(alpha||0.55)*(1-d/130)*0.6})`; ctx.lineWidth=0.6; ctx.stroke();
-      }
-    }
-    requestAnimationFrame(draw);
-  }
-  resize(); init(); draw();
-  window.addEventListener('resize', ()=>{ resize(); init(); });
+function toggleDropdown(){
+  document.getElementById('toolsDropdown').classList.toggle('open');
 }
-
-mkCanvas('net', 0.5);
-mkCanvas('net2', 0.35);
+document.addEventListener('click', function(e){
+  var dd = document.getElementById('toolsDropdown');
+  if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') {
+    var dd = document.getElementById('toolsDropdown');
+    if (dd) dd.classList.remove('open');
+  }
+});
 
 async function submitForm() {
   const name = document.getElementById('f-name').value.trim();
@@ -415,6 +702,7 @@ async function submitForm() {
     services: services || 'None selected',
     message: document.getElementById('f-msg').value.trim()
   };
+
   try {
     const resp = await fetch('https://formspree.io/f/meaqddge', {
       method: 'POST',
@@ -428,6 +716,8 @@ async function submitForm() {
     alert('Sorry — something went wrong sending your request. Please email netconsulting@netquanta.net directly.');
   }
 }
-function toggleDropdown(){document.getElementById('toolsDropdown').classList.toggle('open')}
-document.addEventListener('click',(e)=>{const dd=document.getElementById('toolsDropdown');if(dd&&!dd.contains(e.target))dd.classList.remove('open')});
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+</body>
+</html>
