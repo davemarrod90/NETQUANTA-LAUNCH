@@ -24,7 +24,9 @@ module.exports = async (req, res) => {
       city: data.city || null,
       region: data.region || null,
       country: data.country || null,
-      timezone: data.timezone?.id || null
+      timezone: data.timezone?.id || null,
+      latitude: typeof data.latitude === 'number' ? data.latitude : null,
+      longitude: typeof data.longitude === 'number' ? data.longitude : null
     });
   } catch (err) {
     res.status(502).json({ error: 'Lookup failed: ' + err.message });
