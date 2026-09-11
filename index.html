@@ -166,6 +166,15 @@ a{color:inherit;text-decoration:none}
 .term-body .q{color:var(--beam)}
 .term-body .k{color:var(--mute-2)}
 .term-body .v{color:var(--text)}
+.rank-head,.rank-row{display:grid;grid-template-columns:34px 1fr 84px;gap:10px;align-items:baseline;font-family:var(--mono);padding:0 17px}
+.rank-head{font-size:10.5px;color:var(--mute-2);padding-top:13px;padding-bottom:9px;border-bottom:1px solid var(--rule)}
+.rank-row{font-size:12.5px;padding-top:9px;padding-bottom:9px;border-bottom:1px solid var(--rule-soft)}
+.rank-row:last-child{border-bottom:none}
+.rank-row .r{color:var(--beam)}
+.rank-row .n{color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-row .n em{font-style:normal;color:var(--mute-2);font-size:11px}
+.rank-row .c{color:var(--mute);text-align:right}
+.rank-foot{font-size:10.5px;color:var(--mute-2);font-family:var(--mono);padding:11px 17px 13px;border-top:1px solid var(--rule);line-height:1.5}
 
 /* process */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2.25rem}
@@ -227,29 +236,12 @@ a{color:inherit;text-decoration:none}
 .foot-links a:hover{color:var(--text)}
 .foot-copy{font-size:12.5px;color:var(--mute-2)}
 
-:focus-visible{outline:2px solid var(--beam);outline-offset:3px}
-
-@media (max-width:940px){
-  .hero-grid,.tools-grid,.contact-grid,.about-grid{grid-template-columns:1fr;gap:2.75rem}
-  .hero{padding:3.5rem 0 3rem}
-  .svc-feature{grid-template-columns:1fr}
-  .svc-rest{grid-template-columns:1fr 1fr}
-  .svc-sm{padding-right:1.2rem}
-  .svc-sm:nth-child(odd){padding-left:0;border-left:none}
-  .svc-sm:nth-child(even){padding-left:1.2rem;border-left:1px solid var(--rule-soft)}
-  .steps,.res-grid{grid-template-columns:1fr;gap:1.6rem}
-  .sec{padding:3.75rem 0}
-}
-@media (max-width:620px){
-  .wrap{padding:0 1.25rem}
-  .nav-right{gap:1rem}
-  .nav-right .hide-sm{display:none}
-  .frow,.checks,.svc-rest{grid-template-columns:1fr}
-  .svc-sm{padding-left:0!important;border-left:none!important}
-  .tool-list .tname{min-width:0}
-  .tool-list a{flex-direction:column;gap:2px}
-  .fact{grid-template-columns:1fr;gap:0.18rem}
-}
+/* ---------- map teaser ---------- */
+.map-teaser{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:1.75rem 2rem;margin-top:2.5rem}
+.map-teaser p{font-size:14.5px;color:var(--mute);max-width:52ch;line-height:1.65}
+.map-teaser strong{color:var(--text);font-weight:600}
+.map-teaser .btn-quiet{white-space:nowrap}
+@media (max-width:640px){.map-teaser{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -285,6 +277,7 @@ a{color:inherit;text-decoration:none}
           <button onclick="window.location.href='tools.html#bgp'">BGP looking glass <span class="tag">ASN</span></button>
         </div>
       </div>
+      <a href="network-map.html" class="hide-sm">Map</a>
       <a href="#resources" class="hide-sm">Resources</a>
       <a href="#about" class="hide-sm">About</a>
       <a href="#contact" class="nav-cta">Request assessment</a>
@@ -510,16 +503,28 @@ a{color:inherit;text-decoration:none}
       </ul>
     </div>
     <div class="terminal">
-      <div class="term-bar"><i></i><i></i><i></i><span>bgp looking glass</span></div>
-      <div class="term-body">
-        <div><span class="q">&gt; AS23089</span></div>
-        <div><span class="k">holder&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">Hotwire Communications</span></div>
-        <div><span class="k">announced</span><span class="v">&nbsp;yes</span></div>
-        <div><span class="k">prefixes&nbsp;</span><span class="v">&nbsp;142</span></div>
-        <div style="margin-top:8px"><span class="q">&gt; 8.8.8.0/24</span></div>
-        <div><span class="k">origin&nbsp;&nbsp;&nbsp;</span><span class="v">&nbsp;AS15169 Google LLC</span></div>
-        <div><span class="k">as-path&nbsp;&nbsp;</span><span class="v">&nbsp;3333 1103 15169</span></div>
+      <div class="term-bar"><i></i><i></i><i></i><span>routing influence · live</span></div>
+      <div class="rank-head">
+        <span>#</span><span>network</span><span>cone</span>
       </div>
+      <div id="rankBody">
+        <div class="rank-row"><span class="r">–</span><span class="n">Lumen</span><span class="c">···</span></div>
+        <div class="rank-row"><span class="r">–</span><span class="n">Cogent</span><span class="c">···</span></div>
+        <div class="rank-row"><span class="r">–</span><span class="n">Arelion</span><span class="c">···</span></div>
+        <div class="rank-row"><span class="r">–</span><span class="n">NTT</span><span class="c">···</span></div>
+        <div class="rank-row"><span class="r">–</span><span class="n">Hurricane Electric</span><span class="c">···</span></div>
+        <div class="rank-row"><span class="r">–</span><span class="n">Zayo</span><span class="c">···</span></div>
+      </div>
+      <div class="rank-foot" id="rankFoot">Customer cone size from CAIDA AS Rank</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="map-teaser">
+      <p><strong>Where the internet actually runs.</strong> An interactive map of major cable landing regions worldwide, with a live marker for roughly where you're connecting from right now.</p>
+      <button class="btn-quiet" onclick="window.location.href='network-map.html'">View the map →</button>
     </div>
   </div>
 </section>
@@ -686,6 +691,26 @@ document.addEventListener('keydown', function(e){
     if (dd) dd.classList.remove('open');
   }
 });
+
+async function loadRanking(){
+  var body = document.getElementById('rankBody');
+  var foot = document.getElementById('rankFoot');
+  if (!body) return;
+  try {
+    var resp = await fetch('/api/as-rank');
+    var data = await resp.json();
+    if (data.error || !data.rows || !data.rows.length) throw new Error('no data');
+    body.innerHTML = data.rows.slice(0,6).map(function(r){
+      return '<div class="rank-row"><span class="r">' + r.rank + '</span>' +
+             '<span class="n">' + r.name + ' <em>' + r.asn + '</em></span>' +
+             '<span class="c">' + r.cone.toLocaleString() + '</span></div>';
+    }).join('');
+    foot.textContent = 'Customer cone size (networks reachable as customers) from CAIDA AS Rank';
+  } catch (err) {
+    foot.textContent = 'Live ranking unavailable right now. Source: CAIDA AS Rank.';
+  }
+}
+loadRanking();
 
 async function submitForm() {
   const name = document.getElementById('f-name').value.trim();
