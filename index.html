@@ -398,12 +398,36 @@ function mkCanvas(id, alpha) {
 mkCanvas('net', 0.5);
 mkCanvas('net2', 0.35);
 
-function submitForm() {
+async function submitForm() {
   const name = document.getElementById('f-name').value.trim();
   const email = document.getElementById('f-email').value.trim();
   if (!name || !email) { alert('Please fill in your name and email.'); return; }
-  document.getElementById('formFields').style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
+
+  const services = Array.from(document.querySelectorAll('.checks input:checked'))
+    .map(c => c.value).join(', ');
+
+  const payload = {
+    name: name,
+    email: email,
+    company: document.getElementById('f-co').value.trim(),
+    users: document.getElementById('f-users').value,
+    locations: document.getElementById('f-locs').value,
+    services: services || 'None selected',
+    message: document.getElementById('f-msg').value.trim()
+  };
+  try {
+    const resp = await fetch('https://formspree.io/f/meaqddge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!resp.ok) throw new Error('Submission failed');
+    document.getElementById('formFields').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  } catch (err) {
+    alert('Sorry — something went wrong sending your request. Please email netconsulting@netquanta.net directly.');
+  }
+}
 }
 function toggleDropdown(){document.getElementById('toolsDropdown').classList.toggle('open')}
 document.addEventListener('click',(e)=>{const dd=document.getElementById('toolsDropdown');if(dd&&!dd.contains(e.target))dd.classList.remove('open')});
