@@ -149,12 +149,12 @@ footer{background:#060E1C;padding:1.5rem 0}
         <a href="#svc">Services</a>
         <a href="#how">How it works</a>
         <div class="dropdown" id="toolsDropdown">
-        <button type="button" onclick="toggleDropdown()">Tools <span class="chev"></span></button>
+        <button type="button" ="toggleDropdown()">Tools <span class="chev"></span></button>
         <div class="dropdown-menu">
-        <button onclick="window.location.href='tools.html#mac'">MAC Vendor Lookup <span class="tag">OUI</span></button>
-        <button onclick="window.location.href='tools.html#subnet'">Subnet Calculator <span class="tag">CIDR</span></button>
-        <button onclick="window.location.href='tools.html#ip'">IP Info Lookup <span class="tag">GEO</span></button>
-        <button onclick="window.location.href='tools.html#dns'">DNS Lookup <span class="tag">DoH</span></button>
+        <button ="window.location.href='tools.html#mac'">MAC Vendor Lookup <span class="tag">OUI</span></button>
+        <button ="window.location.href='tools.html#subnet'">Subnet Calculator <span class="tag">CIDR</span></button>
+        <button ="window.location.href='tools.html#ip'">IP Info Lookup <span class="tag">GEO</span></button>
+        <button ="window.location.href='tools.html#dns'">DNS Lookup <span class="tag">DoH</span></button>
       </div>
     </div>
 <a href="#about">About</a>
@@ -427,7 +427,6 @@ async function submitForm() {
   } catch (err) {
     alert('Sorry — something went wrong sending your request. Please email netconsulting@netquanta.net directly.');
   }
-}
 }
 function toggleDropdown(){document.getElementById('toolsDropdown').classList.toggle('open')}
 document.addEventListener('click',(e)=>{const dd=document.getElementById('toolsDropdown');if(dd&&!dd.contains(e.target))dd.classList.remove('open')});
