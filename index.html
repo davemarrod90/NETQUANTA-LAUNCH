@@ -236,12 +236,35 @@ a{color:inherit;text-decoration:none}
 .foot-links a:hover{color:var(--text)}
 .foot-copy{font-size:12.5px;color:var(--mute-2)}
 
-/* ---------- map teaser ---------- */
-.map-teaser{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:1.75rem 2rem;margin-top:2.5rem}
-.map-teaser p{font-size:14.5px;color:var(--mute);max-width:52ch;line-height:1.65}
-.map-teaser strong{color:var(--text);font-weight:600}
-.map-teaser .btn-quiet{white-space:nowrap}
-@media (max-width:640px){.map-teaser{grid-template-columns:1fr}}
+/* ---------- world-map background (ambient, whole page) ---------- */
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url('/world-bg.svg');
+  background-repeat:no-repeat;
+  background-position:center 38%;
+  background-size:118% auto;
+  opacity:0.55;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 0%,transparent 78%);
+}
+
+/* ---------- compact process strip inside services ---------- */
+.process-strip{margin-top:3rem;padding-top:2.25rem;border-top:1px solid var(--rule)}
+.process-strip h3{font-size:14px;font-weight:600;color:var(--mute);margin-bottom:1.4rem;letter-spacing:-0.005em}
+.process-strip .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.process-strip .step{padding-top:1rem;border-top:1px solid var(--rule);position:relative}
+.process-strip .step::before{content:'';position:absolute;top:-1px;left:0;width:24px;height:2px;background:var(--beam)}
+.process-strip h4{font-size:14.5px;font-weight:600;margin-bottom:0.35rem}
+.process-strip p{font-size:13.5px;color:var(--mute);line-height:1.62}
+@media (max-width:940px){.process-strip .steps{grid-template-columns:1fr;gap:1.4rem}}
+
+/* ---------- section navigator ---------- */
+.secnav{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:150;display:flex;flex-direction:column;gap:14px;padding:12px 8px;background:rgba(7,12,22,0.7);backdrop-filter:blur(10px);border:1px solid var(--rule);border-radius:6px}
+.secnav a{position:relative;display:block;width:8px;height:8px;border-radius:50%;background:rgba(124,170,214,0.3);transition:background .15s,transform .15s}
+.secnav a:hover{background:rgba(70,200,240,0.7)}
+.secnav a.on{background:var(--beam);transform:scale(1.35)}
+.secnav a span{position:absolute;right:20px;top:50%;transform:translateY(-50%);white-space:nowrap;font-family:var(--mono);font-size:11px;color:var(--text);background:#050A12;border:1px solid var(--rule);padding:4px 9px;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .12s}
+.secnav a:hover span,.secnav a:focus span{opacity:1}
+@media (max-width:1100px){.secnav{display:none}}
 </style>
 </head>
 <body>
@@ -285,7 +308,16 @@ a{color:inherit;text-decoration:none}
   </div>
 </nav>
 
-<header class="hero">
+<nav class="secnav" aria-label="Page sections">
+  <a href="#top" data-target="top"><span>Overview</span></a>
+  <a href="#services" data-target="services"><span>Services</span></a>
+  <a href="#tools" data-target="tools"><span>Tools</span></a>
+  <a href="#resources" data-target="resources"><span>Resources</span></a>
+  <a href="#contact" data-target="contact"><span>Contact</span></a>
+  <a href="#about" data-target="about"><span>About</span></a>
+</nav>
+
+<header class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
       <h1>Your network, built to service-provider standards.</h1>
@@ -483,6 +515,24 @@ a{color:inherit;text-decoration:none}
         <p>Monitoring, config changes, and a number to call when something breaks.</p>
       </div>
     </div>
+
+    <div class="process-strip" id="process">
+      <h3>How an engagement works</h3>
+      <div class="steps">
+        <div class="step">
+          <h4>Tell us what's going on</h4>
+          <p>Your size, sites, and what's frustrating you. No technical vocabulary needed.</p>
+        </div>
+        <div class="step">
+          <h4>Get findings and a plan</h4>
+          <p>Specific recommendations, options, and what each would cost.</p>
+        </div>
+        <div class="step">
+          <h4>Build it together</h4>
+          <p>Procurement through cutover and testing, with documentation handed over.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -516,38 +566,6 @@ a{color:inherit;text-decoration:none}
         <div class="rank-row"><span class="r">–</span><span class="n">Zayo</span><span class="c">···</span></div>
       </div>
       <div class="rank-foot" id="rankFoot">Customer cone size from CAIDA AS Rank</div>
-    </div>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="wrap">
-    <div class="map-teaser">
-      <p><strong>Where the internet actually runs.</strong> An interactive map of major cable landing regions worldwide, with a live marker for roughly where you're connecting from right now.</p>
-      <button class="btn-quiet" onclick="window.location.href='network-map.html'">View the map →</button>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="process">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>How an engagement works</h2>
-      <p>Three steps from first message to a network you can stop worrying about.</p>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <h3>Tell us what's going on</h3>
-        <p>Fill in the form with your size, sites, and what's frustrating you. No technical vocabulary needed.</p>
-      </div>
-      <div class="step">
-        <h3>Get findings and a plan</h3>
-        <p>We review your setup and come back with specific recommendations, options, and what each would cost.</p>
-      </div>
-      <div class="step">
-        <h3>Build it together</h3>
-        <p>Procurement through cutover and testing, with documentation handed over at the end.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -669,6 +687,7 @@ a{color:inherit;text-decoration:none}
     <div class="foot-links">
       <a href="#services">Services</a>
       <a href="tools.html">Tools</a>
+      <a href="network-map.html">Map</a>
       <a href="#resources">Resources</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -711,6 +730,24 @@ async function loadRanking(){
   }
 }
 loadRanking();
+
+// ---------- section navigator: highlight current section ----------
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.secnav a'));
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('data-target')] = a; });
+  var targets = Object.keys(map).map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(a){ a.classList.remove('on'); });
+        var a = map[e.target.id]; if (a) a.classList.add('on');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  targets.forEach(function(t){ io.observe(t); });
+})();
 
 async function submitForm() {
   const name = document.getElementById('f-name').value.trim();
