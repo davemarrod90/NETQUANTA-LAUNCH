@@ -265,6 +265,59 @@ body::after{
 .secnav a span{position:absolute;right:20px;top:50%;transform:translateY(-50%);white-space:nowrap;font-family:var(--mono);font-size:11px;color:var(--text);background:#050A12;border:1px solid var(--rule);padding:4px 9px;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .12s}
 .secnav a:hover span,.secnav a:focus span{opacity:1}
 @media (max-width:1100px){.secnav{display:none}}
+
+:focus-visible{outline:2px solid var(--beam);outline-offset:3px}
+
+/* ---------- mobile menu ---------- */
+.menu-btn{display:none;background:none;border:1px solid var(--rule);border-radius:4px;width:38px;height:34px;cursor:pointer;padding:0;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.menu-btn i{display:block;width:16px;height:1.5px;background:var(--text);transition:transform .18s,opacity .18s}
+.menu-open .menu-btn i:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.menu-open .menu-btn i:nth-child(2){opacity:0}
+.menu-open .menu-btn i:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+.mobile-panel{display:none;position:fixed;inset:62px 0 0;z-index:190;background:rgba(7,12,22,0.98);backdrop-filter:blur(16px);padding:1.25rem;overflow-y:auto}
+.menu-open .mobile-panel{display:block}
+.mobile-panel a{display:block;font-size:17px;font-weight:500;color:var(--text);padding:15px 4px;border-bottom:1px solid var(--rule)}
+.mobile-panel a:active{color:var(--beam)}
+.mp-label{font-family:var(--mono);font-size:11px;color:var(--mute-2);padding:22px 4px 8px;display:block}
+.mobile-panel a.mp-tool{font-size:15px;font-weight:400;color:var(--mute);padding:13px 4px}
+.mobile-panel .mp-cta{margin-top:1.5rem;background:var(--beam);color:#04202B;text-align:center;border-radius:5px;border:none;font-weight:600;padding:14px}
+
+@media (max-width:940px){
+  .hero-grid,.tools-grid,.contact-grid,.about-grid{grid-template-columns:1fr;gap:2.75rem}
+  .hero{padding:3rem 0 2.75rem}
+  .svc-feature{grid-template-columns:1fr}
+  .svc-rest{grid-template-columns:1fr 1fr}
+  .svc-sm{padding-right:1.2rem}
+  .svc-sm:nth-child(odd){padding-left:0;border-left:none}
+  .svc-sm:nth-child(even){padding-left:1.2rem;border-left:1px solid var(--rule-soft)}
+  .steps,.res-grid,.process-strip .steps{grid-template-columns:1fr;gap:1.5rem}
+  .sec{padding:3.5rem 0}
+  .rack{max-width:320px}
+}
+
+@media (max-width:760px){
+  .nav-right .hide-sm,.nav-right .dd{display:none}
+  .menu-btn{display:flex}
+  .nav-right{gap:0.75rem}
+  body.menu-open{overflow:hidden}
+}
+
+@media (max-width:620px){
+  .wrap{padding:0 1.25rem}
+  .frow,.checks,.svc-rest{grid-template-columns:1fr}
+  .svc-sm{padding-left:0!important;border-left:none!important;padding-right:0}
+  .tool-list .tname{min-width:0}
+  .tool-list a{flex-direction:column;gap:3px;padding:15px 4px}
+  .fact{grid-template-columns:1fr;gap:0.18rem}
+  .hero h1{max-width:none}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions button{width:100%}
+  .strip-in{gap:0.4rem 1.25rem}
+  .svc-big,.formbox{padding:1.4rem}
+  .rank-head,.rank-row{grid-template-columns:26px 1fr 68px;padding:0 13px}
+  .term-body{font-size:11.5px}
+  body::after{background-size:200% auto;background-position:center 30%;opacity:0.4}
+}
 </style>
 </head>
 <body>
@@ -304,9 +357,25 @@ body::after{
       <a href="#resources" class="hide-sm">Resources</a>
       <a href="#about" class="hide-sm">About</a>
       <a href="#contact" class="nav-cta">Request assessment</a>
+      <button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>
     </div>
   </div>
 </nav>
+
+<div class="mobile-panel" id="mobilePanel">
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#resources" onclick="closeMenu()">Resources</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="network-map.html">Cable map</a>
+  <span class="mp-label">tools</span>
+  <a class="mp-tool" href="whats-my-ip.html">What is my IP</a>
+  <a class="mp-tool" href="tools.html#mac">MAC vendor lookup</a>
+  <a class="mp-tool" href="tools.html#bgp">BGP looking glass</a>
+  <a class="mp-tool" href="tools.html#subnet">Subnet calculator</a>
+  <a class="mp-tool" href="tools.html#ip">IP info lookup</a>
+  <a class="mp-tool" href="tools.html#dns">DNS lookup</a>
+  <a class="mp-cta" href="#contact" onclick="closeMenu()">Request assessment</a>
+</div>
 
 <nav class="secnav" aria-label="Page sections">
   <a href="#top" data-target="top"><span>Overview</span></a>
@@ -697,6 +766,18 @@ body::after{
 </footer>
 
 <script>
+function toggleMenu(){
+  var open = document.body.classList.toggle('menu-open');
+  var b = document.getElementById('menuBtn');
+  if (b) { b.setAttribute('aria-expanded', open ? 'true' : 'false'); b.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); }
+}
+function closeMenu(){
+  document.body.classList.remove('menu-open');
+  var b = document.getElementById('menuBtn');
+  if (b) { b.setAttribute('aria-expanded','false'); b.setAttribute('aria-label','Open menu'); }
+}
+window.addEventListener('resize', function(){ if (window.innerWidth > 760) closeMenu(); });
+
 function toggleDropdown(){
   document.getElementById('toolsDropdown').classList.toggle('open');
 }
@@ -706,6 +787,7 @@ document.addEventListener('click', function(e){
 });
 document.addEventListener('keydown', function(e){
   if (e.key === 'Escape') {
+    closeMenu();
     var dd = document.getElementById('toolsDropdown');
     if (dd) dd.classList.remove('open');
   }
