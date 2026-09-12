@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/logo-icon-180.png">
+<title>Quantum Networking & Post-Quantum Security: What SMBs Need to Know | NetQuanta</title>
+<meta name="description" content="Cisco just unveiled a working quantum networking switch, and NIST's post-quantum cryptography standards are already reshaping enterprise security. Here's what it actually means for small and mid-size businesses today.">
+<link rel="canonical" href="https://www.netquanta.net/quantum-networking.html">
+<meta name="theme-color" content="#070C16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<meta property="og:title" content="Quantum Networking & Post-Quantum Security | NetQuanta">
+<meta property="og:description" content="What Cisco's quantum networking breakthrough and NIST's post-quantum cryptography standards mean for small and mid-size businesses.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.netquanta.net/quantum-networking.html">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rack:#070C16;--panel:#0D1523;--panel-2:#131E30;
+  --rule:rgba(124,170,214,0.14);--rule-soft:rgba(124,170,214,0.08);
+  --beam:#46C8F0;--beam-dim:rgba(70,200,240,0.16);--led:#34D399;
+  --text:#DAE6F2;--mute:#8298B0;--mute-2:#5E738C;
+  --sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--rack);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;position:relative}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--rule-soft) 1px,transparent 1px),linear-gradient(90deg,var(--rule-soft) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 0%,transparent 75%)}
+a{color:inherit;text-decoration:none}
+.container{max-width:820px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+
+nav{position:sticky;top:0;z-index:200;background:rgba(7,12,22,0.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.nav-i{max-width:1140px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;color:var(--text);letter-spacing:-0.015em}
+.logo svg{width:24px;height:24px}
+.nav-links{display:flex;align-items:center;gap:1.6rem}
+.nav-links a{font-size:14px;color:var(--mute)}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{border:1px solid var(--beam-dim);background:rgba(70,200,240,0.07);color:var(--beam)!important;padding:7px 15px;border-radius:4px;font-size:13.5px;font-weight:500}
+.nav-cta:hover{background:rgba(70,200,240,0.14);border-color:rgba(70,200,240,0.4)}
+
+.menu-btn{display:none;background:none;border:1px solid var(--rule);border-radius:4px;width:38px;height:34px;cursor:pointer;padding:0;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.menu-btn i{display:block;width:16px;height:1.5px;background:var(--text);transition:transform .18s,opacity .18s}
+.menu-open .menu-btn i:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.menu-open .menu-btn i:nth-child(2){opacity:0}
+.menu-open .menu-btn i:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+.mobile-panel{display:none;position:fixed;inset:62px 0 0;z-index:190;background:rgba(7,12,22,0.98);backdrop-filter:blur(16px);padding:1.25rem;overflow-y:auto}
+.menu-open .mobile-panel{display:block}
+.mobile-panel a{display:block;font-size:17px;font-weight:500;color:var(--text);padding:15px 4px;border-bottom:1px solid var(--rule)}
+.mobile-panel .mp-cta{margin-top:1.5rem;background:var(--beam);color:#04202B;text-align:center;border-radius:5px;border:none;font-weight:600;padding:14px}
+
+.hero{padding:3.5rem 0 1.5rem}
+.sec-label{display:none}
+h1{font-size:clamp(1.75rem,3.4vw,2.4rem);font-weight:600;letter-spacing:-0.028em;line-height:1.18;margin-bottom:0.9rem}
+.dek{font-size:16.5px;color:var(--mute);line-height:1.72;max-width:62ch}
+.meta{font-family:var(--mono);font-size:11.5px;color:var(--mute-2);margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid var(--rule)}
+
+article{padding:1rem 0 3.5rem}
+article h2{font-size:clamp(1.3rem,2.4vw,1.6rem);font-weight:600;letter-spacing:-0.022em;margin:2.6rem 0 0.8rem;line-height:1.25}
+article p{font-size:15.5px;color:var(--mute);margin-bottom:1.15rem;line-height:1.78}
+article p.lead{font-size:17px;color:var(--text);line-height:1.72}
+article strong{color:var(--text);font-weight:600}
+.callout{background:var(--panel);border:1px solid var(--rule);border-left:2px solid var(--beam);border-radius:0 5px 5px 0;padding:1.2rem 1.4rem;margin:1.7rem 0;font-size:14.5px;color:var(--mute);line-height:1.7}
+.callout strong{color:var(--text)}
+
+.reading-list{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:1.6rem;margin-top:2.5rem}
+.reading-list h3{font-family:var(--mono);font-size:11px;color:var(--mute-2);margin-bottom:1rem;font-weight:400}
+.reading-item{display:block;padding:0.9rem 0;border-bottom:1px solid var(--rule-soft)}
+.reading-item:last-child{border-bottom:none}
+.reading-item .src{font-family:var(--mono);font-size:10.5px;color:var(--beam)}
+.reading-item .title{font-size:14.5px;color:var(--text);font-weight:500;margin-top:3px;line-height:1.4}
+.reading-item:hover .title{color:var(--beam)}
+.reading-item .desc{font-size:13.5px;color:var(--mute-2);margin-top:3px;line-height:1.55}
+
+.cta-box{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:2.2rem;margin-top:2.5rem;text-align:center;position:relative}
+.cta-box::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:46px;height:2px;background:var(--beam)}
+.cta-box h3{font-size:18px;font-weight:600;margin-bottom:0.55rem;letter-spacing:-0.015em}
+.cta-box p{font-size:14px;color:var(--mute);margin-bottom:1.3rem;max-width:48ch;margin-left:auto;margin-right:auto}
+.cta-box a.btn{display:inline-block;background:var(--beam);color:#04202B;padding:12px 24px;border-radius:4px;font-size:14.5px;font-weight:600}
+.cta-box a.btn:hover{background:#6FD6F5}
+
+footer{padding:2rem 0;border-top:1px solid var(--rule)}
+.ft-i{max-width:1140px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.ft-brand{font-size:15px;font-weight:600;color:var(--text)}
+.ft-links{display:flex;gap:1.35rem;flex-wrap:wrap}
+.ft-links a{font-size:13px;color:var(--mute-2)}
+.ft-links a:hover{color:var(--text)}
+.ft-copy{font-size:12.5px;color:var(--mute-2)}
+
+:focus-visible{outline:2px solid var(--beam);outline-offset:3px}
+
+@media (max-width:760px){
+  .nav-links a:not(.nav-cta){display:none}
+  .menu-btn{display:flex}
+  .nav-links{gap:0.75rem}
+  body.menu-open{overflow:hidden}
+}
+@media (max-width:620px){
+  .container,.nav-i,.ft-i{padding-left:1.25rem;padding-right:1.25rem}
+  .hero{padding:2.5rem 0 1.25rem}
+  .cta-box{padding:1.6rem 1.3rem}
+  .reading-list{padding:1.2rem}
+  .ft-i{flex-direction:column;align-items:flex-start;gap:0.75rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="nav-i">
+<a href="index.html" class="logo">
+<svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<polygon points="13,2 24,8 24,18 13,24 2,18 2,8" stroke="rgba(124,170,214,0.5)" stroke-width="1.1" fill="none"/>
+<polygon points="13,7 19,10.5 19,17.5 13,21 7,17.5 7,10.5" stroke="#46C8F0" stroke-width="1" fill="rgba(70,200,240,0.1)"/>
+<circle cx="13" cy="13" r="2.4" fill="#46C8F0"/>
+<line x1="13" y1="2" x2="13" y2="7" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+<line x1="13" y1="19" x2="13" y2="24" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+<line x1="2" y1="8" x2="7" y2="10.5" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+<line x1="19" y1="17.5" x2="24" y2="20" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+<line x1="24" y1="8" x2="19" y2="10.5" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+<line x1="7" y1="17.5" x2="2" y2="20" stroke="rgba(124,170,214,0.4)" stroke-width="1"/>
+</svg>
+NetQuanta
+</a>
+<div class="nav-links">
+<a href="index.html#services">Services</a>
+<a href="tools.html">Tools</a>
+<a href="network-map.html">Map</a>
+<a href="index.html#resources">Resources</a>
+<a href="index.html#about">About</a>
+<a href="index.html#contact" class="nav-cta">Request assessment</a>
+<button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>
+</div>
+</div>
+</nav>
+
+<div class="mobile-panel" id="mobilePanel">
+<a href="index.html#services">Services</a>
+<a href="tools.html">Tools</a>
+<a href="whats-my-ip.html">What is my IP</a>
+<a href="network-map.html">Cable map</a>
+<a href="index.html#resources">Resources</a>
+<a href="index.html#about">About</a>
+<a class="mp-cta" href="index.html#contact">Request assessment</a>
+</div>
+
+<section class="hero">
+<div class="container">
+<div class="sec-label">Insights</div>
+<h1>Quantum networking is no longer theoretical — here's what it means for your business</h1>
+<p class="dek">Cisco just unveiled working quantum-networking hardware, and NIST's post-quantum encryption standards are already reshaping how enterprises secure data. Neither is science fiction anymore, and both matter more than you'd think for a growing SMB.</p>
+<div class="meta">NetQuanta Insights · Updated July 2026</div>
+</div>
+</section>
+
+<article class="container">
+
+<p class="lead">Our name has always pointed at something we believe: the future of networking and the future of quantum technology are on a collision course. That's no longer a bet on the distant future — it's happening in 2026.</p>
+
+<h2>Cisco built a switch for quantum computers</h2>
+<p>In April 2026, Cisco introduced the Universal Quantum Switch — a prototype designed to solve one of the hardest problems in quantum networking: getting different quantum computers to talk to each other. Quantum machines from different vendors encode information in incompatible ways, and until now, no switch could translate between those formats without destroying the fragile quantum state in the process.</p>
+<p>Cisco's switch does this at room temperature, over standard telecom fiber, with reported signal degradation under 4% — meaning it could plug into infrastructure that already exists rather than requiring exotic new cabling. Cisco also demonstrated a real fiber link between Brooklyn and Manhattan, moving entangled photon pairs thousands of times faster than earlier lab experiments.</p>
+<div class="callout"><strong>Why this matters beyond the lab:</strong> the same distributed-networking logic that connects quantum computers today is a preview of how all high-performance infrastructure — including the AI and cloud buildouts many of our clients depend on — will need to scale. The network, not the processor, is increasingly the bottleneck.</div>
+
+<h2>The more urgent story: your encryption has a deadline</h2>
+<p>While quantum computers capable of breaking today's encryption are still likely years away, the security transition they're forcing is already underway. NIST finalized its first three post-quantum cryptography standards in 2024 (known as ML-KEM, ML-DSA, and SLH-DSA), and major providers — Cloudflare, Google, and Apple among them — have already begun rolling out quantum-safe protections to production traffic.</p>
+<p>The reason this can't wait for quantum computers to actually arrive is a threat model called <strong>"harvest now, decrypt later."</strong> Adversaries can capture encrypted data today and simply store it, waiting for quantum computing to mature enough to decrypt it later. If your business handles data that needs to stay confidential for years — client contracts, financial records, health information, intellectual property — that data is already exposed to this risk, even though the decryption capability doesn't exist yet.</p>
+<div class="callout"><strong>What this looks like practically for an SMB:</strong> a cryptographic inventory (knowing where encryption lives in your VPNs, certificates, and backups) is the realistic starting point — not a full migration overnight. It's the same instinct as a network audit, applied to encryption instead of cabling.</div>
+
+<h2>Where NetQuanta fits in</h2>
+<p>We're not a quantum computing company, and we won't pretend a small business needs a quantum network today. But understanding where enterprise infrastructure is heading — and translating that into what actually matters for a growing business now — is exactly the kind of forward-looking context we bring into every network design and security conversation.</p>
+
+<div class="reading-list">
+<h3>Further reading</h3>
+<a class="reading-item" href="https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2026/m04/cisco-introduces-universal-quantum-switch-advancing-the-path-to-a-quantum-network.html" target="_blank" rel="noopener">
+<div class="src">Cisco Newsroom</div>
+<div class="title">Cisco Introduces Universal Quantum Switch</div>
+<div class="desc">The original April 2026 announcement and technical details on the switch itself.</div>
+</a>
+<a class="reading-item" href="https://www.networkworld.com/article/4180842/cisco-sees-quantum-networking-as-the-future-of-networking.html" target="_blank" rel="noopener">
+<div class="src">Network World</div>
+<div class="title">Cisco Sees Quantum Networking as the Future of Networking</div>
+<div class="desc">A deeper dive from Cisco Live 2026 into the architecture and reasoning behind it.</div>
+</a>
+<a class="reading-item" href="https://www.techtarget.com/searchnetworking/news/366642172/Cisco-unveils-quantum-network-advancements" target="_blank" rel="noopener">
+<div class="src">TechTarget</div>
+<div class="title">Cisco Unveils Quantum Network Advancements</div>
+<div class="desc">Covers the real-world Brooklyn-to-Manhattan fiber test with Qunnect.</div>
+</a>
+<a class="reading-item" href="https://www.nist.gov/pqc" target="_blank" rel="noopener">
+<div class="src">NIST.gov</div>
+<div class="title">Post-Quantum Cryptography</div>
+<div class="desc">The official standards page — the primary source for ML-KEM, ML-DSA, and SLH-DSA.</div>
+</a>
+<a class="reading-item" href="https://itecsonline.com/post/post-quantum-cryptography-complete-guide-2026" target="_blank" rel="noopener">
+<div class="src">ITECS</div>
+<div class="title">Post-Quantum Cryptography: 2026 Complete Guide</div>
+<div class="desc">A practical migration playbook, including the "harvest now, decrypt later" threat model.</div>
+</a>
+</div>
+
+<div class="cta-box">
+<h3>Not sure where your network or security posture stands?</h3>
+<p>A network assessment is the fastest way to find out what actually needs attention — no jargon, no upsell.</p>
+<a class="btn" href="index.html#contact">Get an Assessment</a>
+</div>
+
+</article>
+
+<footer>
+<div class="ft-i">
+<div class="ft-brand">NetQuanta</div>
+<div class="ft-links">
+<a href="index.html#services">Services</a>
+<a href="tools.html">Tools</a>
+<a href="network-map.html">Map</a>
+<a href="index.html#resources">Resources</a>
+<a href="index.html#contact">Contact</a>
+</div>
+<div class="ft-copy">© 2026 NetQuanta. All rights reserved.</div>
+</div>
+</footer>
+
+<script>
+function toggleMenu(){
+  var open = document.body.classList.toggle('menu-open');
+  var b = document.getElementById('menuBtn');
+  if (b) { b.setAttribute('aria-expanded', open?'true':'false'); b.setAttribute('aria-label', open?'Close menu':'Open menu'); }
+}
+function closeMenu(){
+  document.body.classList.remove('menu-open');
+  var b = document.getElementById('menuBtn');
+  if (b) { b.setAttribute('aria-expanded','false'); b.setAttribute('aria-label','Open menu'); }
+}
+window.addEventListener('resize', function(){ if (window.innerWidth > 760) closeMenu(); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeMenu(); });
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+</body>
+</html>
