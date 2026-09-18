@@ -346,6 +346,7 @@ body::after{
         <button type="button" class="navlink" onclick="toggleDropdown()">Tools <span class="chev"></span></button>
         <div class="dd-menu">
           <button onclick="window.location.href='whats-my-ip.html'">What is my IP <span class="tag">IPv4/6</span></button>
+          <button onclick="window.location.href='speed-test.html'">Speed test <span class="tag">Mbps</span></button>
           <button onclick="window.location.href='tools.html#mac'">MAC vendor lookup <span class="tag">OUI</span></button>
           <button onclick="window.location.href='tools.html#subnet'">Subnet calculator <span class="tag">CIDR</span></button>
           <button onclick="window.location.href='tools.html#ip'">IP info lookup <span class="tag">GEO</span></button>
@@ -369,6 +370,7 @@ body::after{
   <a href="network-map.html">Cable map</a>
   <span class="mp-label">tools</span>
   <a class="mp-tool" href="whats-my-ip.html">What is my IP</a>
+  <a class="mp-tool" href="speed-test.html">Speed test</a>
   <a class="mp-tool" href="tools.html#mac">MAC vendor lookup</a>
   <a class="mp-tool" href="tools.html#bgp">BGP looking glass</a>
   <a class="mp-tool" href="tools.html#subnet">Subnet calculator</a>
@@ -614,6 +616,7 @@ body::after{
       </div>
       <ul class="tool-list">
         <li><a href="whats-my-ip.html"><span class="tname">What is my IP</span><span class="tdesc">Your public address, provider, and network, shown instantly</span></a></li>
+        <li><a href="speed-test.html"><span class="tname">Speed test</span><span class="tdesc">Latency, jitter, and throughput, with the numbers that explain bad calls</span></a></li>
         <li><a href="tools.html#mac"><span class="tname">MAC vendor lookup</span><span class="tdesc">Resolve any OUI to its manufacturer, single or in bulk</span></a></li>
         <li><a href="tools.html#bgp"><span class="tname">BGP looking glass</span><span class="tdesc">Live routing data and AS paths from RIPE NCC collectors</span></a></li>
         <li><a href="tools.html#subnet"><span class="tname">Subnet calculator</span><span class="tdesc">Full CIDR breakdown, masks, and usable ranges</span></a></li>
@@ -654,7 +657,7 @@ body::after{
       <a class="res" href="tools.html">
         <span class="kind">Toolkit</span>
         <h3>Network lookup tools</h3>
-        <p>Six free utilities covering IP, MAC, BGP, subnet, and DNS lookups, with no account required.</p>
+        <p>Seven free utilities covering speed, IP, MAC, BGP, subnet, and DNS, with no account required.</p>
       </a>
       <a class="res" href="#contact">
         <span class="kind">Reference</span>
