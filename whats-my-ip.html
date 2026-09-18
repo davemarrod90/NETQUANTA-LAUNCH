@@ -18,9 +18,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- Leaflet Map Assets -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -58,12 +55,6 @@ body::before{
   mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 0%,transparent 75%);
 }
 a{color:inherit;text-decoration:none}
-.leaflet-tile-pane {
-  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3);
-}
-.leaflet-container {
-  background: var(--panel) !important;
-}  
 .wrap{max-width:1140px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
 
 .nav{position:sticky;top:0;z-index:200;background:rgba(7,12,22,0.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
@@ -201,8 +192,6 @@ h1{font-size:clamp(1.5rem,2.6vw,1.9rem);font-weight:600;letter-spacing:-0.024em;
       <div class="dcell"><dt>network (ASN)</dt><dd id="d-asn">—</dd></div>
       <div class="dcell"><dt>location</dt><dd id="d-loc">—</dd></div>
       <div class="dcell"><dt>timezone</dt><dd id="d-tz">—</dd></div>
-      <!-- Geolocation Map Container -->
-      <div id="ipMap" style="height: 280px; width: 100%; margin-top: 1.5rem; border-radius: 6px; border: 1px solid var(--rule); background: var(--panel);"></div>
     </dl>
   </div>
 </section>
@@ -259,6 +248,7 @@ h1{font-size:clamp(1.5rem,2.6vw,1.9rem);font-weight:600;letter-spacing:-0.024em;
     <h2>Other tools</h2>
     <p class="sub">Free, no signup, no rate-limited trial.</p>
     <ul class="tool-list">
+      <li><a href="speed-test.html"><span class="tname">Speed test</span><span class="tdesc">Latency, jitter, and throughput from this browser</span></a></li>
       <li><a href="tools.html#ip"><span class="tname">IP info lookup</span><span class="tdesc">Look up any address, not just your own</span></a></li>
       <li><a href="tools.html#bgp"><span class="tname">BGP looking glass</span><span class="tdesc">Live routing data and AS paths from RIPE NCC collectors</span></a></li>
       <li><a href="tools.html#mac"><span class="tname">MAC vendor lookup</span><span class="tdesc">Resolve any OUI to its manufacturer, single or in bulk</span></a></li>
@@ -339,51 +329,9 @@ async function loadIp(){
     setText('k-org', data.org);
     setText('k-asn', data.asn);
     setText('k-country', data.country);
-    
-    if (data.latitude && data.longitude) {
-      initMap(data.latitude, data.longitude, (data.city ? data.city + ', ' : '') + (data.country || 'Detected Location'));
-    } else {
-      var m = document.getElementById('ipMap');
-      if (m) m.style.display = 'none';
-    }
-    
   } catch (err) {
     ipEl.textContent = 'Unavailable';
     ipEl.classList.remove('pending');
-  }
-}
-
-var mapInstance = null;
-
-function initMap(lat, lon, label) {
-  var mapContainer = document.getElementById('ipMap');
-  if (!mapContainer || !lat || !lon) return;
-
-  if (mapInstance) {
-    mapInstance.setView([lat, lon], 11);
-    return;
-  }
-
-  mapInstance = L.map('ipMap', {
-    zoomControl: false,
-    attributionControl: false
-  }).setView([lat, lon], 11);
-
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 18
-}).addTo(mapInstance);
-
-  var marker = L.circleMarker([lat, lon], {
-    radius: 7,
-    fillColor: '#46C8F0',
-    color: '#34D399',
-    weight: 2,
-    opacity: 1,
-    fillOpacity: 0.85
-  }).addTo(mapInstance);
-
-  if (label) {
-    marker.bindPopup(label).openPopup();
   }
 }
 
